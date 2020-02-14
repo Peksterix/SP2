@@ -788,6 +788,8 @@ void TestScene::renderScene()
 {
 	renderSkysphere(100);
 
+
+
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 4, 0, 56);
 	//RenderSpriteOnScreen(meshList[GEO_LOGO], 15, 60, 0, 20, 20);
 }
