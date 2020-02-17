@@ -13,9 +13,10 @@ private:
 	float bbScale;
 
 	Mesh* mesh;
-	Position wheelPos[4], weaponPos;
 
 public:
+	Position wheelPos[4], weaponPos;
+
 	Chassis(int Type);
 	~Chassis();
 

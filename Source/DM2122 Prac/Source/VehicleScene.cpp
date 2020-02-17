@@ -402,6 +402,10 @@ void VehicleScene::Init()
 
 	#pragma endregion
 
+	vehicle = new Vehicle;
+	vehicle->setChassis(0);
+	vehicle->setWheel(0);
+
 }
 
 void VehicleScene::Update(double dt)
@@ -467,9 +471,18 @@ void VehicleScene::renderScene()
 {
 	//renderSkysphere(100);
 
-
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
+	modelStack.Translate(vehicle->position.x, vehicle->position.y, vehicle->position.z);
+
+	RenderMesh(vehicle->getChassis()->getMesh(), false);
+	for (int i = 0; i < 4; ++i)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(vehicle->getChassis()->wheelPos[i].x, vehicle->getChassis()->wheelPos[i].y, vehicle->getChassis()->wheelPos[i].z);
+		RenderMesh(vehicle->getWheel()->getMesh(), false);
+		modelStack.PopMatrix();
+	}
+
 	modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 4, 0, 56);

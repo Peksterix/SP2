@@ -153,6 +153,8 @@ private:
 	Light light[8];
 	Camera camera;
 	
+	Vehicle* vehicle;
+
 	int	screenSizeX,
 		screenSizeY,
 		menuSelected[2];

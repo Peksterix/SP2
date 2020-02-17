@@ -16,8 +16,8 @@ Chassis::Chassis(int Type)
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis0.obj");
 		mesh->textureID = LoadTGA("img//Vehicle0a.tga");
 		
-		wheelPos[0].Set(-3.35, -3.445, 9.725);
-		wheelPos[1].Set(3.35, -3.445, 9.725);
+		wheelPos[0].Set(-3.35, -3.445*2, 9.725);
+		wheelPos[1].Set(3.35, -3.445*2, 9.725);
 		wheelPos[2].Set(-3.35, -2.313, 6.53);
 		wheelPos[3].Set(3.35, -2.313, 6.53);
 	}
