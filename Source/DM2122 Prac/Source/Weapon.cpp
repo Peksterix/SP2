@@ -14,7 +14,19 @@ Weapon::Weapon(int Type)
 	{
 		health = 100;
 		mesh = MeshBuilder::GenerateOBJ("Chassis's Mesh", "obj//Weapon0.obj");
-		mesh->textureID = LoadTGA("img//Vehicle0a.tga");
+		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
+	}
+	if (type == 1)
+	{
+		health = 100;
+		mesh = MeshBuilder::GenerateOBJ("Chassis's Mesh", "obj//Weapon1.obj");
+		mesh->textureID = LoadTGA("image//Vehicle1a.tga");
+	}
+	if (type == 2)
+	{
+		health = 100;
+		mesh = MeshBuilder::GenerateOBJ("Chassis's Mesh", "obj//Weapon2.obj");
+		mesh->textureID = LoadTGA("image//Vehicle2a.tga");
 	}
 }
 

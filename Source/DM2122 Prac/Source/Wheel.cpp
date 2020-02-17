@@ -5,16 +5,30 @@
 
 Wheel::Wheel(int Type)
 {
-	health = 0;
+	health = bbScale = 0;
 	mesh = nullptr;
 	type = Type;
-	bbScale = 1.2;
 
 	if (type == 0) 
 	{ 
 		health = 100; 
+		bbScale = 1.1;
 		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel0.obj");
-		mesh->textureID = LoadTGA("img//Vehicle0a.tga");
+		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
+	}
+	if (type == 1)
+	{
+		health = 100;
+		bbScale = 1.3;
+		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel1.obj");
+		mesh->textureID = LoadTGA("image//Vehicle1a.tga");
+	}
+	if (type == 2)
+	{
+		health = 100;
+		bbScale = 1;
+		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel2.obj");
+		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
 	}
 }
 

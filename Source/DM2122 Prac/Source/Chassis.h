@@ -1,10 +1,11 @@
 #ifndef CHASSIS_H
 #define CHASSIS_H
 
-#include "Object.h"
+#include "Entity.h"
 #include "Mesh.h"
+#include <vector>
 
-class Chassis: public Object
+class Chassis: public Entity
 {
 private:
 	int health,
@@ -15,7 +16,7 @@ private:
 	Mesh* mesh;
 
 public:
-	Position wheelPos[4], weaponPos;
+	std::vector<Position> wheelPos, weaponPos, wheelScale, weaponScale;
 
 	Chassis(int Type);
 	~Chassis();

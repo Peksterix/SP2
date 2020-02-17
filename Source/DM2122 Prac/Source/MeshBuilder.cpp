@@ -52,7 +52,7 @@ Mesh* MeshBuilder::GenerateAxes(const std::string &meshName, float lengthX, floa
 	return mesh;
 }
 
-Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float lengthX, float lengthY)
+Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float lengthX, float lengthZ)
 {
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
@@ -62,30 +62,30 @@ Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float 
 	v.normal.Set(0, 0, 1.0f);
 
 	float midvalueX = lengthX * 0.5;
-	float midvalueY = lengthY * 0.5;
-	v.pos.Set(-midvalueX, midvalueY, 0);
+	float midvalueZ = lengthZ * 0.5;
+	v.pos.Set(-midvalueX, 0, midvalueZ);
 	v.texCoord.Set(0, 1.f);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(-midvalueX, -midvalueY, 0);
+	v.pos.Set(-midvalueX, 0, -midvalueZ);
 	v.texCoord.Set(0.f, 0.f);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(midvalueX, midvalueY, 0);
+	v.pos.Set(midvalueX, 0, midvalueZ);
 	v.texCoord.Set(1.f, 1.f);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(midvalueX, -midvalueY, 0);
+	v.pos.Set(midvalueX, 0, -midvalueZ);
 	v.texCoord.Set(1.f, 0.f);
 	vertex_buffer_data.push_back(v);
 
 	std::vector<GLuint> index_buffer_data;
 	index_buffer_data.reserve(6);
 	index_buffer_data.push_back(0);
-	index_buffer_data.push_back(1);
-	index_buffer_data.push_back(2);
 	index_buffer_data.push_back(2);
 	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(2);
 	index_buffer_data.push_back(3);
 
 	Mesh* mesh = new Mesh(meshName);
@@ -97,8 +97,8 @@ Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float 
 		GL_STATIC_DRAW);
 	mesh->indexSize = index_buffer_data.size();
 	mesh->mode = Mesh::DRAW_TRIANGLES;
-	mesh->mSize.Set(0, 0, 0);
-	mesh->size.Set(1, 1, 0);
+	mesh->mSize.Set(-midvalueX, 0, -midvalueZ);
+	mesh->size.Set(lengthX, 0, lengthZ);
 
 	return mesh;
 }
@@ -570,80 +570,63 @@ Mesh* MeshBuilder::GenerateText(const std::string& meshName, unsigned numRow, un
 
 Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, float My, float Mz, float mx, float my, float mz)
 {
+	
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
 	vertex_buffer_data.reserve(24);
 
-	v.pos.Set(Mx, My, Mz);
 	v.color.Set(1, 0, 0);
+	v.pos.Set(Mx, My, Mz);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, My, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, my, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, My, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, My, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, my, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, mz);
 	v.color.Set(0, 0, 1);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(Mx, My, Mz);
 	v.color.Set(1, 0, 0);
+	v.pos.Set(Mx, My, Mz);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, my, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, My, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, My, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, my, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, My, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, mz);
 	v.color.Set(0, 0, 1);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(Mx, My, Mz);
 	v.color.Set(1, 0, 0);
+	v.pos.Set(Mx, My, Mz);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, My, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, My, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, My, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, my, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(Mx, my, mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, Mz);
-	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, mz);
 	v.color.Set(0, 0, 1);
@@ -687,4 +670,135 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 	mesh->mode = Mesh::DRAW_LINES;
 
 	return mesh;
+	/*
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
+
+	v.color.Set(1, 0, 0);
+
+	//Top
+	v.normal = Vector3(0.f, 1.f, 0.f);
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //0
+	v.pos.Set(mx, my, mz);
+	v.texCoord.Set(1, 0);
+	vertex_buffer_data.push_back(v); //1
+	v.pos.Set(mx, my, mz);
+	v.texCoord.Set(1, 1);
+	vertex_buffer_data.push_back(v); //2
+	v.pos.Set(mx, my, mz);
+	v.texCoord.Set(0, 1);
+	vertex_buffer_data.push_back(v); //3
+
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(0);
+
+	//Rside
+	v.normal = Vector3(1.f, 0.f, 0.f);
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //4
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //5
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //6
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //7
+
+	index_buffer_data.push_back(4);
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(4);
+
+	//Front
+	v.normal = Vector3(0.f, 0.f, 1.f);
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //8
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //8
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //10
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //11
+
+	index_buffer_data.push_back(8);
+	index_buffer_data.push_back(9);
+	index_buffer_data.push_back(10);
+	index_buffer_data.push_back(10);
+	index_buffer_data.push_back(11);
+	index_buffer_data.push_back(8);
+
+	//Back
+	v.normal = Vector3(0.f, 0.f, -1.f);
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //12
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //13
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //14
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //15
+
+	index_buffer_data.push_back(12);
+	index_buffer_data.push_back(13);
+	index_buffer_data.push_back(14);
+	index_buffer_data.push_back(14);
+	index_buffer_data.push_back(15);
+	index_buffer_data.push_back(12);
+
+	//Lside
+	v.normal = Vector3(-1.f, 0.f, 0.f);
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //16
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //17
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //18
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //19
+
+	index_buffer_data.push_back(16);
+	index_buffer_data.push_back(17);
+	index_buffer_data.push_back(18);
+	index_buffer_data.push_back(18);
+	index_buffer_data.push_back(19);
+	index_buffer_data.push_back(16);
+
+	//Bottom
+	v.normal = Vector3(0.f, -1.f, 0.f);
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //20
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //21
+	v.pos.Set(mx, my, mz);
+	vertex_buffer_data.push_back(v); //22
+	v.pos.Set(-mx, my, mz);
+	vertex_buffer_data.push_back(v); //23
+
+	index_buffer_data.push_back(20);
+	index_buffer_data.push_back(21);
+	index_buffer_data.push_back(22);
+	index_buffer_data.push_back(22);
+	index_buffer_data.push_back(23);
+	index_buffer_data.push_back(20);
+
+	Mesh* mesh = new Mesh(meshName);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	mesh->indexSize = 36;
+	mesh->mode = Mesh::DRAW_LINES;
+
+	return mesh;
+	*/
 }

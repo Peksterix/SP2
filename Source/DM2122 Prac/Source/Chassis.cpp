@@ -5,38 +5,62 @@
 
 Chassis::Chassis(int Type)
 {
-	health = 0;
+	health = bbScale = 0;
 	mesh = nullptr;
 	type = Type;
-	bbScale = 0.9;
 
 	if (type == 0)
 	{
 		health = 100;
+		bbScale = 0.6;
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis0.obj");
-		mesh->textureID = LoadTGA("img//Vehicle0a.tga");
+		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
 		
-		wheelPos[0].Set(-3.35, -3.445*2, 9.725);
-		wheelPos[1].Set(3.35, -3.445*2, 9.725);
-		wheelPos[2].Set(-3.35, -2.313, 6.53);
-		wheelPos[3].Set(3.35, -2.313, 6.53);
+		wheelPos.push_back(Position(-3.35, -3.445, 9.725));
+		wheelPos.push_back(Position(3.35, -3.445, 9.725));
+		wheelPos.push_back(Position(-3.4, -3.445, -6));
+		wheelPos.push_back(Position(3.4, -3.445, -6));
+		wheelPos.push_back(Position(0, 0, 0));
+
+		for (int i = 0; i < 4; ++i) wheelScale.push_back(Position(1, 1, 1));
+		wheelScale.push_back(Position(1, 2.9, 2.9));
 	}
 	if (type == 1)
 	{
 		health = 100;
+		bbScale = 1.1;
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis1.obj");
-		mesh->textureID = LoadTGA("img//Vehicle1a.tga");
+		mesh->textureID = LoadTGA("image//Vehicle1a.tga");
 
-		wheelPos[0].Set(2.491, 0, 1.366);
-		wheelPos[1].Set(-2.491, 0, 1.366);
-		wheelPos[0].Set(2.491, 0, 2.478);
-		wheelPos[1].Set(-2.491, 0, 2.478);
+		wheelPos.push_back(Position(3.5, 0, 3.4));
+		wheelPos.push_back(Position(-3.5, 0, 3.4));
+		wheelPos.push_back(Position(3.5, 0, -3.7));
+		wheelPos.push_back(Position(-3.5, 0, -3.7));
+
+		for (int i = 0; i < 4; ++i) wheelScale.push_back(Position(1, 1, 1));
+	}
+	if (type == 2)
+	{
+		health = 100;
+		bbScale = 1;
+		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis2.obj");
+		mesh->textureID = LoadTGA("image//Vehicle2a.tga");
+
+		wheelPos.push_back(Position(4.118, -2.77, 8.57));
+		wheelPos.push_back(Position(-4.118, -2.77, 8.57));
+		wheelPos.push_back(Position(4.118, -2.77, -9.283));
+		wheelPos.push_back(Position(-4.118, -2.77, -9.283));
+
+		for (int i = 0; i < 4; ++i) wheelScale.push_back(Position(1, 1, 1));
 	}
 }
 
 Chassis::~Chassis()
 {
-
+	wheelPos.clear(); 
+	weaponPos.clear();
+	wheelScale.clear();
+	weaponScale.clear();
 }
 
 int Chassis::getHealth() { return health; }

@@ -1,10 +1,10 @@
 #ifndef WHEEL_H
 #define WHEEL_H
 
-#include "Object.h"
+#include "Entity.h"
 #include "Mesh.h"
 
-class Wheel : public Object
+class Wheel : public Entity
 {
 private:
 	int health,

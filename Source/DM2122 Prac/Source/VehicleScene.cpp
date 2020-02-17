@@ -377,16 +377,22 @@ void VehicleScene::Init()
 
 	#pragma endregion
 
+	#pragma region Initialise Camera
+		
+		camera.Init(Position(20, 6, 22), Position(0, -2, 0), Position(0, 1, 0), 2.f);
+
+	#pragma endregion
+
 	#pragma region Initialise Mesh
 	
 		meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
-		meshList[GEO_TEXT]->textureID = LoadTGA("image//calibri.tga");
+		//meshList[GEO_TEXT]->textureID = LoadTGA("image//calibri.tga");
+		meshList[GEO_TEXT]->textureID = LoadTGA("image//font.tga");
 		//meshList[GEO_LOGO] = MeshBuilder::GenerateText("Logo", 4, 4);
 		//meshList[GEO_LOGO]->textureID = LoadTGA("Image//Infinity Train Logo.tga");
 
-		meshList[GEO_SKY] = MeshBuilder::GenerateOBJ("Skysphere", "obj//Skysphere.obj");
-		meshList[GEO_SKY]->textureID = LoadTGA("image//Skysphere.tga");
-		meshList[GEO_FLOOR] = MeshBuilder::GenerateQuad("Floor", Color(1,1,1), 1, 1);
+		meshList[GEO_SHOWCASEFLOOR] = MeshBuilder::GenerateQuad("Floor", Color(1,1,1), 20, 20);
+		meshList[GEO_SHOWCASEFLOOR]->textureID = LoadTGA("image//ShowcaseFloor.tga");
 
 		meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f);
 	
@@ -395,9 +401,20 @@ void VehicleScene::Init()
 	#pragma region Initialise Values
 
 		Application::GetScreenSize(screenSizeX, screenSizeY);
+		
+		showBoundingBox = 0;
 		for (int i = 0; i < 2; ++i)
 		{
 			menuSelected[i] = 0;
+		}
+		for (int i = 0; i < 3; ++i)
+		{
+			vehiclePartSelect[i] = 0;
+		}
+		for (int i = 0; i < 10; ++i)
+		{
+			bounceTime[i] = 0;
+			tempVal[i] = 0;
 		}
 
 	#pragma endregion
@@ -420,32 +437,70 @@ void VehicleScene::Update(double dt)
 		if (Application::IsKeyPressed('0')) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// Wireframe
 	}
 
-	camera.Update(dt, 0);
+	camera.Update(dt);
 
-	if (Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP))
-	{
-		++menuSelected[0];
-		menuSelected[1] = 0;
-	}
-	if (Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN))
+	if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && bounceTime[0] <= 0)
 	{
 		--menuSelected[0];
-		menuSelected[1] = 0;
+		if (menuSelected[0] > 4) menuSelected[0] = 0;
+		if (menuSelected[0] < 0) menuSelected[0] = 4;
+		if (menuSelected[0] >= 0 && menuSelected[0] <= 2) menuSelected[1] = vehiclePartSelect[menuSelected[0]];
+		else if (menuSelected[0] == 3) menuSelected[1] = showBoundingBox;
+		else menuSelected[1] = 0;
+		bounceTime[0] = 0.25f;
 	}
-	if (Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT))
+	if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && bounceTime[0] <= 0)
+	{
+		++menuSelected[0];
+		if (menuSelected[0] > 4) menuSelected[0] = 0;
+		if (menuSelected[0] < 0) menuSelected[0] = 4;
+		if (menuSelected[0] >= 0 && menuSelected[0] <= 2) menuSelected[1] = vehiclePartSelect[menuSelected[0]];
+		else if (menuSelected[0] == 3) menuSelected[1] = showBoundingBox;
+		else menuSelected[1] = 0;
+		bounceTime[0] = 0.25f;
+	}
+	if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && bounceTime[0] <= 0)
 	{
 		--menuSelected[1];
+		bounceTime[0] = 0.25f;
+		if (menuSelected[0] >= 0 && menuSelected[0] <= 2)
+		{
+			if (menuSelected[1] > 2) menuSelected[1] = 0;
+			if (menuSelected[1] < 0) menuSelected[1] = 2;
+			vehiclePartSelect[menuSelected[0]] = menuSelected[1];
+			if (menuSelected[0] == 0) vehicle->setChassis(vehiclePartSelect[0]);
+			if (menuSelected[0] == 1) vehicle->setWheel(vehiclePartSelect[1]);
+		}
+		else
+		{
+			if (menuSelected[1] > 1) menuSelected[1] = 0;
+			if (menuSelected[1] < 0) menuSelected[1] = 1;
+		}
 	}
-	if (Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT))
+	if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && bounceTime[0] <= 0)
 	{
 		++menuSelected[1];
+		bounceTime[0] = 0.25f;
+		if (menuSelected[0] >= 0 && menuSelected[0] <= 2)
+		{
+			if (menuSelected[1] > 2) menuSelected[1] = 0;
+			if (menuSelected[1] < 0) menuSelected[1] = 2;
+			vehiclePartSelect[menuSelected[0]] = menuSelected[1];
+			if (menuSelected[0] == 0) vehicle->setChassis(vehiclePartSelect[0]);
+			if (menuSelected[0] == 1) vehicle->setWheel(vehiclePartSelect[1]);
+		}
+		else
+		{
+			if (menuSelected[1] > 1) menuSelected[1] = 0;
+			if (menuSelected[1] < 0) menuSelected[1] = 1;
+		}
 	}
 
-	for (int i = 0; i < 2; ++i)
-	{
-		if (menuSelected[i] > 3) menuSelected[0] = 0;
-		if (menuSelected[i] < 0) menuSelected[0] = 3;
-	}
+	if (menuSelected[0] == 3 && menuSelected[1] == 1) showBoundingBox = 1;
+	if (menuSelected[0] == 3 && menuSelected[1] == 0) showBoundingBox = 0;
+
+	tempVal[0] += dt * 10;
+	if (bounceTime > 0) bounceTime[0] -= dt;
 }
 
 void VehicleScene::Render()
@@ -471,30 +526,55 @@ void VehicleScene::renderScene()
 {
 	//renderSkysphere(100);
 
-	modelStack.PushMatrix();
-	modelStack.Translate(vehicle->position.x, vehicle->position.y, vehicle->position.z);
-
-	RenderMesh(vehicle->getChassis()->getMesh(), false);
-	for (int i = 0; i < 4; ++i)
+	// Render Vehicles
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(vehicle->getChassis()->wheelPos[i].x, vehicle->getChassis()->wheelPos[i].y, vehicle->getChassis()->wheelPos[i].z);
-		RenderMesh(vehicle->getWheel()->getMesh(), false);
+
+		modelStack.Translate(0, -4, 0);
+		modelStack.Rotate(tempVal[0], 0, 1, 0);
+		RenderMesh(meshList[GEO_SHOWCASEFLOOR], false);
+
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(0, vehicle->getChassis()->getMesh()->size.y / 2, 0);
+
+			RenderMesh(vehicle->getChassis()->getMesh(), false, vehicle->getChassis()->getBBScale() * showBoundingBox);
+
+			for (int i = 0; i < vehicle->getChassis()->wheelPos.size(); ++i)
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(vehicle->getChassis()->wheelPos[i].x, vehicle->getChassis()->wheelPos[i].y, vehicle->getChassis()->wheelPos[i].z);
+				modelStack.Rotate(tempVal[0]*2, 1, 0, 0);
+				modelStack.Scale(vehicle->getChassis()->wheelScale[i].x, vehicle->getChassis()->wheelScale[i].y, vehicle->getChassis()->wheelScale[i].z);
+				RenderMesh(vehicle->getWheel()->getMesh(), false, vehicle->getWheel()->getBBScale() * showBoundingBox);
+				modelStack.PopMatrix();
+			}
+
+			modelStack.PopMatrix();
+		}
+
 		modelStack.PopMatrix();
 	}
 
-	modelStack.PopMatrix();
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 4, 0, 56);
+	// Render Text
+	{
+		Color tempCol[6] = { Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0)};
+		if (menuSelected[0] != 4) tempCol[menuSelected[0]] = Color(1, 0, 0);
+		else tempCol[menuSelected[1] + 4] = Color(1, 0, 0);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Chassis:" + std::to_string(vehiclePartSelect[0]), tempCol[0], 2, 0, 50);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Wheels:" + std::to_string(vehiclePartSelect[1]), tempCol[1], 2, 0, 40);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Weapons:" + std::to_string(vehiclePartSelect[2]), tempCol[2], 2, 0, 30);
+		RenderTextOnScreen(meshList[GEO_TEXT], "BoundingBox:" + std::to_string(showBoundingBox), tempCol[3], 2, 0, 20);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Confirm", tempCol[4], 3, 0, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Escape", tempCol[5], 3, 62, 2);
+	}
+	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 1, 0, 56);
 	//RenderSpriteOnScreen(meshList[GEO_LOGO], 15, 60, 0, 20, 20);
 }
 
 void VehicleScene::renderSkysphere(int size)
 {
-	modelStack.PushMatrix();
-	modelStack.Scale(size, size, size);
-	RenderMesh(meshList[GEO_SKY], 0);
-	modelStack.PopMatrix();
+	
 }
 
 void VehicleScene::moveLight(double dt, int lightNum)
@@ -578,7 +658,7 @@ void VehicleScene::CalculateLights()
 	}
 }
 
-void VehicleScene::RenderMesh(Mesh* mesh, bool enableLight, bool showBB)
+void VehicleScene::RenderMesh(Mesh* mesh, bool enableLight, float BBSize)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -615,11 +695,14 @@ void VehicleScene::RenderMesh(Mesh* mesh, bool enableLight, bool showBB)
 	} 
 	mesh->Render(); //this line should only be called once in the whole function
 	
-	if (showBB)
+	if (BBSize != 0)
 	{
 		meshList[GEO_BOUNDINGBOX] = MeshBuilder::GenerateBoundingBox("Bounding Box", mesh->mSize.x, mesh->mSize.y, mesh->mSize.z,
 			mesh->size.x + mesh->mSize.x, mesh->size.y + mesh->mSize.y, mesh->size.z + mesh->mSize.z);
+		modelStack.PushMatrix();
+		modelStack.Scale(BBSize, BBSize, BBSize);
 		RenderMesh(meshList[GEO_BOUNDINGBOX], 0, 0);
+		modelStack.PopMatrix();
 	}
 
 	if(mesh->textureID > 0) glBindTexture(GL_TEXTURE_2D, 0);
@@ -664,7 +747,7 @@ void VehicleScene::RenderText(Mesh* mesh, std::string text, Color color)
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing; 
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value 
+		characterSpacing.SetToTranslation(i * .5f, 0, 0); //1.0f is the spacing of each character, you may change this value 
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing; 
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
@@ -743,7 +826,7 @@ void VehicleScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color,
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing; 
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value 
+		characterSpacing.SetToTranslation(i * .5f, 0, 0); //1.0f is the spacing of each character, you may change this value 
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing; 
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 

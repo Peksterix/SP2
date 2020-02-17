@@ -6,7 +6,7 @@
 #include "Camera.h"
 #include "Mesh.h"
 #include "Light.h"
-#include "Object.h"
+#include "Entity.h"
 #include "Vehicle.h"
 
 class VehicleScene : public Scene
@@ -17,11 +17,9 @@ class VehicleScene : public Scene
 		GEO_BOUNDINGBOX,
 		GEO_LIGHTSPHERE,
 
-		GEO_SKY,
-		GEO_FLOOR,
+		GEO_SHOWCASEFLOOR,
 
 		GEO_TEXT,
-		GEO_LOGO,
 		NUM_GEOMETRY,
 	};
 
@@ -155,11 +153,15 @@ private:
 	
 	Vehicle* vehicle;
 
+	bool showBoundingBox;
+
 	int	screenSizeX,
 		screenSizeY,
-		menuSelected[2];
+		menuSelected[2],
+		vehiclePartSelect[3];
 
-	float	bounceTime[10];
+	float	tempVal[10],
+			bounceTime[10];
 	
 	void renderScene();
 	void renderSkysphere(int size);
@@ -168,7 +170,7 @@ private:
 	void renderLightPos(int lightNum);
 
 	void CalculateLights();
-	void RenderMesh(Mesh* mesh, bool enableLight, bool showBB = 0);
+	void RenderMesh(Mesh* mesh, bool enableLight, float BBSize = 0);
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderSprite(Mesh* mesh, int frameCount);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);

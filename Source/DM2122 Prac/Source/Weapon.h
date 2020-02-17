@@ -1,10 +1,10 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#include "Object.h"
+#include "Entity.h"
 #include "Mesh.h"
 
-class Weapon : public Object
+class Weapon : public Entity
 {
 private:
 	int health,

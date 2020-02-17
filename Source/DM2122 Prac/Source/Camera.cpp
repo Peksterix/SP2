@@ -11,7 +11,7 @@ Camera::~Camera()
 {
 }
 
-void Camera::Init(const Position& pos, const Position& target, const Position& up, float& type)
+void Camera::Init(const Position& pos, const Position& target, const Position& up, float type)
 {
 	this->position = pos;
 	this->target = target;
@@ -27,10 +27,11 @@ void Camera::Reset()
 	type = 0;
 }
 
-void Camera::Update(double dt, Object* obj, Position offset, Position targetOffset)
+void Camera::Update(double dt, Entity* obj, Position offset, Position targetOffset)
 {
 	static const float pi = 3.14159265358979323846f;
 	
+	// Free Cam
 	if (type == 0)
 	{
 		static float CAMERA_SPEED = 20.f;
@@ -73,6 +74,8 @@ void Camera::Update(double dt, Object* obj, Position offset, Position targetOffs
 		target.z = position.z + sin(cameraAngleX * (pi / 180));
 		target.y = position.y + sin(cameraAngleY * (pi / 180));
 	}
+
+	// Follow Cam
 	else if (type == 1)
 	{
 		position.x = obj->position.x + offset.x * cos(obj->rotate.x * (pi / 180.0));

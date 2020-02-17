@@ -1,12 +1,12 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
-#include "Object.h"
+#include "Entity.h"
 #include "Chassis.h"
 #include "Weapon.h"
 #include "Wheel.h"
 
-class Vehicle: public Object
+class Vehicle: public Entity
 {
 private:
 
