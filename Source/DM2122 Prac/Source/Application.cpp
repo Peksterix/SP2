@@ -12,6 +12,7 @@
 #include "Application.h"
 
 #include "TestScene.h"
+#include "VehicleScene.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -128,7 +129,7 @@ void Application::Run()
 {
 	//Main Loop
 
-	Scene* scene = new TestScene();
+	Scene* scene = new VehicleScene();
 
 	scene->Init();
 

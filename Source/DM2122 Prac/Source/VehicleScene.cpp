@@ -47,7 +47,7 @@ void VehicleScene::Init()
 
 	#pragma region Initialise OpenGL
 
-		glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+		glClearColor(68.f / 255.f, 235.f / 255.f, 201.f / 255.f, 0.0f);
 
 		// Generate a default VAO for now
 		glGenVertexArrays(1, &m_vertexArrayID);

@@ -128,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Chassis.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
@@ -142,10 +143,13 @@
     <ClInclude Include="Source\Vehicle.h" />
     <ClInclude Include="Source\VehicleScene.h" />
     <ClInclude Include="Source\Vertex.h" />
+    <ClInclude Include="Source\Weapon.h" />
+    <ClInclude Include="Source\Wheel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Chassis.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -157,6 +161,8 @@
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\Vehicle.cpp" />
     <ClCompile Include="Source\VehicleScene.cpp" />
+    <ClCompile Include="Source\Weapon.cpp" />
+    <ClCompile Include="Source\Wheel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,11 +1,13 @@
-#ifndef SCENESKYBOX_H
-#define SCENESKYBOX_H
+#ifndef VEHICLESCENE_H
+#define VEHICLESCENE_H
 
 #include "Scene.h"
 #include <MatrixStack.h>
 #include "Camera.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "Object.h"
+#include "Vehicle.h"
 
 class VehicleScene : public Scene
 {

@@ -1,5 +1,5 @@
-#ifndef SCENESKYBOX_H
-#define SCENESKYBOX_H
+#ifndef TESTSCENE_H
+#define TESTSCENE_H
 
 #include "Scene.h"
 #include <MatrixStack.h>
