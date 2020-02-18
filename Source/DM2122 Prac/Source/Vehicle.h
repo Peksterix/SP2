@@ -5,6 +5,7 @@
 #include "Chassis.h"
 #include "Weapon.h"
 #include "Wheel.h"
+#include <vector>
 
 class Vehicle: public Entity
 {
@@ -15,6 +16,8 @@ private:
 	Weapon* weapon;
 
 public:
+	std::vector<Position> wheelPos, weaponPos, wheelScale, weaponScale;
+
 	Vehicle();
 	~Vehicle();
 

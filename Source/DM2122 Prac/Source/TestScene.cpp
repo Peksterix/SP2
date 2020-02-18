@@ -417,8 +417,8 @@ void TestScene::Update(double dt)
 		if (Application::IsKeyPressed('X')) splitScreen = 0;
 	}
 
-	camera[0].Update(dt, 0);
-	camera[1].Update(dt, 0);
+	//camera[0].Update(dt, 0.);
+	//camera[1].Update(dt, 0.);
 }
 
 void TestScene::Render()
@@ -473,7 +473,9 @@ void TestScene::renderScene()
 {
 	//renderSkysphere(100);
 	
-
+	modelStack.PushMatrix();
+	RenderText(meshList[GEO_TEXT], "Test" ,Color(1, 0, 0));
+	modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 4, 0, 56);
 	//RenderSpriteOnScreen(meshList[GEO_LOGO], 15, 60, 0, 20, 20);

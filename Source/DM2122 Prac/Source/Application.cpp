@@ -129,6 +129,7 @@ void Application::Run()
 {
 	//Main Loop
 
+	//Scene* scene = new TestScene();
 	Scene* scene = new VehicleScene();
 
 	scene->Init();

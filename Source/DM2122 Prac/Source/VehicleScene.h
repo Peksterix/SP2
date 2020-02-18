@@ -17,10 +17,25 @@ class VehicleScene : public Scene
 		GEO_BOUNDINGBOX,
 		GEO_LIGHTSPHERE,
 
+		GEO_WAREHOUSE_SHELL,
+		GEO_WAREHOUSE_RING,
+		GEO_WAREHOUSE_CENTRE,
+		GEO_WAREHOUSE_BRIDGE,
+		GEO_SKYSPHERE,
+
 		GEO_SHOWCASEFLOOR,
 
 		GEO_TEXT,
 		NUM_GEOMETRY,
+	};
+
+	enum STATES
+	{
+		S_LOADOUT = 0,
+		S_CUSTOMISE,
+		S_CUTSCENE,
+		S_FREECAM,
+		S_TOTAL,
 	};
 
 	enum Scene5_UNIFORM_TYPE
@@ -151,16 +166,18 @@ private:
 	Light light[8];
 	Camera camera;
 	
-	Vehicle* vehicle;
+	Vehicle* vehicle[8];
 
 	bool showBoundingBox;
 
 	int	screenSizeX,
 		screenSizeY,
-		menuSelected[2],
+		state,
+		animation[10],
+		menuSelected[3],
 		vehiclePartSelect[3];
 
-	float	tempVal[10],
+	float	aniVal[10][10],
 			bounceTime[10];
 	
 	void renderScene();

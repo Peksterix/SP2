@@ -35,19 +35,30 @@ Weapon* Vehicle::getWeapon()
 void Vehicle::setChassis(int Type)
 {
 	if (chassis != nullptr) delete chassis;
-	chassis = new Chassis(Type);
+	if (Type != -1)
+	{
+		chassis = new Chassis(Type);
+		wheelPos.clear(), weaponPos.clear(), wheelScale.clear(), weaponScale.clear();
+		wheelPos = chassis->wheelPos;
+		weaponPos = chassis->weaponPos;
+		wheelScale = chassis->wheelScale;
+		weaponScale = chassis->weaponScale;
+	}
+	else chassis = nullptr;
 }
 
 void Vehicle::setWheel(int Type)
 {
 	if (wheel != nullptr) delete wheel;
-	wheel = new Wheel(Type);
+	if (Type != -1) wheel = new Wheel(Type);
+	else wheel = nullptr;
 }
 
 void Vehicle::setWeapon(int Type)
 {
 	if (weapon != nullptr) delete weapon;
-	weapon = new Weapon(Type);
+	if (Type != -1) weapon = new Weapon(Type);
+	else weapon = nullptr;
 }
 
 void Vehicle::Update()
