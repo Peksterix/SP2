@@ -37,6 +37,14 @@ void VehicleScene::Exit()
 		if (meshList[i] != NULL)
 			delete meshList[i];
 	}
+	for (int i = 0; i < 4; ++i)
+	{
+		delete custChassis[i];
+		delete custWheel[i];
+		delete custWeapon[i];
+	}
+	for (int i = 0; i < 8; ++i) delete vehicle[i];
+	
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
@@ -398,8 +406,12 @@ void VehicleScene::Init()
 		meshList[GEO_WAREHOUSE_CENTRE]->textureID = LoadTGA("image//Building2.tga");
 		meshList[GEO_WAREHOUSE_BRIDGE] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2d.obj");
 		meshList[GEO_WAREHOUSE_BRIDGE]->textureID = LoadTGA("image//Building2.tga");
+		meshList[GEO_WAREHOUSE_TEETH_TOP] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2e.obj");
+		meshList[GEO_WAREHOUSE_TEETH_TOP]->textureID = LoadTGA("image//Building2.tga");
+		meshList[GEO_WAREHOUSE_TEETH_BOTTOM] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2f.obj");
+		meshList[GEO_WAREHOUSE_TEETH_BOTTOM]->textureID = LoadTGA("image//Building2.tga");
 		meshList[GEO_SKYSPHERE] = MeshBuilder::GenerateOBJ("Skysphere (Space)", "obj//Skysphere.obj");
-		meshList[GEO_SKYSPHERE]->textureID = LoadTGA("image//Flat Space1.tga");
+		meshList[GEO_SKYSPHERE]->textureID = LoadTGA("image//Flat Space2.tga");
 
 		meshList[GEO_SHOWCASEFLOOR] = MeshBuilder::GenerateQuad("Floor", Color(1,1,1), 20, 20);
 		meshList[GEO_SHOWCASEFLOOR]->textureID = LoadTGA("image//ShowcaseFloor.tga");
@@ -412,12 +424,19 @@ void VehicleScene::Init()
 
 		Application::GetScreenSize(screenSizeX, screenSizeY);
 		
+		showDebugInfo = 1;
 		showBoundingBox = 0;
 		state = S_LOADOUT;
 		for (int i = 0; i < 3; ++i)
 		{
 			menuSelected[i] = 0;
 			vehiclePartSelect[i] = 0;
+		}
+		for (int i = 0; i < 4; ++i)
+		{
+			custChassis[i] = new Chassis(i - 1);
+			custWheel[i] = new Wheel(i - 1);
+			//custWeapon[i] = new Weapon(i - 1);
 		}
 		for (int i = 0; i < 8; ++i)
 		{
@@ -435,18 +454,17 @@ void VehicleScene::Init()
 		for (int i = 0; i < 10; ++i)
 		{
 			bounceTime[i] = 0;
-			animation[i] = 0;
-			for (int j = 0; j < 10; ++j) aniVal[i][j] = 0;
 		}
-		aniVal[2][0] = 110;
-		aniVal[2][1] = 12;
-		aniVal[2][2] = -26;
-		aniVal[2][3] = 130;
-		aniVal[2][4] = 4;
-		aniVal[2][5] = -8;
+		for (int i = 0; i < ANI_TOTAL; ++i) aniVal[i] = 0;
+		for (int i = 0; i < ANIS_TOTAL; ++i) aniVal[i] = 0;
+		aniVal[ANI_CAMERA_POSITION_X] = 110;
+		aniVal[ANI_CAMERA_POSITION_Y] = 12;
+		aniVal[ANI_CAMERA_POSITION_Z] = -26;
+		aniVal[ANI_CAMERA_TARGET_X] = 130;
+		aniVal[ANI_CAMERA_TARGET_Y] = 4;
+		aniVal[ANI_CAMERA_TARGET_Z] = -8;
 
 	#pragma endregion
-
 
 }
 
@@ -454,34 +472,68 @@ void VehicleScene::Update(double dt)
 {
 	CalculateFPS();
 
-	// Debug Options
+	// Debug Info
+	if (showDebugInfo)
 	{
 		if (Application::IsKeyPressed('7')) glDisable(GL_CULL_FACE);					// Disable Cull
 		if (Application::IsKeyPressed('8')) glEnable(GL_CULL_FACE);						// Enable Cull
 		if (Application::IsKeyPressed('9')) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	// Normal
 		if (Application::IsKeyPressed('0')) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// Wireframe
+		if (Application::IsKeyPressed('Z'))
+		{
+			state = S_FREECAM;
+			camera.Update(0.01, Math::RadianToDegree(atan2(camera.target.x - camera.position.x, camera.target.z - camera.position.z)),
+				Math::RadianToDegree(atan2(camera.target.y - camera.position.y, sqrt(pow(camera.position.x - camera.target.x, 2) + pow(camera.position.z - camera.target.z, 2)))));
+		}
 	}
 
 	if (state == S_LOADOUT)
 	{
-		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && !animation[1])
+		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && !animation[ANIS_ANY])
 		{
 			--menuSelected[2];
-			animation[1] = 2;
+			animate.AddToBuffer(aniVal[ANI_SHIP_RING_ROTATION], aniVal[ANI_SHIP_RING_ROTATION], aniVal[ANI_SHIP_RING_ROTATION] - 45, 0.5, 1);
+			animation[ANIS_ANY] = 1;
 		}
-		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && !animation[1])
+		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && !animation[ANIS_ANY])
 		{
 			++menuSelected[2];
-			animation[1] = 1;
+			animate.AddToBuffer(aniVal[ANI_SHIP_RING_ROTATION], aniVal[ANI_SHIP_RING_ROTATION], aniVal[ANI_SHIP_RING_ROTATION] + 45, 0.5, 1);
+			animation[ANIS_ANY] = 1;
 		}
-		if (Application::IsKeyPressed(VK_RETURN) && !animation[1])
+		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY])
 		{
-			state = S_CUTSCENE;
+			state = S_CUSTOMISE;
+			animation[ANIS_ANY] = 1;
+			animation[ANIS_LOADOUT_TO_CUSTOMISE] = 1;
 			menuSelected[0] = 0;
-			animation[2] = 1;
 
-			if (vehicle[menuSelected[2]]->getChassis() != nullptr) vehiclePartSelect[0] = vehicle[menuSelected[2]]->getChassis()->getType();
-			else vehiclePartSelect[0] = -1;
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], 110, .132, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 12, 55.6, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -26, -52.9, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], 130, .714, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 4, 54.9, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -8, -52.4, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Y], 0, 270, 3, 0);
+			animate.AddToBuffer(aniVal[ANI_SHIP_BRIDGE_ROTATION], 0, 120, 1, 1);
+
+			animate.AddToBuffer(aniVal[ANI_SHIP_BRIDGE_ROTATION], 120, 180, .5, 0);
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Z], 0, -10, 2, 1);
+
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], .132, -20.9, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 55.6, 12, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -52.9, -25.1, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], .714, -20.3, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 54.9, 11.7, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -52.4, -24.3, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Z], -10, -20, .25, 1);
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_POSITION], 0, 130, 1.2, 1);
+
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Z], -20, 0, 0.25, 1);
+
+
+			if (vehicle[menuSelected[2]]->getChassis() != nullptr) menuSelected[1] = vehiclePartSelect[0] = vehicle[menuSelected[2]]->getChassis()->getType();
+			else menuSelected[1] = vehiclePartSelect[0] = -1;
 
 			if (vehicle[menuSelected[2]]->getWheel() != nullptr) vehiclePartSelect[1] = vehicle[menuSelected[2]]->getWheel()->getType();
 			else vehiclePartSelect[1] = -1;
@@ -495,27 +547,28 @@ void VehicleScene::Update(double dt)
 	}
 	if (state == S_CUSTOMISE)
 	{
-		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && bounceTime[0] <= 0)
+		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
 		{
 			--menuSelected[0];
-			if (menuSelected[0] > 4) menuSelected[0] = 0;
-			if (menuSelected[0] < 0) menuSelected[0] = 4;
+			bounceTime[0] = 0.25f;
+			if (menuSelected[0] > 5) menuSelected[0] = 0;
+			if (menuSelected[0] < 0) menuSelected[0] = 5;
 			if (menuSelected[0] >= 0 && menuSelected[0] <= 2) menuSelected[1] = vehiclePartSelect[menuSelected[0]];
 			else if (menuSelected[0] == 3) menuSelected[1] = showBoundingBox;
 			else menuSelected[1] = 0;
-			bounceTime[0] = 0.25f;
 		}
-		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && bounceTime[0] <= 0)
+		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
 		{
 			++menuSelected[0];
-			if (menuSelected[0] > 4) menuSelected[0] = 0;
-			if (menuSelected[0] < 0) menuSelected[0] = 4;
+			bounceTime[0] = 0.25f;
+			if (menuSelected[0] > 5) menuSelected[0] = 0;
+			if (menuSelected[0] < 0) menuSelected[0] = 5;
 			if (menuSelected[0] >= 0 && menuSelected[0] <= 2) menuSelected[1] = vehiclePartSelect[menuSelected[0]];
 			else if (menuSelected[0] == 3) menuSelected[1] = showBoundingBox;
 			else menuSelected[1] = 0;
-			bounceTime[0] = 0.25f;
 		}
-		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && bounceTime[0] <= 0)
+		/*
+		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
 		{
 			--menuSelected[1];
 			bounceTime[0] = 0.25f;
@@ -524,7 +577,16 @@ void VehicleScene::Update(double dt)
 				if (menuSelected[1] > 2) menuSelected[1] = -1;
 				if (menuSelected[1] < -1) menuSelected[1] = 2;
 				vehiclePartSelect[menuSelected[0]] = menuSelected[1];
-				if (menuSelected[0] == 0) vehicle[menuSelected[2]]->setChassis(vehiclePartSelect[0]);
+				if (menuSelected[0] == 0)
+				{
+					if (vehiclePartSelect[0] == -1) 
+					{
+						vehicle[menuSelected[2]]->setWeapon(-1);
+						vehicle[menuSelected[2]]->setWheel(-1);
+						vehiclePartSelect[1] = vehiclePartSelect[2] = -1;
+					}
+					vehicle[menuSelected[2]]->setChassis(vehiclePartSelect[0]);
+				}
 				if (menuSelected[0] == 1) vehicle[menuSelected[2]]->setWheel(vehiclePartSelect[1]);
 			}
 			else
@@ -533,7 +595,7 @@ void VehicleScene::Update(double dt)
 				if (menuSelected[1] < 0) menuSelected[1] = 1;
 			}
 		}
-		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && bounceTime[0] <= 0)
+		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
 		{
 			++menuSelected[1];
 			bounceTime[0] = 0.25f;
@@ -542,7 +604,16 @@ void VehicleScene::Update(double dt)
 				if (menuSelected[1] > 2) menuSelected[1] = -1;
 				if (menuSelected[1] < -1) menuSelected[1] = 2;
 				vehiclePartSelect[menuSelected[0]] = menuSelected[1];
-				if (menuSelected[0] == 0) vehicle[menuSelected[2]]->setChassis(vehiclePartSelect[0]);
+				if (menuSelected[0] == 0)
+				{
+					if (vehiclePartSelect[0] == -1)
+					{
+						vehicle[menuSelected[2]]->setWeapon(-1);
+						vehicle[menuSelected[2]]->setWheel(-1);
+						vehiclePartSelect[1] = vehiclePartSelect[2] = -1;
+					}
+					vehicle[menuSelected[2]]->setChassis(vehiclePartSelect[0]);
+				}
 				if (menuSelected[0] == 1) vehicle[menuSelected[2]]->setWheel(vehiclePartSelect[1]);
 			}
 			else
@@ -550,183 +621,131 @@ void VehicleScene::Update(double dt)
 				if (menuSelected[1] > 1) menuSelected[1] = 0;
 				if (menuSelected[1] < 0) menuSelected[1] = 1;
 			}
-		}
-		if (Application::IsKeyPressed(VK_RETURN) && menuSelected[0] == 4 && menuSelected[1] == 0)
+		}*/
+		
+		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
 		{
-			state = S_CUTSCENE;
-			animation[2] = 2;
+			--menuSelected[1];
+			animation[ANIS_ANY] = 1;
+			bounceTime[0] = 0.25f;
 
-			showBoundingBox = 0;
+			if (menuSelected[0] >= 0 && menuSelected[0] <= 2)
+			{
+				animation[ANIS_CUSTOMISE_PARTS] = 1;
+
+				if (menuSelected[1] > 2) menuSelected[1] = -1;
+				if (menuSelected[1] < -1) menuSelected[1] = 2;
+
+				//vehiclePartSelect[menuSelected[0]] = menuSelected[1];
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 0, 2, 0.25, 1);
+				animate.AddToBuffer(aniVal[ANI_BUFFER], 0, 1, 0.5, 1);
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 2, 0, 0.25, 0);
+				animate.AddToBuffer(aniVal[ANI_BUFFER], 1, 0, 0.25, 1);
+			}
+			else if (menuSelected[0] == 4)
+			{
+				aniVal[ANI_VEHICLE_ROTATION_Y] += dt * 40;
+				bounceTime[0] = 0.f;
+			}
+			else
+			{
+				if (menuSelected[1] > 1) menuSelected[1] = 0;
+				if (menuSelected[1] < 0) menuSelected[1] = 1;
+			}
 		}
+		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
+		{
+			++menuSelected[1];
+			animation[ANIS_ANY] = 1;
+			bounceTime[0] = 0.25f;
+
+			if (menuSelected[0] >= 0 && menuSelected[0] <= 2)
+			{
+				animation[ANIS_CUSTOMISE_PARTS] = 1;
+
+				if (menuSelected[1] > 2) menuSelected[1] = -1;
+				if (menuSelected[1] < -1) menuSelected[1] = 2;
+
+				//vehiclePartSelect[menuSelected[0]] = menuSelected[1];
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 0, 2, 0.25, 1);
+				animate.AddToBuffer(aniVal[ANI_BUFFER], 0, 1, 0.5, 1);
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 2, 0, 0.25, 0);
+				animate.AddToBuffer(aniVal[ANI_BUFFER], 1, 0, 0.25, 1);
+			}
+			else if (menuSelected[0] == 4)
+			{
+				aniVal[ANI_VEHICLE_ROTATION_Y] -= dt * 40;
+				bounceTime[0] = 0.f;
+			}
+			else
+			{
+				if (menuSelected[1] > 1) menuSelected[1] = 0;
+				if (menuSelected[1] < 0) menuSelected[1] = 1;
+			}
+		}
+		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY])
+		{
+			animation[ANIS_ANY] = 1;
+			animation[ANIS_CUSTOMISE_TO_LOADOUT] = 1;
+			showBoundingBox = 0;
+
+			animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 0, 2, 0.25, 1);
+			animate.AddToBuffer(aniVal[ANI_BUFFER], 0, 1, 0.5, 1);
+			animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 2, 0, 0.25, 0);
+			animate.AddToBuffer(aniVal[ANI_BUFFER], 1, 0, 0.25, 1);
+
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Y], aniVal[ANI_VEHICLE_ROTATION_Y], 270, 1, 1);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], -20.9, 110, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 12, 12, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -26, -26, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], -20.3, 130, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 11.7, 4, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -24.3, -8, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_POSITION], 130, 0, 2, 1);
+			
+			animate.AddToBuffer(aniVal[ANI_SHIP_BRIDGE_ROTATION], 180, 0, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Y], 270, 0, 2, 1);
+		} 
 
 		if (menuSelected[0] == 3 && menuSelected[1] == 1) showBoundingBox = 1;
 		if (menuSelected[0] == 3 && menuSelected[1] == 0) showBoundingBox = 0;
+
+		if (aniVal[ANI_BUFFER] > .9 && animation[ANIS_CUSTOMISE_PARTS])
+		{
+			vehiclePartSelect[menuSelected[0]] = menuSelected[1];
+		}
+		if (aniVal[ANI_BUFFER] > .9 && animation[ANIS_CUSTOMISE_TO_LOADOUT])
+		{
+			state = S_LOADOUT;
+			vehicle[menuSelected[2]]->setWheel(vehiclePartSelect[1]);
+			vehicle[menuSelected[2]]->setChassis(vehiclePartSelect[0]);
+
+			// Save data
+		}
 	}
 	if (state == S_FREECAM)
 	{
-		camera.Update(dt,	Math::RadianToDegree( atan2(camera.target.x - camera.position.x, camera.target.z - camera.position.z) ),
-							Math::RadianToDegree( atan2(camera.target.y - camera.position.y, sqrt(pow(camera.position.x - camera.target.x, 2) + pow(camera.position.z - camera.target.z, 2))) ) );
+		camera.Update(dt);
 	}
-	
-	if (Application::IsKeyPressed('Z')) state = S_FREECAM;
-
-	// Loadout Left & Right
-	if (animation[1])
+	else
 	{
-		if (animation[1] == 1)
-		{
-			if (aniVal[1][0] < 360 / 8) aniVal[1][0] += dt * 90;
-			else
-			{
-				animation[1] = 0;
-				aniVal[1][0] = 0;
-			}
-		}
-		else if (animation[1] == 2)
-		{
-			if (aniVal[1][0] > -360 / 8) aniVal[1][0] -= dt * 90;
-			else
-			{
-				animation[1] = 0;
-				aniVal[1][0] = 0;
-			}
-		}
+		camera.Init(Position(aniVal[ANI_CAMERA_POSITION_X], aniVal[ANI_CAMERA_POSITION_Y], aniVal[ANI_CAMERA_POSITION_Z]), 
+					Position(aniVal[ANI_CAMERA_TARGET_X], aniVal[ANI_CAMERA_TARGET_Y], aniVal[ANI_CAMERA_TARGET_Z]), 
+					Position(0, 1, 0));
 	}
 
-	// Loadout to Customise (Vice Versa)
-	if (animation[2])
-	{
-		if (animation[2] == 1)
-		{	
-			if (aniVal[2][0] > 0.132 + dt * 40)
-			{
-			//	ANI_VALUE	 += dt * ((Tar - Cur) / Dur)
-				aniVal[2][0] += dt * ((.132 - 110.) / 1.);
-				aniVal[2][1] += dt * ((55.6 - 12.) / 1.);
-				aniVal[2][2] += dt * ((-52.9 - (-26.)) / 1.);
-
-				aniVal[2][3] += dt * ((.714 - 130.) / 1.);
-				aniVal[2][4] += dt * ((54.9 - 4.) / 1.);
-				aniVal[2][5] += dt * ((-52.4 - (-8.)) / 1.);
-				aniVal[0][9] += dt * 120;
-				aniVal[0][8] += dt * 90;
-			}
-			else if (aniVal[0][9] < 180)
-			{
-				aniVal[2][0] = .132;
-				aniVal[2][1] = 55.6;
-				aniVal[2][2] = -52.9;
-				aniVal[2][3] = .714;
-				aniVal[2][4] = 54.9;
-				aniVal[2][5] = -52.4;
-				
-				aniVal[0][9] += dt * 120;
-				aniVal[0][8] += dt * 90;
-			}
-			else if (aniVal[0][8] < 270)
-			{
-				aniVal[0][9] = 180;
-
-				aniVal[0][8] += dt * 120;
-				aniVal[0][7] += dt * 10;
-			}
-			else if (aniVal[0][7] < 20)
-			{
-				aniVal[0][8] = 270;
-
-				aniVal[0][7] += dt * 20;
-				aniVal[0][6] += dt * 100;
-			}
-			else if (aniVal[0][6] < 130)
-			{
-				aniVal[0][7] = 20;
-				
-				aniVal[0][6] += dt * 65;
-			}
-			else if (aniVal[0][5] < 20)
-			{
-				aniVal[0][6] = 130;
-
-				aniVal[0][5] += dt * 80;
-
-				aniVal[2][0] -= dt * ((.132 - (-20.)) / 1.);
-				aniVal[2][1] -= dt * ((55.6 - 12.) / 1.);
-				aniVal[2][2] -= dt * ((-52.9 - (-26.)) / 1.);
-
-				aniVal[2][3] -= dt * ((.714 - 0.) / 1.);
-				aniVal[2][4] -= dt * ((54.9 - 4.) / 1.);
-				aniVal[2][5] -= dt * ((-52.4 - (-4.)) / 1.);
-			}
-			else if (aniVal[2][0] > -20 + dt * 40)
-			{
-				aniVal[0][5] = 20;
-
-			//	ANI_VALUE	 -= dt * ((Cur - Tar) / Dur)
-				aniVal[2][0] -= dt * ((.132 - (-20.)) / 1.);
-				aniVal[2][1] -= dt * ((55.6 - 12.) / 1.);
-				aniVal[2][2] -= dt * ((-52.9 - (-26.)) / 1.);
-
-				aniVal[2][3] -= dt * ((.714 - 0.) / 1.);
-				aniVal[2][4] -= dt * ((54.9 - 4.) / 1.);
-				aniVal[2][5] -= dt * ((-52.4 - (-4.)) / 1.);
-			}
-			else
-			{
-				aniVal[2][0] = -20;
-				aniVal[2][1] = 12;
-				aniVal[2][2] = -26;
-
-				aniVal[2][3] = 0;
-				aniVal[2][4] = 4;
-				aniVal[2][5] = 4;
-
-				animation[2] = 0;
-				state = S_CUSTOMISE;
-			}
-		}
-		
-		if (animation[2] == 2)
-		{
-			if (aniVal[0][6] > 0)
-			{
-				aniVal[0][6] -= dt * 65;
-				
-			//	ANI_VALUE	 -= dt * ((Cur - Tar) / Dur)
-				aniVal[2][0] -= dt * ((-20 - 110) / 2.);
-				aniVal[2][1] -= dt * ((12 - 12) / 2.);
-				aniVal[2][2] -= dt * ((-26- (-26)) / 2.);
-				aniVal[2][3] -= dt * ((0 - 130) / 2.);
-				aniVal[2][4] -= dt * ((4 - 4) / 2.);
-				aniVal[2][5] -= dt * ((4 - (-8)) / 2.);
-			}
-			else if (aniVal[0][8] > 0)
-			{
-				aniVal[0][6] = 0;
-				aniVal[2][0] = 110;
-				aniVal[2][1] = 12;
-				aniVal[2][2] = -26;
-				aniVal[2][3] = 130;
-				aniVal[2][4] = 4;
-				aniVal[2][5] = -8;
-
-				aniVal[0][9] -= dt * 180;
-				aniVal[0][8] -= dt * 270;
-			}
-			else
-			{
-				for (int i = 1; i < 10; ++i) aniVal[0][i] = 0;
-				
-				animation[2] = 0;
-				state = S_LOADOUT;
-			}
-		}
-		camera.Init(Position(aniVal[2][0], aniVal[2][1], aniVal[2][2]), Position(aniVal[2][3], aniVal[2][4], aniVal[2][5]), Position(0, 1, 0));
-
-	}
-
-	aniVal[0][0] += dt * 10;
+	aniVal[ANI_SKYBOX_ROTATION] += dt * 0.5;
 	if (bounceTime > 0) bounceTime[0] -= dt;
 
+	// Animation Logic
+	animation[ANIS_ANY] = animate.Update(0.02);
+	if (!animation[ANIS_ANY])
+		for (int i = 0; i < ANIS_TOTAL; ++i)
+			animation[i] = 0;
 }
 
 void VehicleScene::Render()
@@ -751,9 +770,7 @@ void VehicleScene::Render()
 void VehicleScene::renderScene()
 {
 	modelStack.PushMatrix();
-	if (animation[1] == 1) modelStack.Rotate(aniVal[1][0] + (menuSelected[2] - 1) * 360 / 8, 0, 1, 0);
-	else if (animation[1] == 2) modelStack.Rotate(aniVal[1][0] + (menuSelected[2] + 1) * 360 / 8, 0, 1, 0);
-	else modelStack.Rotate(aniVal[1][0] + menuSelected[2] * 360 / 8, 0, 1, 0);
+	modelStack.Rotate(aniVal[ANI_SHIP_RING_ROTATION], 0, 1, 0);
 
 	// Render Vehicles
 	for (int j = 0, angle = 0; j < 8; ++j, angle += 360 / 8)
@@ -764,33 +781,65 @@ void VehicleScene::renderScene()
 		vehicle[j]->position.Set(130 * cos(Math::DegreeToRadian(angle)), 2, 130 * sin(Math::DegreeToRadian(angle)));
 		vehicle[j]->rotate.Set(0, 180 - angle, 0);
 		
-		vehicle[menuSelected[2]]->position.Set((130 - aniVal[0][6]) * cos(Math::DegreeToRadian(angle)), 2, (130 - aniVal[0][6]) * sin(Math::DegreeToRadian(angle)));
-		vehicle[menuSelected[2]]->rotate.Set(0, 180 - angle - aniVal[0][8], aniVal[0][5] - aniVal[0][7]);
+		vehicle[menuSelected[2]]->position.Set((130 - aniVal[ANI_VEHICLE_POSITION]) * cos(Math::DegreeToRadian(angle)), 2, (130 - aniVal[ANI_VEHICLE_POSITION]) * sin(Math::DegreeToRadian(angle)));
+		vehicle[menuSelected[2]]->rotate.Set(0, 180 - angle - aniVal[ANI_VEHICLE_ROTATION_Y], aniVal[ANI_VEHICLE_ROTATION_Z]);
 
 		if (!(vehicle[j]->getChassis() == nullptr && vehicle[j]->getWheel() == nullptr && vehicle[j]->getWeapon() == nullptr))
 		{
-			modelStack.Translate(vehicle[j]->position.x, vehicle[j]->position.y, vehicle[j]->position.z);
-			modelStack.Rotate(vehicle[j]->rotate.x, 0, 0, 1);
-			modelStack.Rotate(vehicle[j]->rotate.y, 0, 1, 0);
-			modelStack.Rotate(vehicle[j]->rotate.z, 1, 0, 0);
+			// Call positions once and store in temp var to decrease weight on program
+			Position tempVehPos[2] = { vehicle[j]->position, vehicle[j]->rotate };
+			modelStack.Translate(tempVehPos[0].x, tempVehPos[0].y, tempVehPos[0].z);
+			modelStack.Rotate(tempVehPos[1].x, 0, 0, 1);
+			modelStack.Rotate(tempVehPos[1].y, 0, 1, 0);
+			modelStack.Rotate(tempVehPos[1].z, 1, 0, 0);
 			
 			modelStack.PushMatrix();
-
+			
+			
 			if (vehicle[j]->getChassis() != nullptr)
 			{
-				modelStack.Translate(0, vehicle[j]->getChassis()->getMesh()->size.y / 2, 0);
-				RenderMesh(vehicle[j]->getChassis()->getMesh(), false, vehicle[j]->getChassis()->getBBScale() * showBoundingBox);
+				Mesh* tempChaMesh = vehicle[j]->getChassis()->getMesh();
+				modelStack.Translate(0, tempChaMesh->size.y / 2, 0);
+				if (j == menuSelected[2] && state == S_CUSTOMISE && !animation[ANIS_LOADOUT_TO_CUSTOMISE])
+				{
+					if (vehiclePartSelect[0] != -1)
+						RenderMesh(custChassis[vehiclePartSelect[0] + 1]->getMesh(), false, custChassis[vehiclePartSelect[0] + 1]->getBBScale() * showBoundingBox);
+				}
+				else
+					RenderMesh(tempChaMesh, false, vehicle[j]->getChassis()->getBBScale() * showBoundingBox);
 			}
 			if (vehicle[j]->getWheel() != nullptr)
-				for (int i = 0; i < vehicle[j]->getChassis()->wheelPos.size(); ++i)
+			{
+				if (j == menuSelected[2] && state == S_CUSTOMISE && !animation[ANIS_LOADOUT_TO_CUSTOMISE])
 				{
-					modelStack.PushMatrix();
-					modelStack.Translate(vehicle[j]->wheelPos[i].x, vehicle[j]->wheelPos[i].y, vehicle[j]->wheelPos[i].z);
-					modelStack.Rotate(aniVal[0][0] * 2 + aniVal[0][6] * 2, 1, 0, 0);
-					modelStack.Scale(vehicle[j]->wheelScale[i].x, vehicle[j]->wheelScale[i].y, vehicle[j]->wheelScale[i].z);
-					RenderMesh(vehicle[j]->getWheel()->getMesh(), false, vehicle[j]->getWheel()->getBBScale() * showBoundingBox);
-					modelStack.PopMatrix();
+					if (vehiclePartSelect[1] != -1)
+						for (int i = 0; i < custChassis[vehiclePartSelect[0] + 1]->wheelPos.size(); ++i)
+						{
+							Position tempWheelPos[2];
+							tempWheelPos[0] = custChassis[vehiclePartSelect[0] + 1]->wheelPos[i]; tempWheelPos[1] = custChassis[vehiclePartSelect[0] + 1]->wheelScale[i];
+							modelStack.PushMatrix();
+							modelStack.Translate(tempWheelPos[0].x, tempWheelPos[0].y, tempWheelPos[0].z);
+							modelStack.Rotate(aniVal[ANI_WHEEL_ROTATION] * 2 + aniVal[ANI_VEHICLE_POSITION] * 2, 1, 0, 0);
+							modelStack.Scale(tempWheelPos[1].x, tempWheelPos[1].y, tempWheelPos[1].z);
+							RenderMesh(custWheel[vehiclePartSelect[1] + 1]->getMesh(), false, custWheel[vehiclePartSelect[1] + 1]->getBBScale() * showBoundingBox);
+							modelStack.PopMatrix();
+						}
 				}
+				else
+				{
+					for (int i = 0; i < vehicle[j]->getChassis()->wheelPos.size(); ++i)
+					{
+						Position tempWheelPos[2];
+						tempWheelPos[0] = vehicle[j]->wheelPos[i]; tempWheelPos[1] = vehicle[j]->wheelScale[i];
+						modelStack.PushMatrix();
+						modelStack.Translate(tempWheelPos[0].x, tempWheelPos[0].y, tempWheelPos[0].z);
+						modelStack.Rotate(aniVal[ANI_WHEEL_ROTATION] * 2 + aniVal[ANI_VEHICLE_POSITION] * 2, 1, 0, 0);
+						modelStack.Scale(tempWheelPos[1].x, tempWheelPos[1].y, tempWheelPos[1].z);
+						RenderMesh(vehicle[j]->getWheel()->getMesh(), false, vehicle[j]->getWheel()->getBBScale() * showBoundingBox);
+						modelStack.PopMatrix();
+					}
+				}
+			}
 			if (vehicle[j]->getWeapon() != nullptr)
 			{
 
@@ -802,6 +851,8 @@ void VehicleScene::renderScene()
 		modelStack.PopMatrix();
 	}
 	
+	// Render Customisation Vehicle
+
 	renderSkysphere(26.5);
 
 	// Render Text
@@ -828,7 +879,7 @@ void VehicleScene::renderScene()
 #pragma region Bridge
 
 	modelStack.PushMatrix();
-	modelStack.Rotate(-90 + aniVal[0][9], 0, 1, 0);
+	modelStack.Rotate(-90 + aniVal[ANI_SHIP_BRIDGE_ROTATION], 0, 1, 0);
 	modelStack.Scale(26.5, 26.5, 26.5);
 	RenderMesh(meshList[GEO_WAREHOUSE_BRIDGE], false);
 
@@ -853,9 +904,9 @@ void VehicleScene::renderScene()
 	*/
 
 	{
-		Color tempCol[6] = { Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
-		if (menuSelected[0] != 4) tempCol[menuSelected[0]] = Color(1, 0, 0);
-		else tempCol[menuSelected[1] + 4] = Color(1, 0, 0);
+		Color tempCol[7] = { Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
+		if (menuSelected[0] == 5) tempCol[menuSelected[1] + 5] = Color(1, 0, 0);
+		else tempCol[menuSelected[0]] = Color(1, 0, 0);
 
 		modelStack.PushMatrix();
 		modelStack.Rotate(-145, 0, 1, 0);
@@ -863,19 +914,30 @@ void VehicleScene::renderScene()
 		modelStack.Translate(-8, 12, 10);	RenderText(meshList[GEO_TEXT], "Chassis:" + std::to_string(vehiclePartSelect[0]), tempCol[0]);
 		modelStack.Translate(0, -1.5, 0);	RenderText(meshList[GEO_TEXT], "Wheels:" + std::to_string(vehiclePartSelect[1]), tempCol[1]);
 		modelStack.Translate(0, -1.5, 0);	RenderText(meshList[GEO_TEXT], "Weapons:" + std::to_string(vehiclePartSelect[2]), tempCol[2]);
-		modelStack.Translate(1, -1.5, 0);	RenderText(meshList[GEO_TEXT], "BoundingBox:" + std::to_string(showBoundingBox), tempCol[3]);
-		modelStack.Translate(-1, -8, 0);	RenderText(meshList[GEO_TEXT], "Confirm", tempCol[4]);
-		modelStack.Translate(20, 0, 0);		RenderText(meshList[GEO_TEXT], "Escape", tempCol[5]);
+		modelStack.Translate(.25, -1.5, 0);	RenderText(meshList[GEO_TEXT], "BoundingBox:" + std::to_string(showBoundingBox), tempCol[3]);
+		modelStack.Translate(.25, -1.5, 0);	RenderText(meshList[GEO_TEXT], "Rotate <>", tempCol[4]);
+		modelStack.Translate(-.25, -8, 0);	RenderText(meshList[GEO_TEXT], "Confirm", tempCol[5]);
+		modelStack.Translate(20, 0, 0);		RenderText(meshList[GEO_TEXT], "Escape", tempCol[6]);
 		modelStack.PopMatrix();
 	}
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 1, 0, 56);
 	//RenderSpriteOnScreen(meshList[GEO_LOGO], 15, 60, 0, 20, 20);
+
+	// Render Debug Info
+	if (showDebugInfo)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 1, 0, 58);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Position: " + std::to_string(camera.position.x) + ", " + std::to_string(camera.position.y) + 
+			", " + std::to_string(camera.position.z), Color(0, 1, 0), 1, 0, 56);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Target:   " + std::to_string(camera.target.x) + ", " + std::to_string(camera.target.y) +
+			", " + std::to_string(camera.target.z), Color(0, 1, 0), 1, 0, 55);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Val:" + std::to_string(aniVal[ANI_BUFFER]), Color(0, 1, 0), 1, 0, 53);
+	}
 }
 
 void VehicleScene::renderSkysphere(int size)
 {
 	modelStack.PushMatrix();
-	modelStack.Rotate(aniVal[0][0] * 0.05, 0, 1, 0);
+	modelStack.Rotate(aniVal[ANI_SKYBOX_ROTATION], 0, 1, 0);
 	modelStack.Scale(size * 20, size * 20, size * 20);
 	RenderMesh(meshList[GEO_SKYSPHERE], false);
 	modelStack.PopMatrix();
@@ -886,6 +948,9 @@ void VehicleScene::renderSkysphere(int size)
 	RenderMesh(meshList[GEO_WAREHOUSE_RING], false);
 	RenderMesh(meshList[GEO_WAREHOUSE_CENTRE], false);
 	RenderMesh(meshList[GEO_WAREHOUSE_SHELL], false);
+	
+	modelStack.PushMatrix(); modelStack.Translate(0, 2 - aniVal[ANI_SHIP_TEETH_POSITION], 0); RenderMesh(meshList[GEO_WAREHOUSE_TEETH_TOP], false); modelStack.PopMatrix();
+	modelStack.PushMatrix(); modelStack.Translate(0, aniVal[ANI_SHIP_TEETH_POSITION] - 2, 0); RenderMesh(meshList[GEO_WAREHOUSE_TEETH_BOTTOM], false); modelStack.PopMatrix();
 
 	modelStack.PopMatrix();
 }

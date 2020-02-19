@@ -90,6 +90,9 @@
     <ClInclude Include="Source\Entity.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Animate.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\VehicleScene.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="Source\Entity.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animate.cpp">
+      <Filter>Source Files\Other</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

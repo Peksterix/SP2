@@ -9,9 +9,9 @@ Vehicle::Vehicle()
 
 Vehicle::~Vehicle()
 {
-	if (chassis != nullptr) delete chassis;
-	if (wheel != nullptr) delete wheel;
 	if (weapon != nullptr) delete weapon;
+	if (wheel != nullptr) delete wheel;
+	if (chassis != nullptr) delete chassis;
 }
 
 Chassis* Vehicle::getChassis() 

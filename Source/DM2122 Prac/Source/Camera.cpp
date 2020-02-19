@@ -24,6 +24,7 @@ void Camera::Reset()
 	position.Set(1, 0, 0);
 	target.Set(0, 0, 0);
 	up.Set(0, 1, 0);
+	cameraAngleX = cameraAngleY = 0;
 }
 
 void Camera::Update(double dt, Entity* obj, Position offset, Position targetOffset)
@@ -41,7 +42,7 @@ void Camera::Update(double dt, double angleX, double angleY)
 {	
 	// Free Cam
 	static float CAMERA_SPEED = 25.f;
-	static float cameraAngleX = 0 + angleX, cameraAngleY = 0 + angleY;
+	if (angleX || angleY) { cameraAngleX = angleX; cameraAngleY = angleY; }
 	if (Application::IsKeyPressed('W'))
 	{
 		//position.y += (float)(CAMERA_SPEED * 0.2 * dt);
@@ -79,9 +80,6 @@ void Camera::Update(double dt, double angleX, double angleY)
 	target.x = position.x + cos(Math::DegreeToRadian(cameraAngleX));
 	target.z = position.z + sin(Math::DegreeToRadian(cameraAngleX));
 	target.y = position.y + sin(Math::DegreeToRadian(cameraAngleY));
-	
-
-
 
 }
 
