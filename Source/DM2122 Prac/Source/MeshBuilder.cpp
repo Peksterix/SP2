@@ -570,7 +570,6 @@ Mesh* MeshBuilder::GenerateText(const std::string& meshName, unsigned numRow, un
 
 Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, float My, float Mz, float mx, float my, float mz)
 {
-	
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
 	vertex_buffer_data.reserve(24);
@@ -670,6 +669,8 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 	mesh->mode = Mesh::DRAW_LINES;
 
 	return mesh;
+	
+	
 	/*
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
@@ -679,16 +680,16 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 
 	//Top
 	v.normal = Vector3(0.f, 1.f, 0.f);
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, My, Mz);
 	vertex_buffer_data.push_back(v); //0
-	v.pos.Set(mx, my, mz);
-	v.texCoord.Set(1, 0);
+	v.pos.Set(Mx, My, mz);
+	
 	vertex_buffer_data.push_back(v); //1
-	v.pos.Set(mx, my, mz);
-	v.texCoord.Set(1, 1);
+	v.pos.Set(mx, My, mz);
+	
 	vertex_buffer_data.push_back(v); //2
-	v.pos.Set(mx, my, mz);
-	v.texCoord.Set(0, 1);
+	v.pos.Set(mx, My, Mz);
+	
 	vertex_buffer_data.push_back(v); //3
 
 	index_buffer_data.push_back(0);
@@ -700,13 +701,17 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 
 	//Rside
 	v.normal = Vector3(1.f, 0.f, 0.f);
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, my, Mz);
+	
 	vertex_buffer_data.push_back(v); //4
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, my, mz);
+	
 	vertex_buffer_data.push_back(v); //5
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, My, mz);
+	
 	vertex_buffer_data.push_back(v); //6
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, My, Mz);
+	
 	vertex_buffer_data.push_back(v); //7
 
 	index_buffer_data.push_back(4);
@@ -718,13 +723,13 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 
 	//Front
 	v.normal = Vector3(0.f, 0.f, 1.f);
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, My, Mz);
 	vertex_buffer_data.push_back(v); //8
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(mx, My, Mz);
 	vertex_buffer_data.push_back(v); //8
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(mx, my, Mz);
 	vertex_buffer_data.push_back(v); //10
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, my, Mz);
 	vertex_buffer_data.push_back(v); //11
 
 	index_buffer_data.push_back(8);
@@ -736,13 +741,17 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 
 	//Back
 	v.normal = Vector3(0.f, 0.f, -1.f);
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, my, mz);
+	
 	vertex_buffer_data.push_back(v); //12
 	v.pos.Set(mx, my, mz);
+	
 	vertex_buffer_data.push_back(v); //13
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(mx, My, mz);
+	
 	vertex_buffer_data.push_back(v); //14
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, My, mz);
+	
 	vertex_buffer_data.push_back(v); //15
 
 	index_buffer_data.push_back(12);
@@ -756,11 +765,11 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 	v.normal = Vector3(-1.f, 0.f, 0.f);
 	v.pos.Set(mx, my, mz);
 	vertex_buffer_data.push_back(v); //16
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(mx, my, Mz);
 	vertex_buffer_data.push_back(v); //17
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(mx, My, Mz);
 	vertex_buffer_data.push_back(v); //18
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(mx, My, mz);
 	vertex_buffer_data.push_back(v); //19
 
 	index_buffer_data.push_back(16);
@@ -774,11 +783,11 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 	v.normal = Vector3(0.f, -1.f, 0.f);
 	v.pos.Set(mx, my, mz);
 	vertex_buffer_data.push_back(v); //20
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, my, mz);
 	vertex_buffer_data.push_back(v); //21
-	v.pos.Set(mx, my, mz);
+	v.pos.Set(Mx, my, Mz);
 	vertex_buffer_data.push_back(v); //22
-	v.pos.Set(-mx, my, mz);
+	v.pos.Set(mx, my, Mz);
 	vertex_buffer_data.push_back(v); //23
 
 	index_buffer_data.push_back(20);

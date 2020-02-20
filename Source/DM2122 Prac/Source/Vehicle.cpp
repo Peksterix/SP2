@@ -2,6 +2,8 @@
 
 Vehicle::Vehicle()
 {
+	name = "Preset";
+
 	chassis = nullptr;
 	wheel = nullptr;
 	weapon = nullptr;
@@ -31,6 +33,8 @@ Weapon* Vehicle::getWeapon()
 	if (weapon != nullptr) return weapon;
 	else return nullptr;
 }
+
+std::string Vehicle::getName() { return name; }
 
 void Vehicle::setChassis(int Type)
 {

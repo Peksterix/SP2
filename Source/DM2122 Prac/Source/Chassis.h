@@ -13,6 +13,8 @@ private:
 
 	float bbScale;
 
+	std::string name;
+
 	Mesh* mesh;
 
 public:
@@ -24,6 +26,7 @@ public:
 	int getHealth();
 	int getType();
 	float getBBScale();
+	std::string getName();
 	Mesh* getMesh();
 
 	void setHealth(int Health);

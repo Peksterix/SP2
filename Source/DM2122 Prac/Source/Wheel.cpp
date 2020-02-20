@@ -5,35 +5,53 @@
 
 Wheel::Wheel(int Type)
 {
-	health = bbScale = 0;
+	health = 0;
+	bbScale = 0;
+	friction = 0;
+	speed = 0;
+	
+	name = "None";
+
 	mesh = nullptr;
 	type = Type;
 
 	if (type == 0) 
 	{ 
+		name = "Temp 0";
 		health = 100; 
 		bbScale = 1.1;
+		friction = 1;
+		speed = 1;
 		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel0.obj");
 		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
 	}
 	if (type == 1)
 	{
+		name = "Temp 1";
 		health = 100;
 		bbScale = 1.3;
+		friction = 1;
+		speed = 1;
 		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel1.obj");
 		mesh->textureID = LoadTGA("image//Vehicle1a.tga");
 	}
 	if (type == 2)
 	{
+		name = "Temp 2";
 		health = 100;
 		bbScale = 1;
+		friction = 1;
+		speed = 1;
 		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel2.obj");
 		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
 	}
 	if (type == 3)
 	{
+		name = "Temp 3";
 		health = 100;
 		bbScale = 1;
+		friction = 1;
+		speed = 1;
 		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel3.obj");
 		mesh->textureID = LoadTGA("image//Vehicle3a.tga");
 	}
@@ -47,6 +65,7 @@ Wheel::~Wheel()
 int Wheel::getHealth() { return health; }
 int Wheel::getType() { return type; }
 float Wheel::getBBScale() { return bbScale; }
+std::string Wheel::getName() { return name; }
 Mesh* Wheel::getMesh() { return mesh; }
 
 void Wheel::setHealth(int Health) { health = Health; }

@@ -11,6 +11,8 @@ class Vehicle: public Entity
 {
 private:
 
+	std::string name;
+
 	Chassis* chassis;
 	Wheel* wheel;
 	Weapon* weapon;
@@ -24,6 +26,7 @@ public:
 	Chassis* getChassis();
 	Wheel* getWheel();
 	Weapon* getWeapon();
+	std::string getName();
 
 	void setChassis(int Type);
 	void setWheel(int Type);

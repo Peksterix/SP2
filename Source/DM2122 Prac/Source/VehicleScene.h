@@ -88,6 +88,16 @@ class VehicleScene : public Scene
 		UI_TOTAL,
 	};
 	
+	enum WINDOW_TYPES
+	{
+		WINDOW_NONE = 0,
+		WINDOW_CONFIRM,
+		WINDOW_NOTIFY,
+		WINDOW_INPUT,
+
+		WINDOW_TOTAL,
+	};
+
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES = 0,
@@ -250,6 +260,7 @@ private:
 	int	screenSizeX,
 		screenSizeY,
 		state,
+		inWindow,
 		debugValues[DEBUG_TOTAL],
 		menuSelected[MENU_TOTAL],
 		vehiclePartSelect[3];
@@ -257,20 +268,21 @@ private:
 	float	aniVal[ANI_TOTAL],
 			bounceTime[10];
 	
+	std::string textWindow,
+				textInput;
+
 	void renderScene();
 	void renderSkysphere(int size);
-
-	bool confirmation(std::string text, bool twoOptions);
 	
 	void moveLight(double dt, int lightNum);
 	void renderLightPos(int lightNum);
 
 	void CalculateLights();
 	void RenderMesh(Mesh* mesh, bool enableLight, float BBSize = 0);
-	void RenderText(Mesh* mesh, std::string text, Color color);
-	void RenderSprite(Mesh* mesh, int frameCount);
-	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-	void RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float y, float sizex, float sizey);
+	void RenderText(Mesh* mesh, std::string text, Color color, int type = 0);
+	void RenderSprite(Mesh* mesh, int frameCount, Color color = Color(1, 1, 1));
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int type = 0);
+	void RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float y, float sizex, float sizey, Color color = Color(1, 1, 1));
 	void CalculateFPS();
 
 public:
