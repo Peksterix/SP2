@@ -55,7 +55,7 @@ void GetDesktopResolution(int& horizontal, int& vertical)
 
 bool Application::IsKeyPressed(unsigned short key)
 {
-    return ((GetAsyncKeyState(key) & 0x8001) != 0);
+    if (GetActiveWindow()) return ((GetAsyncKeyState(key) & 0x8001) != 0);
 }
 
 void Application::GetScreenSize(int& x, int& y)
