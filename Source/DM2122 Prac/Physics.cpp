@@ -11,6 +11,12 @@ physics::physics()
 	up.Set(0, 1, 0);
 	right.Set(1, 0, 0);
 	front.Set(0, 0, -1);
+
+	//values can be changed depending on what kind of physics you want(if that makes sense xd)
+	frictionalForce = -0.3f;
+	minVelo = 0.01f;
+	KElost = 0.99f;
+	gravity = -9.8;
 }
 
 physics::~physics()
@@ -20,12 +26,6 @@ physics::~physics()
 
 void physics::Update()
 {
-	//values can be changed depending on what kind of physics you want(if that makes sense xd)
-	frictionalForce = -0.3f;
-	minVelo = 0.01f;
-	KElost = 0.99f;
-	gravity = -9.8;
-
 	Vector3 traction;
 	Vector3 tractionAccel;
 	Vector3 friction;
@@ -224,4 +224,9 @@ void physics::setSize(float size)
 float physics::getSize()
 {
 	return size;
+}
+
+void physics::addForce(Vector3 newF)
+{
+	force += newF;
 }

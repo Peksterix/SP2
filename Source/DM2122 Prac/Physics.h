@@ -15,11 +15,9 @@ private:
 	Vector3 right;
 	Vector3 front;
 	Vector3 force;
-
-public:
-
 	float frictionalForce, minVelo, KElost, gravity;
 
+public:
 	physics();
 	~physics();
 
@@ -46,6 +44,6 @@ public:
 	Vector3 getAccel();
 	void setForce(Vector3 force);
 	Vector3 getForce();
-
-	void Update();
+	
+	void addForce(Vector3 newF);
 };
