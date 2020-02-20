@@ -12,6 +12,82 @@
 
 class VehicleScene : public Scene
 {
+	enum GAME_STATES
+	{
+		S_LOADOUT = 0,
+		S_CUSTOMISE,
+		S_CUTSCENE,
+		S_FREECAM,
+		S_TOTAL,
+	};
+
+	enum ANIMATION_VALUES
+	{
+		ANI_CAMERA_POSITION_X = 0,
+		ANI_CAMERA_POSITION_Y,
+		ANI_CAMERA_POSITION_Z,
+		ANI_CAMERA_TARGET_X,
+		ANI_CAMERA_TARGET_Y,
+		ANI_CAMERA_TARGET_Z,
+
+		ANI_VEHICLE_POSITION,
+		ANI_VEHICLE_ROTATION_Y,
+		ANI_VEHICLE_ROTATION_Z,
+		ANI_WHEEL_ROTATION,
+
+		ANI_SKYBOX_ROTATION,
+		ANI_SHIP_ROTATION,
+		ANI_SHIP_BRIDGE_ROTATION,
+		ANI_SHIP_TEETH_POSITION,
+
+		ANI_CUSTOMISE_CHASSIS,
+		ANI_CUSTOMISE_WHEEL,
+		ANI_CUSTOMISE_WEAPON,
+
+		ANI_SELECTED_UI,
+		ANI_BUFFER,
+
+		ANI_TOTAL,
+	};
+
+	enum ANIMATION_STATES
+	{
+		ANIS_ANY = 0,
+		ANIS_RING,
+		ANIS_LOADOUT_TO_CUSTOMISE,
+		ANIS_CUSTOMISE_TO_LOADOUT,
+		ANIS_CUSTOMISE_PARTS,
+
+		ANIS_TOTAL,
+	};
+
+	enum DEBUG_VALUES
+	{
+		DEBUG_LIGHT_NUM = 0,
+		DEBUG_TOTAL,
+	};
+
+	enum MENU_SELECTION
+	{
+		MENU_CUSTOMISATION_Y = 0,
+		MENU_CUSTOMISATION_X,
+		MENU_LOADOUT,
+		MENU_CONIRMATION,
+
+		MENU_TOTAL,
+	};
+
+	enum UI_SHEET
+	{
+		UI_CHANGE = 0,
+		UI_EMPTY,
+		UI_BACK,
+		UI_ESCAPE,
+		UI_SELECTED,
+		UI_TEMP = UI_SELECTED + 4,
+		UI_TOTAL,
+	};
+	
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES = 0,
@@ -29,55 +105,8 @@ class VehicleScene : public Scene
 		GEO_SHOWCASEFLOOR,
 
 		GEO_TEXT,
+		GEO_UI,
 		NUM_GEOMETRY,
-	};
-
-	enum STATES
-	{
-		S_LOADOUT = 0,
-		S_CUSTOMISE,
-		S_CUTSCENE,
-		S_FREECAM,
-		S_TOTAL,
-	};
-
-	enum ANIMATIONVALUES
-	{
-		ANI_CAMERA_POSITION_X = 0,
-		ANI_CAMERA_POSITION_Y,
-		ANI_CAMERA_POSITION_Z,
-		ANI_CAMERA_TARGET_X,
-		ANI_CAMERA_TARGET_Y,
-		ANI_CAMERA_TARGET_Z,
-
-		ANI_VEHICLE_POSITION,
-		ANI_VEHICLE_ROTATION_Y,
-		ANI_VEHICLE_ROTATION_Z,
-		ANI_WHEEL_ROTATION,
-
-		ANI_SKYBOX_ROTATION,
-		ANI_SHIP_RING_ROTATION,
-		ANI_SHIP_BRIDGE_ROTATION,
-		ANI_SHIP_TEETH_POSITION,
-
-		ANI_CUSTOMISE_CHASSIS,
-		ANI_CUSTOMISE_WHEEL,
-		ANI_CUSTOMISE_WEAPON,
-
-		ANI_BUFFER,
-
-		ANI_TOTAL,
-	};
-
-	enum ANIMATIONSTATES
-	{
-		ANIS_ANY = 0,
-		ANIS_RING,
-		ANIS_LOADOUT_TO_CUSTOMISE,
-		ANIS_CUSTOMISE_TO_LOADOUT,
-		ANIS_CUSTOMISE_PARTS,
-
-		ANIS_TOTAL,
 	};
 
 	enum Scene5_UNIFORM_TYPE
@@ -209,9 +238,9 @@ private:
 	Camera camera;
 	Animate animate;
 	
-	Chassis* custChassis[4];
-	Wheel* custWheel[4];
-	Weapon* custWeapon[4];
+	Chassis* custChassis[5];
+	Wheel* custWheel[5];
+	Weapon* custWeapon[5];
 	Vehicle* vehicle[8];
 
 	bool animation[ANIS_TOTAL],
@@ -221,7 +250,8 @@ private:
 	int	screenSizeX,
 		screenSizeY,
 		state,
-		menuSelected[3],
+		debugValues[DEBUG_TOTAL],
+		menuSelected[MENU_TOTAL],
 		vehiclePartSelect[3];
 
 	float	aniVal[ANI_TOTAL],
@@ -230,6 +260,8 @@ private:
 	void renderScene();
 	void renderSkysphere(int size);
 
+	bool confirmation(std::string text, bool twoOptions);
+	
 	void moveLight(double dt, int lightNum);
 	void renderLightPos(int lightNum);
 

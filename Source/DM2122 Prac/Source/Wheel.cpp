@@ -30,6 +30,13 @@ Wheel::Wheel(int Type)
 		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel2.obj");
 		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
 	}
+	if (type == 3)
+	{
+		health = 100;
+		bbScale = 1;
+		mesh = MeshBuilder::GenerateOBJ("Wheel's Mesh", "obj//Wheel3.obj");
+		mesh->textureID = LoadTGA("image//Vehicle3a.tga");
+	}
 }
 
 Wheel::~Wheel()

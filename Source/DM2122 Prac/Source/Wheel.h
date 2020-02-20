@@ -10,7 +10,9 @@ private:
 	int health,
 		type;
 
-	float bbScale;
+	float	friction,
+			speed,
+			bbScale;
 
 	Mesh* mesh;
 

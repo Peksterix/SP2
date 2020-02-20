@@ -10,7 +10,10 @@ private:
 	int health,
 		type;
 
-	float bbScale;
+	float	ammoType,
+			fireRate,
+			damage,
+			bbScale;
 
 	Mesh* mesh;
 

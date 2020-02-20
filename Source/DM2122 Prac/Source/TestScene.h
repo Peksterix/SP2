@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "Animate.h"
 
 class TestScene : public Scene
 {
@@ -150,7 +151,8 @@ private:
 
 	Light light[8];
 	Camera camera[2];
-	
+	Animate animate;
+
 	bool	splitScreen;
 
 	int	screenSizeX,
@@ -170,7 +172,7 @@ private:
 	void renderLightPos(int lightNum);
 
 	void CalculateLights();
-	void RenderMesh(Mesh* mesh, bool enableLight, bool showBB = 0);
+	void RenderMesh(Mesh* mesh, bool enableLight, float BBSize = 0);
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderSprite(Mesh* mesh, int frameCount);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);

@@ -53,6 +53,25 @@ Chassis::Chassis(int Type)
 
 		for (int i = 0; i < 4; ++i) wheelScale.push_back(Position(1, 1, 1));
 	}
+	if (type == 3)
+	{
+		health = 100;
+		bbScale = 1;
+		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis3.obj");
+		mesh->textureID = LoadTGA("image//Vehicle3a.tga");
+
+		//wheelPos.push_back(Position(6.58, 1.16, 3.02));
+		//wheelPos.push_back(Position(6.58, 1.16, -3.02));
+		//wheelPos.push_back(Position(-6.58, 1.16, 3.02));
+		//wheelPos.push_back(Position(-6.58, 1.16, -3.02));
+
+		wheelPos.push_back(Position(3.52, -1.16, 6.58));
+		wheelPos.push_back(Position(3.52, -1.16, -6.3));
+		wheelPos.push_back(Position(-3.52, -1.16, 6.58));
+		wheelPos.push_back(Position(-3.52, -1.16, -6.3));
+
+		for (int i = 0; i < 4; ++i) wheelScale.push_back(Position(1, 1, 1));
+	}
 }
 
 Chassis::~Chassis()

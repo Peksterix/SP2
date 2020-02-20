@@ -568,14 +568,14 @@ void TestScene::CalculateLights()
 		{
 			Vector3 lightDir(light[i].position.x, light[i].position.y, light[i].position.z);
 			Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-			if (i == 0) glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 1) glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 2) glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 3) glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 4) glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 5) glUniform3fv(m_parameters[U_LIGHT5_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 6) glUniform3fv(m_parameters[U_LIGHT6_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 7) glUniform3fv(m_parameters[U_LIGHT7_POSITION], 1, &lightDirection_cameraspace.x);
+			if (i == 0) glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 1) glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 2) glUniform3fv(m_parameters[U_LIGHT2_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 3) glUniform3fv(m_parameters[U_LIGHT3_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 4) glUniform3fv(m_parameters[U_LIGHT4_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 5) glUniform3fv(m_parameters[U_LIGHT5_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 6) glUniform3fv(m_parameters[U_LIGHT6_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 7) glUniform3fv(m_parameters[U_LIGHT7_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
 		}
 		else if (light[i].type == Light::LIGHT_SPOT)
 		{
@@ -614,7 +614,7 @@ void TestScene::CalculateLights()
 	}
 }
 
-void TestScene::RenderMesh(Mesh* mesh, bool enableLight, bool showBB)
+void TestScene::RenderMesh(Mesh* mesh, bool enableLight, float BBSize)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -641,24 +641,28 @@ void TestScene::RenderMesh(Mesh* mesh, bool enableLight, bool showBB)
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
 
-	if(mesh->textureID > 0){ 
+	if (mesh->textureID > 0) {
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, mesh->textureID);
-		glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);} 
-	else { 
+		glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+	}
+	else {
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 0);
-	} 
+	}
 	mesh->Render(); //this line should only be called once in the whole function
-	
-	if (showBB)
+
+	if (BBSize != 0)
 	{
 		meshList[GEO_BOUNDINGBOX] = MeshBuilder::GenerateBoundingBox("Bounding Box", mesh->mSize.x, mesh->mSize.y, mesh->mSize.z,
 			mesh->size.x + mesh->mSize.x, mesh->size.y + mesh->mSize.y, mesh->size.z + mesh->mSize.z);
+		modelStack.PushMatrix();
+		modelStack.Scale(BBSize, BBSize, BBSize);
 		RenderMesh(meshList[GEO_BOUNDINGBOX], 0, 0);
+		modelStack.PopMatrix();
 	}
 
-	if(mesh->textureID > 0) glBindTexture(GL_TEXTURE_2D, 0);
+	if (mesh->textureID > 0) glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void TestScene::RenderSprite(Mesh* mesh, int frameCount)
@@ -666,19 +670,21 @@ void TestScene::RenderSprite(Mesh* mesh, int frameCount)
 	if (!mesh || mesh->textureID <= 0) //Proper error check return; 
 		return;
 
+	Color color = Color(1, 1, 1);
 	glDisable(GL_DEPTH_TEST);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	
+
 	Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-	
+
 	mesh->Render(frameCount * 6, 6);
-	
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	glEnable(GL_DEPTH_TEST);
@@ -689,25 +695,25 @@ void TestScene::RenderText(Mesh* mesh, std::string text, Color color)
 	if (!mesh || mesh->textureID <= 0) //Proper error check return; 
 		return;
 
-	glDisable(GL_DEPTH_TEST); 
-	glUniform1i(m_parameters[U_TEXT_ENABLED], 1); 
-	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r); 
-	glUniform1i(m_parameters[U_LIGHTENABLED], 0); 
-	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1); 
-	glActiveTexture(GL_TEXTURE0); 
-	glBindTexture(GL_TEXTURE_2D, mesh->textureID); 
-	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0); 
+	glDisable(GL_DEPTH_TEST);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
-		Mtx44 characterSpacing; 
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value 
-		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing; 
+		Mtx44 characterSpacing;
+		characterSpacing.SetToTranslation(i * .5f - (text.length() * 0.5f) / 2, 0, 0); //1.0f is the spacing of each character, you may change this value 
+		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
-	} 
-	glBindTexture(GL_TEXTURE_2D, 0); 
-	glUniform1i(m_parameters[U_TEXT_ENABLED], 0); 
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -729,7 +735,9 @@ void TestScene::RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float 
 	modelStack.Translate(x, y, 0);
 	modelStack.Scale(sizex, sizey, 1);
 
+	Color color = Color(1, 1, 1);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 	glActiveTexture(GL_TEXTURE0);
@@ -743,7 +751,7 @@ void TestScene::RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float 
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
-	
+
 	modelStack.PopMatrix();
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
@@ -761,32 +769,32 @@ void TestScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	Mtx44 ortho;
 	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI 
 	projectionStack.PushMatrix();
-	projectionStack.LoadMatrix(ortho); 
-	viewStack.PushMatrix(); 
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
 	viewStack.LoadIdentity(); //No need camera for ortho mode 
-	modelStack.PushMatrix(); 
+	modelStack.PushMatrix();
 	modelStack.LoadIdentity(); //Reset modelStack 
-	modelStack.Translate(x, y, 0); 
-	modelStack.Scale(size, size, size); 
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(size, size, size);
 
-	glUniform1i(m_parameters[U_TEXT_ENABLED], 1); 
-	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r); 
-	glUniform1i(m_parameters[U_LIGHTENABLED], 0); 
-	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1); 
-	glActiveTexture(GL_TEXTURE0); 
-	glBindTexture(GL_TEXTURE_2D, mesh->textureID); 
-	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0); 
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
-		Mtx44 characterSpacing; 
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value 
-		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing; 
+		Mtx44 characterSpacing;
+		characterSpacing.SetToTranslation(i * .5f, 0, 0); //1.0f is the spacing of each character, you may change this value 
+		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
-	} 
-	glBindTexture(GL_TEXTURE_2D, 0); 
-	glUniform1i(m_parameters[U_TEXT_ENABLED], 0); 
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
 	modelStack.PopMatrix();
