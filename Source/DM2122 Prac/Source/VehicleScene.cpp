@@ -7,6 +7,7 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include <string>
+#include <MyMath.h>
 
 #define ROT_LIMIT 45.f;
 #define SCALE_LIMIT 5.f;
@@ -36,6 +37,14 @@ void VehicleScene::Exit()
 		if (meshList[i] != NULL)
 			delete meshList[i];
 	}
+	for (int i = 0; i < 4; ++i)
+	{
+		delete custChassis[i];
+		delete custWheel[i];
+		delete custWeapon[i];
+	}
+	for (int i = 0; i < 8; ++i) delete vehicle[i];
+	
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
@@ -47,7 +56,8 @@ void VehicleScene::Init()
 
 	#pragma region Initialise OpenGL
 
-		glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+		//glClearColor(68.f / 255.f, 235.f / 255.f, 201.f / 255.f, 0.0f);
+		glClearColor(0, 0, 0, 0);
 
 		// Generate a default VAO for now
 		glGenVertexArrays(1, &m_vertexArrayID);
@@ -196,11 +206,12 @@ void VehicleScene::Init()
 	#pragma endregion
 
 	#pragma region Initialise Lights
+		const int point_power = 2;
 
 		light[0].type = Light::LIGHT_POINT;
-		light[0].position.Set(50, 50, 0);
-		light[0].color.Set(61.f / 255.f, 128.f / 255.f, 37.f / 255.f);
-		light[0].power = 3;
+		light[0].position.Set(0, 0, 0);
+		light[0].color.Set(1, 1, 1);
+		light[0].power = point_power;
 		light[0].kC = 1.f;
 		light[0].kL = 0.01f;
 		light[0].kQ = 0.001f;
@@ -219,10 +230,10 @@ void VehicleScene::Init()
 		glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 		glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
-		light[1].type = Light::LIGHT_DIRECTIONAL;
-		light[1].position.Set(25, 22, 0);
-		light[1].color.Set(253.f / 255.f, 252.f / 255.f, 197.f / 255.f);
-		light[1].power = 1;
+		light[1].type = Light::LIGHT_POINT;
+		light[1].position.Set(0, 0, 0);
+		light[1].color.Set(1, 1, 1);
+		light[1].power = point_power;
 		light[1].kC = 1.f;
 		light[1].kL = 0.01f;
 		light[1].kQ = 0.001f;
@@ -241,10 +252,10 @@ void VehicleScene::Init()
 		glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 		glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 
-		light[2].type = Light::LIGHT_SPOT;
-		light[2].position.Set(-1, 0, 0);
-		light[2].color.Set(61.f / 255.f, 128.f / 255.f, 37.f / 255.f);
-		light[2].power = 2;
+		light[2].type = Light::LIGHT_POINT;
+		light[2].position.Set(0, 0, 0);
+		light[2].color.Set(1, 1, 1);
+		light[2].power = point_power;
 		light[2].kC = 1.f;
 		light[2].kL = 0.01f;
 		light[2].kQ = 0.001f;
@@ -263,10 +274,10 @@ void VehicleScene::Init()
 		glUniform1f(m_parameters[U_LIGHT2_COSINNER], light[2].cosInner);
 		glUniform1f(m_parameters[U_LIGHT2_EXPONENT], light[2].exponent);
 
-		light[3].type = Light::LIGHT_SPOT;
-		light[3].position.Set(1, 0, 0);
-		light[3].color.Set(61.f / 255.f, 128.f / 255.f, 37.f / 255.f);
-		light[3].power = 2;
+		light[3].type = Light::LIGHT_POINT;
+		light[3].position.Set(0, 0, 0);
+		light[3].color.Set(1, 1, 1);
+		light[3].power = point_power;
 		light[3].kC = 1.f;
 		light[3].kL = 0.01f;
 		light[3].kQ = 0.001f;
@@ -286,9 +297,9 @@ void VehicleScene::Init()
 		glUniform1f(m_parameters[U_LIGHT3_EXPONENT], light[3].exponent);
 
 		light[4].type = Light::LIGHT_POINT;
-		light[4].position.Set(25, 25, 0);
-		light[4].color.Set(214.f / 255.f, 1, 1);
-		light[4].power = 2;
+		light[4].position.Set(0, 0, 0);
+		light[4].color.Set(1, 1, 1);
+		light[4].power = point_power;
 		light[4].kC = 1.f;
 		light[4].kL = 0.01f;
 		light[4].kQ = 0.001f;
@@ -308,9 +319,9 @@ void VehicleScene::Init()
 		glUniform1f(m_parameters[U_LIGHT4_EXPONENT], light[4].exponent);
 
 		light[5].type = Light::LIGHT_POINT;
-		light[5].position.Set(25, 25, 0);
-		light[5].color.Set(0.f / 255.f, 1, 1);
-		light[5].power = 2;
+		light[5].position.Set(0, 0, 0);
+		light[5].color.Set(1, 1, 1);
+		light[5].power = point_power;
 		light[5].kC = 1.f;
 		light[5].kL = 0.01f;
 		light[5].kQ = 0.001f;
@@ -329,17 +340,17 @@ void VehicleScene::Init()
 		glUniform1f(m_parameters[U_LIGHT5_COSINNER], light[5].cosInner);
 		glUniform1f(m_parameters[U_LIGHT5_EXPONENT], light[5].exponent);
 
-		light[6].type = Light::LIGHT_POINT;
-		light[6].position.Set(25, 25, 0);
-		light[6].color.Set(216.f / 255.f, 1, 1);
-		light[6].power = 2;
+		light[6].type = Light::LIGHT_DIRECTIONAL;
+		light[6].position.Set(0, 10, 0);
+		light[6].color.Set(1, 1, 1);
+		light[6].power = 0.5f;
 		light[6].kC = 1.f;
 		light[6].kL = 0.01f;
 		light[6].kQ = 0.001f;
 		light[6].cosCutoff = cos(Math::DegreeToRadian(45));
 		light[6].cosInner = cos(Math::DegreeToRadian(30));
 		light[6].exponent = 3.f;
-		light[6].spotDirection.Set(0.f, 1.f, 0.f);
+		light[6].spotDirection.Set(1.f, 1.f, 1.f);
 		glUniform1i(m_parameters[U_LIGHT6_TYPE], light[6].type);
 		glUniform3fv(m_parameters[U_LIGHT6_COLOR], 1, &light[6].color.r);
 		glUniform1f(m_parameters[U_LIGHT6_POWER], light[6].power);
@@ -351,17 +362,17 @@ void VehicleScene::Init()
 		glUniform1f(m_parameters[U_LIGHT6_COSINNER], light[6].cosInner);
 		glUniform1f(m_parameters[U_LIGHT6_EXPONENT], light[6].exponent);
 
-		light[7].type = Light::LIGHT_POINT;
-		light[7].position.Set(25, 25, 0);
-		light[7].color.Set(217.f / 255.f, 1, 1);
-		light[7].power = 2;
+		light[7].type = Light::LIGHT_SPOT;
+		light[7].position.Set(-5, 15, -5);
+		light[7].color.Set(1, 1, 1);
+		light[7].power = 3;
 		light[7].kC = 1.f;
 		light[7].kL = 0.01f;
 		light[7].kQ = 0.001f;
 		light[7].cosCutoff = cos(Math::DegreeToRadian(45));
 		light[7].cosInner = cos(Math::DegreeToRadian(30));
 		light[7].exponent = 3.f;
-		light[7].spotDirection.Set(0.f, 1.f, 0.f);
+		light[7].spotDirection.Set(-.5f, 1.f, -.5f);
 		glUniform1i(m_parameters[U_LIGHT7_TYPE], light[7].type);
 		glUniform3fv(m_parameters[U_LIGHT7_COLOR], 1, &light[7].color.r);
 		glUniform1f(m_parameters[U_LIGHT7_POWER], light[7].power);
@@ -377,28 +388,87 @@ void VehicleScene::Init()
 
 	#pragma endregion
 
+	#pragma region Initialise Camera
+		
+		camera.Init(Position(-20 + 130 , 12, -26), Position(0 + 130, 4, -8), Position(0, 1, 0));
+
+	#pragma endregion
+
 	#pragma region Initialise Mesh
 	
 		meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
-		meshList[GEO_TEXT]->textureID = LoadTGA("image//calibri.tga");
-		//meshList[GEO_LOGO] = MeshBuilder::GenerateText("Logo", 4, 4);
-		//meshList[GEO_LOGO]->textureID = LoadTGA("Image//Infinity Train Logo.tga");
+		meshList[GEO_TEXT]->textureID = LoadTGA("image//font.tga");
+		meshList[GEO_UI] = MeshBuilder::GenerateText("UI", 16, 8);
+		meshList[GEO_UI]->textureID = LoadTGA("image//UI Sheet.tga");
+		meshList[GEO_WAREHOUSE_SHELL] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2a.obj");
+		meshList[GEO_WAREHOUSE_SHELL]->textureID = LoadTGA("image//Building2.tga");
+		meshList[GEO_WAREHOUSE_RING] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2b.obj");
+		meshList[GEO_WAREHOUSE_RING]->textureID = LoadTGA("image//Building2.tga");
+		meshList[GEO_WAREHOUSE_CENTRE] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2c.obj");
+		meshList[GEO_WAREHOUSE_CENTRE]->textureID = LoadTGA("image//Building2.tga");
+		meshList[GEO_WAREHOUSE_BRIDGE] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2d.obj");
+		meshList[GEO_WAREHOUSE_BRIDGE]->textureID = LoadTGA("image//Building2.tga");
+		meshList[GEO_WAREHOUSE_TEETH_TOP] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2e.obj");
+		meshList[GEO_WAREHOUSE_TEETH_TOP]->textureID = LoadTGA("image//Building2.tga");
+		meshList[GEO_WAREHOUSE_TEETH_BOTTOM] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2f.obj");
+		meshList[GEO_WAREHOUSE_TEETH_BOTTOM]->textureID = LoadTGA("image//Building2.tga");
+		meshList[GEO_SKYSPHERE] = MeshBuilder::GenerateOBJ("Skysphere (Space)", "obj//Skysphere.obj");
+		meshList[GEO_SKYSPHERE]->textureID = LoadTGA("image//Flat Space2.tga");
 
-		meshList[GEO_SKY] = MeshBuilder::GenerateOBJ("Skysphere", "obj//Skysphere.obj");
-		meshList[GEO_SKY]->textureID = LoadTGA("image//Skysphere.tga");
-		meshList[GEO_FLOOR] = MeshBuilder::GenerateQuad("Floor", Color(1,1,1), 1, 1);
+		meshList[GEO_SHOWCASEFLOOR] = MeshBuilder::GenerateQuad("Floor", Color(1,1,1), 20, 20);
+		meshList[GEO_SHOWCASEFLOOR]->textureID = LoadTGA("image//ShowcaseFloor.tga");
 
-		meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f);
+		meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 8, 16, 1.f);
 	
 	#pragma endregion
 
 	#pragma region Initialise Values
 
 		Application::GetScreenSize(screenSizeX, screenSizeY);
-		for (int i = 0; i < 2; ++i)
+		
+		showDebugInfo = 1;
+		showBoundingBox = 0;
+		state = S_LOADOUT;
+		for (int i = 0; i < 3; ++i)
 		{
-			menuSelected[i] = 0;
+			vehiclePartSelect[i] = 0;
 		}
+		for (int i = 0; i < 5; ++i)
+		{
+			custChassis[i] = new Chassis(i - 1);
+			custWheel[i] = new Wheel(i - 1);
+			//custWeapon[i] = new Weapon(i - 1);
+		}
+		for (int i = 0; i < 8; ++i)
+		{
+			vehicle[i] = new Vehicle;
+			// Read the Vehicle's Saved Loadouts
+		}
+		// Temp
+		vehicle[0]->setChassis(0);
+		vehicle[0]->setWheel(0);
+		vehicle[1]->setChassis(1);
+		vehicle[1]->setWheel(1);
+		vehicle[2]->setChassis(2);
+		vehicle[2]->setWheel(2);
+		vehicle[3]->setChassis(3);
+		vehicle[3]->setWheel(3);
+
+		for (int i = 0; i < 10; ++i)
+		{
+			bounceTime[i] = 0;
+		}
+		for (int i = 0; i < ANI_TOTAL; ++i) aniVal[i] = 0;
+		for (int i = 0; i < ANIS_TOTAL; ++i) animation[i] = 0;
+		for (int i = 0; i < MENU_TOTAL; ++i) menuSelected[i] = 0;
+		for (int i = 0; i < DEBUG_TOTAL; ++i) debugValues[i] = 0;
+
+		aniVal[ANI_CAMERA_POSITION_X] = 110;
+		aniVal[ANI_CAMERA_POSITION_Y] = 12;
+		aniVal[ANI_CAMERA_POSITION_Z] = -26;
+		aniVal[ANI_CAMERA_TARGET_X] = 130;
+		aniVal[ANI_CAMERA_TARGET_Y] = 4;
+		aniVal[ANI_CAMERA_TARGET_Z] = -8;
 
 	#pragma endregion
 
@@ -408,40 +478,273 @@ void VehicleScene::Update(double dt)
 {
 	CalculateFPS();
 
-	// Debug Options
+	// Debug Info
+	if (showDebugInfo)
 	{
 		if (Application::IsKeyPressed('7')) glDisable(GL_CULL_FACE);					// Disable Cull
 		if (Application::IsKeyPressed('8')) glEnable(GL_CULL_FACE);						// Enable Cull
 		if (Application::IsKeyPressed('9')) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	// Normal
 		if (Application::IsKeyPressed('0')) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// Wireframe
+		if (Application::IsKeyPressed('Z'))
+		{
+			state = S_FREECAM;
+			camera.Update(0.01, Math::RadianToDegree(atan2(camera.target.x - camera.position.x, camera.target.z - camera.position.z)),
+				Math::RadianToDegree(atan2(camera.target.y - camera.position.y, sqrt(pow(camera.position.x - camera.target.x, 2) + pow(camera.position.z - camera.target.z, 2)))));
+		}
 	}
 
-	camera.Update(dt, 0);
+	if (state == S_LOADOUT)
+	{
+		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && !animation[ANIS_ANY])
+		{
+			--menuSelected[MENU_LOADOUT];
+			animate.AddToBuffer(aniVal[ANI_SHIP_ROTATION], aniVal[ANI_SHIP_ROTATION], aniVal[ANI_SHIP_ROTATION] - 45, 0.5, 1);
+			animation[ANIS_ANY] = 1;
+		}
+		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && !animation[ANIS_ANY])
+		{
+			++menuSelected[MENU_LOADOUT];
+			animate.AddToBuffer(aniVal[ANI_SHIP_ROTATION], aniVal[ANI_SHIP_ROTATION], aniVal[ANI_SHIP_ROTATION] + 45, 0.5, 1);
+			animation[ANIS_ANY] = 1;
+		}
+		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY])
+		{
+			state = S_CUSTOMISE;
+			animation[ANIS_ANY] = 1;
+			animation[ANIS_LOADOUT_TO_CUSTOMISE] = 1;
+			menuSelected[MENU_CUSTOMISATION_Y] = 0;
 
-	if (Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP))
-	{
-		++menuSelected[0];
-		menuSelected[1] = 0;
+			if (vehicle[menuSelected[MENU_LOADOUT]]->getChassis() != nullptr) menuSelected[MENU_CUSTOMISATION_X] = vehiclePartSelect[0] = vehicle[menuSelected[MENU_LOADOUT]]->getChassis()->getType();
+			else menuSelected[MENU_CUSTOMISATION_X] = vehiclePartSelect[0] = -1;
+
+			if (vehicle[menuSelected[MENU_LOADOUT]]->getWheel() != nullptr) vehiclePartSelect[1] = vehicle[menuSelected[MENU_LOADOUT]]->getWheel()->getType();
+			else vehiclePartSelect[1] = -1;
+
+			if (vehicle[menuSelected[MENU_LOADOUT]]->getWeapon() != nullptr) vehiclePartSelect[2] = vehicle[menuSelected[MENU_LOADOUT]]->getWeapon()->getType();
+			else vehiclePartSelect[2] = -1;
+
+			if (vehiclePartSelect[0] == -1)
+			{
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], 110, -20.9, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 12, 12, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -26, -25.1, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], 130, -20.3, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 4, 11.7, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -8, -24.3, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Y], 0, 270, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_VEHICLE_POSITION], 0, 130, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_SHIP_BRIDGE_ROTATION], 0, 180, 1, 1);
+			}
+			else
+			{
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], 110, .132, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 12, 55.6, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -26, -52.9, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], 130, .714, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 4, 54.9, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -8, -52.4, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Y], 0, 270, 3, 0);
+				animate.AddToBuffer(aniVal[ANI_SHIP_BRIDGE_ROTATION], 0, 120, 1, 1);
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_BRIDGE_ROTATION], 120, 180, .5, 0);
+				animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Z], 0, -10, 2, 1);
+
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], .132, -20.9, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 55.6, 12, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -52.9, -25.1, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], .714, -20.3, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 54.9, 11.7, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -52.4, -24.3, 1, 0);
+				animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Z], -10, -20, .25, 1);
+				animate.AddToBuffer(aniVal[ANI_VEHICLE_POSITION], 0, 130, 1.2, 1);
+
+				animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Z], -20, 0, 0.25, 1);
+			}
+		}
+
+		if (menuSelected[MENU_LOADOUT] > 7) menuSelected[MENU_LOADOUT] = 0;
+		if (menuSelected[MENU_LOADOUT] < 0) menuSelected[MENU_LOADOUT] = 7;
 	}
-	if (Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN))
+	if (state == S_CUSTOMISE)
 	{
-		--menuSelected[0];
-		menuSelected[1] = 0;
+		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
+		{
+			--menuSelected[MENU_CUSTOMISATION_Y];
+			bounceTime[0] = 0.25f;
+			if (menuSelected[MENU_CUSTOMISATION_Y] > 5) menuSelected[MENU_CUSTOMISATION_Y] = 0;
+			if (menuSelected[MENU_CUSTOMISATION_Y] < 0) menuSelected[MENU_CUSTOMISATION_Y] = 5;
+			if (menuSelected[MENU_CUSTOMISATION_Y] >= 0 && menuSelected[MENU_CUSTOMISATION_Y] <= 2) menuSelected[MENU_CUSTOMISATION_X] = vehiclePartSelect[menuSelected[MENU_CUSTOMISATION_Y]];
+			else if (menuSelected[MENU_CUSTOMISATION_Y] == 3) menuSelected[MENU_CUSTOMISATION_X] = showBoundingBox;
+			else menuSelected[MENU_CUSTOMISATION_X] = 0;
+		}
+		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
+		{
+			++menuSelected[MENU_CUSTOMISATION_Y];
+			bounceTime[0] = 0.25f;
+			if (menuSelected[MENU_CUSTOMISATION_Y] > 5) menuSelected[MENU_CUSTOMISATION_Y] = 0;
+			if (menuSelected[MENU_CUSTOMISATION_Y] < 0) menuSelected[MENU_CUSTOMISATION_Y] = 5;
+			if (menuSelected[MENU_CUSTOMISATION_Y] >= 0 && menuSelected[MENU_CUSTOMISATION_Y] <= 2) menuSelected[MENU_CUSTOMISATION_X] = vehiclePartSelect[menuSelected[MENU_CUSTOMISATION_Y]];
+			else if (menuSelected[MENU_CUSTOMISATION_Y] == 3) menuSelected[MENU_CUSTOMISATION_X] = showBoundingBox;
+			else menuSelected[MENU_CUSTOMISATION_X] = 0;
+		}		
+		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
+		{
+			--menuSelected[MENU_CUSTOMISATION_X];
+			animation[ANIS_ANY] = 1;
+			bounceTime[0] = 0.25f;
+
+			if (menuSelected[MENU_CUSTOMISATION_Y] >= 0 && menuSelected[MENU_CUSTOMISATION_Y] <= 2)
+			{
+				animation[ANIS_CUSTOMISE_PARTS] = 1;
+
+				if (menuSelected[MENU_CUSTOMISATION_X] > 3) menuSelected[MENU_CUSTOMISATION_X] = -1;
+				if (menuSelected[MENU_CUSTOMISATION_X] < -1) menuSelected[MENU_CUSTOMISATION_X] = 3;
+
+				//vehiclePartSelect[menuSelected[MENU_CUSTOMISATION_Y]] = menuSelected[MENU_CUSTOMISATION_X];
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 0, 2, 0.25, 1);
+				animate.AddToBuffer(aniVal[ANI_BUFFER], 0, 1, 0.5, 1);
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 2, 0, 0.25, 0);
+				animate.AddToBuffer(aniVal[ANI_BUFFER], 1, 0, 0.25, 1);
+			}
+			else if (menuSelected[MENU_CUSTOMISATION_Y] == 4)
+			{
+				aniVal[ANI_VEHICLE_ROTATION_Y] += dt * 40;
+				bounceTime[0] = 0.f;
+			}
+			else
+			{
+				if (menuSelected[MENU_CUSTOMISATION_X] > 1) menuSelected[MENU_CUSTOMISATION_X] = 0;
+				if (menuSelected[MENU_CUSTOMISATION_X] < 0) menuSelected[MENU_CUSTOMISATION_X] = 1;
+			}
+		}
+		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && bounceTime[0] <= 0 && !animation[ANIS_ANY])
+		{
+			++menuSelected[MENU_CUSTOMISATION_X];
+			animation[ANIS_ANY] = 1;
+			bounceTime[0] = 0.25f;
+
+			if (menuSelected[MENU_CUSTOMISATION_Y] >= 0 && menuSelected[MENU_CUSTOMISATION_Y] <= 2)
+			{
+				animation[ANIS_CUSTOMISE_PARTS] = 1;
+
+				if (menuSelected[MENU_CUSTOMISATION_X] > 3) menuSelected[MENU_CUSTOMISATION_X] = -1;
+				if (menuSelected[MENU_CUSTOMISATION_X] < -1) menuSelected[MENU_CUSTOMISATION_X] = 3;
+
+				//vehiclePartSelect[menuSelected[MENU_CUSTOMISATION_Y]] = menuSelected[MENU_CUSTOMISATION_X];
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 0, 2, 0.25, 1);
+				animate.AddToBuffer(aniVal[ANI_BUFFER], 0, 1, 0.5, 1);
+
+				animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 2, 0, 0.25, 0);
+				animate.AddToBuffer(aniVal[ANI_BUFFER], 1, 0, 0.25, 1);
+			}
+			else if (menuSelected[MENU_CUSTOMISATION_Y] == 4)
+			{
+				aniVal[ANI_VEHICLE_ROTATION_Y] -= dt * 40;
+				bounceTime[0] = 0.f;
+			}
+			else
+			{
+				if (menuSelected[MENU_CUSTOMISATION_X] > 1) menuSelected[MENU_CUSTOMISATION_X] = 0;
+				if (menuSelected[MENU_CUSTOMISATION_X] < 0) menuSelected[MENU_CUSTOMISATION_X] = 1;
+			}
+		}
+		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY] && menuSelected[MENU_CUSTOMISATION_Y] == 5)
+		{
+			if (menuSelected[MENU_CUSTOMISATION_X == 0])
+			{
+				// Notify If Parts Missing
+				// Confirm - "Save Current Vehicle to Slot x?"
+				// > Yes, Animate
+				// > No, Nothing
+			}
+			if (menuSelected[MENU_CUSTOMISATION_X == 1])
+			{
+				// Confirm - "Exit without saving Vehicle to Slot x?"
+				// > Yes, Animate
+				// > No, Nothing
+			}
+			animation[ANIS_ANY] = 1;
+			animation[ANIS_CUSTOMISE_TO_LOADOUT] = 1;
+			showBoundingBox = 0;
+
+			animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 0, 2, 0.25, 1);
+			animate.AddToBuffer(aniVal[ANI_BUFFER], 0, 1, 0.5, 1);
+			animate.AddToBuffer(aniVal[ANI_SHIP_TEETH_POSITION], 2, 0, 0.25, 0);
+			animate.AddToBuffer(aniVal[ANI_BUFFER], 1, 0, 0.25, 1);
+
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Y], aniVal[ANI_VEHICLE_ROTATION_Y], 270, 1, 1);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], -20.9, 110, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 12, 12, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -26, -26, 1, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], -20.3, 130, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 11.7, 4, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -24.3, -8, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_POSITION], 130, 0, 2, 1);
+			
+			animate.AddToBuffer(aniVal[ANI_SHIP_BRIDGE_ROTATION], 180, 0, 2, 0);
+			animate.AddToBuffer(aniVal[ANI_VEHICLE_ROTATION_Y], 270, 0, 2, 1);
+		} 
+
+		if (menuSelected[MENU_CUSTOMISATION_Y] == 3 && menuSelected[MENU_CUSTOMISATION_X] == 1) showBoundingBox = 1;
+		if (menuSelected[MENU_CUSTOMISATION_Y] == 3 && menuSelected[MENU_CUSTOMISATION_X] == 0) showBoundingBox = 0;
+
+		if (aniVal[ANI_BUFFER] > .9 && animation[ANIS_CUSTOMISE_PARTS])
+		{
+			vehiclePartSelect[menuSelected[MENU_CUSTOMISATION_Y]] = menuSelected[MENU_CUSTOMISATION_X];
+		}
+		if (aniVal[ANI_BUFFER] > .9 && animation[ANIS_CUSTOMISE_TO_LOADOUT])
+		{
+			state = S_LOADOUT;
+			
+			if (menuSelected[MENU_CUSTOMISATION_X] == 0)
+			{
+				// Call Class once and store in temp var to decrease the number of time the program has to access the class
+				Wheel* tempWheel = vehicle[menuSelected[MENU_LOADOUT]]->getWheel();
+				Chassis* tempChassis = vehicle[menuSelected[MENU_LOADOUT]]->getChassis();
+
+				if (tempWheel == nullptr || tempWheel->getType() != vehiclePartSelect[1])
+					vehicle[menuSelected[MENU_LOADOUT]]->setWheel(vehiclePartSelect[1]);
+
+				if (tempChassis == nullptr || tempChassis->getType() != vehiclePartSelect[0])
+					vehicle[menuSelected[MENU_LOADOUT]]->setChassis(vehiclePartSelect[0]);
+				
+				// Save data
+			}
+		}
 	}
-	if (Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT))
+	if (state == S_FREECAM)
 	{
-		--menuSelected[1];
+		camera.Update(dt);
 	}
-	if (Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT))
+	else
 	{
-		++menuSelected[1];
+		camera.Init(Position(aniVal[ANI_CAMERA_POSITION_X], aniVal[ANI_CAMERA_POSITION_Y], aniVal[ANI_CAMERA_POSITION_Z]), 
+					Position(aniVal[ANI_CAMERA_TARGET_X], aniVal[ANI_CAMERA_TARGET_Y], aniVal[ANI_CAMERA_TARGET_Z]), 
+					Position(0, 1, 0));
 	}
 
-	for (int i = 0; i < 2; ++i)
+	// Lights
+	for (int i = 0, angle = -5 - aniVal[ANI_SHIP_ROTATION]; i < 6; ++i, angle += 360 / 6)
 	{
-		if (menuSelected[i] > 3) menuSelected[0] = 0;
-		if (menuSelected[i] < 0) menuSelected[0] = 3;
+		light[i].position.Set(120 * cos(Math::DegreeToRadian(angle)), 10, 120 * sin(Math::DegreeToRadian(angle)));
 	}
+
+	// Animation Logic
+	animation[ANIS_ANY] = animate.Update(0.02);
+	if (!animation[ANIS_ANY])
+		for (int i = 0; i < ANIS_TOTAL; ++i)
+			animation[i] = 0;
+	
+	aniVal[ANI_SKYBOX_ROTATION] += dt * 0.5;
+	if (aniVal[ANI_SKYBOX_ROTATION] > 360) aniVal[ANI_SKYBOX_ROTATION] = 0;
+
+	aniVal[ANI_SELECTED_UI] += dt * 10;
+	if (aniVal[ANI_SELECTED_UI] > 4) aniVal[ANI_SELECTED_UI] = 0;
+	
+	if (bounceTime > 0) bounceTime[0] -= dt;
 }
 
 void VehicleScene::Render()
@@ -465,23 +768,296 @@ void VehicleScene::Render()
 
 void VehicleScene::renderScene()
 {
-	//renderSkysphere(100);
-
-
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
+	modelStack.Rotate(aniVal[ANI_SHIP_ROTATION], 0, 1, 0);
+
+	// Render Vehicles
+	for (int j = 0, angle = 0; j < 8; ++j, angle += 360 / 8)
+	{
+		modelStack.PushMatrix();
+
+		// If vehicle is not empty:
+		vehicle[j]->position.Set(130 * cos(Math::DegreeToRadian(angle)), 2, 130 * sin(Math::DegreeToRadian(angle)));
+		vehicle[j]->rotate.Set(0, 180 - angle, 0);
+		
+		vehicle[menuSelected[MENU_LOADOUT]]->position.Set((130 - aniVal[ANI_VEHICLE_POSITION]) * cos(Math::DegreeToRadian(angle)), 2, (130 - aniVal[ANI_VEHICLE_POSITION]) * sin(Math::DegreeToRadian(angle)));
+		vehicle[menuSelected[MENU_LOADOUT]]->rotate.Set(0, 180 - angle - aniVal[ANI_VEHICLE_ROTATION_Y], aniVal[ANI_VEHICLE_ROTATION_Z]);
+		
+		// Old code
+		/*
+		if (!(vehicle[j]->getChassis() == nullptr && vehicle[j]->getWheel() == nullptr && vehicle[j]->getWeapon() == nullptr))
+		{
+			// Call positions once and store in temp var to decrease weight on program
+			Position tempVehPos[2] = { vehicle[j]->position, vehicle[j]->rotate };
+			modelStack.Translate(tempVehPos[0].x, tempVehPos[0].y, tempVehPos[0].z);
+			modelStack.Rotate(tempVehPos[1].x, 0, 0, 1);
+			modelStack.Rotate(tempVehPos[1].y, 0, 1, 0);
+			modelStack.Rotate(tempVehPos[1].z, 1, 0, 0);
+			
+			modelStack.PushMatrix();
+			
+			if (vehicle[j]->getChassis() != nullptr)
+			{
+				// Render Pre-Loaded Parts for Customisation
+				if (j == menuSelected[MENU_LOADOUT] && state == S_CUSTOMISE && !animation[ANIS_LOADOUT_TO_CUSTOMISE])
+				{
+					if (vehiclePartSelect[0] != -1)
+					{
+						Mesh* tempChaMesh = custChassis[vehiclePartSelect[0] + 1]->getMesh();
+						modelStack.Translate(0, tempChaMesh->size.y / 2, 0);
+						RenderMesh(custChassis[vehiclePartSelect[0] + 1]->getMesh(), true, custChassis[vehiclePartSelect[0] + 1]->getBBScale() * showBoundingBox);
+					}
+				}
+				// Render Vehicle's Parts
+				else
+				{
+					Mesh* tempChaMesh = vehicle[j]->getChassis()->getMesh();
+					modelStack.Translate(0, tempChaMesh->size.y / 2, 0);
+					RenderMesh(tempChaMesh, true, vehicle[j]->getChassis()->getBBScale() * showBoundingBox);
+				}
+			}
+			if (vehicle[j]->getWheel() != nullptr)
+			{
+				// Render Pre-Loaded Parts for Customisation
+				if (j == menuSelected[MENU_LOADOUT] && state == S_CUSTOMISE && !animation[ANIS_LOADOUT_TO_CUSTOMISE])
+				{
+					if (vehiclePartSelect[1] != -1)
+						for (int i = 0; i < custChassis[vehiclePartSelect[0] + 1]->wheelPos.size(); ++i)
+						{
+							Position tempWheelPos[2];
+							tempWheelPos[0] = custChassis[vehiclePartSelect[0] + 1]->wheelPos[i]; tempWheelPos[1] = custChassis[vehiclePartSelect[0] + 1]->wheelScale[i];
+							modelStack.PushMatrix();
+							modelStack.Translate(tempWheelPos[0].x, tempWheelPos[0].y, tempWheelPos[0].z);
+							modelStack.Rotate(aniVal[ANI_WHEEL_ROTATION] * 2 + aniVal[ANI_VEHICLE_POSITION] * 2, 1, 0, 0);
+							modelStack.Scale(tempWheelPos[1].x, tempWheelPos[1].y, tempWheelPos[1].z);
+							RenderMesh(custWheel[vehiclePartSelect[1] + 1]->getMesh(), true, custWheel[vehiclePartSelect[1] + 1]->getBBScale() * showBoundingBox);
+							modelStack.PopMatrix();
+						}
+				}
+				// Render Vehicle's Parts
+				else
+				{
+					for (int i = 0; i < vehicle[j]->getChassis()->wheelPos.size(); ++i)
+					{
+						Position tempWheelPos[2];
+						tempWheelPos[0] = vehicle[j]->wheelPos[i]; tempWheelPos[1] = vehicle[j]->wheelScale[i];
+						modelStack.PushMatrix();
+						modelStack.Translate(tempWheelPos[0].x, tempWheelPos[0].y, tempWheelPos[0].z);
+						modelStack.Rotate(aniVal[ANI_WHEEL_ROTATION] * 2 + aniVal[ANI_VEHICLE_POSITION] * 2, 1, 0, 0);
+						modelStack.Scale(tempWheelPos[1].x, tempWheelPos[1].y, tempWheelPos[1].z);
+						RenderMesh(vehicle[j]->getWheel()->getMesh(), true, vehicle[j]->getWheel()->getBBScale() * showBoundingBox);
+						modelStack.PopMatrix();
+					}
+				}
+			}
+			if (vehicle[j]->getWeapon() != nullptr)
+			{
+
+			}
+
+			modelStack.PopMatrix();
+			
+		}
+		modelStack.PopMatrix();
+		*/
+
+		// Call positions once and store in temp var to decrease weight on program
+		Position tempVehPos[2] = { vehicle[j]->position, vehicle[j]->rotate };
+		modelStack.Translate(tempVehPos[0].x, tempVehPos[0].y, tempVehPos[0].z);
+		modelStack.Rotate(tempVehPos[1].x, 0, 0, 1);
+		modelStack.Rotate(tempVehPos[1].y, 0, 1, 0);
+		modelStack.Rotate(tempVehPos[1].z, 1, 0, 0);
+
+		modelStack.PushMatrix();
+
+		#pragma region Render Chassis
+			
+		// Render Pre-Loaded Parts for Customisation
+		if (j == menuSelected[MENU_LOADOUT] && state == S_CUSTOMISE && !animation[ANIS_LOADOUT_TO_CUSTOMISE])
+		{
+			if (vehiclePartSelect[0] != -1)
+			{
+				Mesh* tempChaMesh = custChassis[vehiclePartSelect[0] + 1]->getMesh();
+				modelStack.Translate(0, tempChaMesh->size.y / 2, 0);
+				RenderMesh(custChassis[vehiclePartSelect[0] + 1]->getMesh(), true, custChassis[vehiclePartSelect[0] + 1]->getBBScale() * showBoundingBox);
+			}
+		}
+		// Render Vehicle's Parts
+		else
+		{
+			if (vehicle[j]->getChassis() != nullptr)
+			{
+				Mesh* tempChaMesh = vehicle[j]->getChassis()->getMesh();
+				modelStack.Translate(0, tempChaMesh->size.y / 2, 0);
+				RenderMesh(tempChaMesh, true, vehicle[j]->getChassis()->getBBScale() * showBoundingBox);
+			}
+		}	
+
+		#pragma endregion
+			
+		#pragma region Render Wheels
+			
+		// Render Pre-Loaded Parts for Customisation
+		if (j == menuSelected[MENU_LOADOUT] && state == S_CUSTOMISE && !animation[ANIS_LOADOUT_TO_CUSTOMISE])
+		{
+			if (vehiclePartSelect[1] != -1)
+				for (int i = 0; i < custChassis[vehiclePartSelect[0] + 1]->wheelPos.size(); ++i)
+				{
+					Position tempWheelPos[2];
+					tempWheelPos[0] = custChassis[vehiclePartSelect[0] + 1]->wheelPos[i]; tempWheelPos[1] = custChassis[vehiclePartSelect[0] + 1]->wheelScale[i];
+					modelStack.PushMatrix();
+					modelStack.Translate(tempWheelPos[0].x, tempWheelPos[0].y, tempWheelPos[0].z);
+					modelStack.Rotate(aniVal[ANI_WHEEL_ROTATION] * 2 + aniVal[ANI_VEHICLE_POSITION] * 2, 1, 0, 0);
+					modelStack.Scale(tempWheelPos[1].x, tempWheelPos[1].y, tempWheelPos[1].z);
+					RenderMesh(custWheel[vehiclePartSelect[1] + 1]->getMesh(), true, custWheel[vehiclePartSelect[1] + 1]->getBBScale() * showBoundingBox);
+					modelStack.PopMatrix();
+				}
+		}
+		// Render Vehicle's Parts
+		else
+		{
+			if (vehicle[j]->getWheel() != nullptr)
+				for (int i = 0; i < vehicle[j]->getChassis()->wheelPos.size(); ++i)
+				{
+					Position tempWheelPos[2];
+					tempWheelPos[0] = vehicle[j]->wheelPos[i]; tempWheelPos[1] = vehicle[j]->wheelScale[i];
+					modelStack.PushMatrix();
+					modelStack.Translate(tempWheelPos[0].x, tempWheelPos[0].y, tempWheelPos[0].z);
+					modelStack.Rotate(aniVal[ANI_WHEEL_ROTATION] * 2 + aniVal[ANI_VEHICLE_POSITION] * 2, 1, 0, 0);
+					modelStack.Scale(tempWheelPos[1].x, tempWheelPos[1].y, tempWheelPos[1].z);
+					RenderMesh(vehicle[j]->getWheel()->getMesh(), true, vehicle[j]->getWheel()->getBBScale() * showBoundingBox);
+					modelStack.PopMatrix();
+				}
+		}
+
+		#pragma endregion
+
+		#pragma region Render Weapons
+			
+		if (vehicle[j]->getWeapon() != nullptr)
+		{
+
+		}
+
+		#pragma endregion
+
+		modelStack.PopMatrix();
+
+		
+		modelStack.PopMatrix();
+	}
+
+	renderSkysphere(26.5);
+
+	// Render Loadout Text
+	if (state != S_CUSTOMISE)
+		for (int j = 0, angle = 0; j < 8; ++j, angle += 360 / 8)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(140 * cos(Math::DegreeToRadian(angle)), 11, 140 * sin(Math::DegreeToRadian(angle)));
+			modelStack.Rotate(-angle - 90, 0, 1, 0);
+			modelStack.Scale(5, 5, 5);
+			if (menuSelected[MENU_LOADOUT] == j) RenderText(meshList[GEO_TEXT], "Slot " + std::to_string(j + 1), Color(1, 0, 0));
+			else RenderText(meshList[GEO_TEXT], "Slot " + std::to_string(j + 1), Color(1, 1, 1));
+
+			if (vehicle[j]->getChassis() == nullptr && vehicle[j]->getWheel() == nullptr && vehicle[j]->getWeapon() == nullptr)
+			{
+				modelStack.Translate(0, -1, 0);
+				RenderText(meshList[GEO_TEXT], "Empty", Color(1, 0, 0));
+			}
+			modelStack.PopMatrix();
+		}
+	
 	modelStack.PopMatrix();
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 4, 0, 56);
+	// Bridge
+	modelStack.PushMatrix();
+	modelStack.Rotate(-90 + aniVal[ANI_SHIP_BRIDGE_ROTATION], 0, 1, 0);
+	modelStack.Scale(26.5, 26.5, 26.5);
+	RenderMesh(meshList[GEO_WAREHOUSE_BRIDGE], false);
+
+	modelStack.PopMatrix();
+
+	// Render Text on Screen
+	/*
+	if (state == S_CUSTOMISE)
+	{
+		Color tempCol[6] = { Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0), Color(0, 0, 0) };
+		if (menuSelected[MENU_CUSTOMISATION_Y] != 4) tempCol[menuSelected[MENU_CUSTOMISATION_Y]] = Color(1, 0, 0);
+		else tempCol[menuSelected[MENU_CUSTOMISATION_X] + 4] = Color(1, 0, 0);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Chassis:" + std::to_string(vehiclePartSelect[0]), tempCol[0], 2, 0, 50);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Wheels:" + std::to_string(vehiclePartSelect[1]), tempCol[1], 2, 0, 40);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Weapons:" + std::to_string(vehiclePartSelect[2]), tempCol[2], 2, 0, 30);
+		RenderTextOnScreen(meshList[GEO_TEXT], "BoundingBox:" + std::to_string(showBoundingBox), tempCol[3], 2, 0, 20);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Confirm", tempCol[4], 3, 0, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Escape", tempCol[5], 3, 62, 2);
+	}
+	*/
+
+	// Render Customise Text
+	{
+		Color tempCol[7] = { Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
+		if (menuSelected[MENU_CUSTOMISATION_Y] == 5) tempCol[menuSelected[MENU_CUSTOMISATION_X] + 5] = Color(1, 0, 0);
+		else tempCol[menuSelected[MENU_CUSTOMISATION_Y]] = Color(1, 0, 0);
+
+		modelStack.PushMatrix();
+		modelStack.Rotate(-145, 0, 1, 0);
+		modelStack.Rotate(-8, 1, 0, 0);
+		modelStack.Translate(-8, 12, 10);	RenderText(meshList[GEO_TEXT], "Chassis:" + std::to_string(vehiclePartSelect[0]), tempCol[0]);
+		modelStack.Translate(0, -1.5, 0);	RenderText(meshList[GEO_TEXT], "Wheels:" + std::to_string(vehiclePartSelect[1]), tempCol[1]);
+		modelStack.Translate(0, -1.5, 0);	RenderText(meshList[GEO_TEXT], "Weapons:" + std::to_string(vehiclePartSelect[2]), tempCol[2]);
+		modelStack.Translate(.25, -1.5, 0);	RenderText(meshList[GEO_TEXT], "BoundingBox:" + std::to_string(showBoundingBox), tempCol[3]);
+		modelStack.Translate(.25, -1.5, 0);	RenderText(meshList[GEO_TEXT], "Rotate <>", tempCol[4]);
+		modelStack.Translate(-.25, -8, 0);	RenderText(meshList[GEO_TEXT], "Confirm", tempCol[5]);
+		modelStack.Translate(20, 0, 0);		RenderText(meshList[GEO_TEXT], "Escape", tempCol[6]);
+		modelStack.PopMatrix();
+	}
+	
 	//RenderSpriteOnScreen(meshList[GEO_LOGO], 15, 60, 0, 20, 20);
+
+	// Render Debug Info
+	if (showDebugInfo)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 1, 0, 58);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Position: " + std::to_string(camera.position.x) + ", " + std::to_string(camera.position.y) + 
+			", " + std::to_string(camera.position.z), Color(0, 1, 0), 1, 0, 56);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Target:   " + std::to_string(camera.target.x) + ", " + std::to_string(camera.target.y) +
+			", " + std::to_string(camera.target.z), Color(0, 1, 0), 1, 0, 55);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Val:" + std::to_string(aniVal[ANI_BUFFER]), Color(0, 1, 0), 1, 0, 53);
+		
+		RenderSpriteOnScreen(meshList[GEO_UI], UI_SELECTED + aniVal[ANI_SELECTED_UI], 10, 10, 10, 10);
+		RenderSpriteOnScreen(meshList[GEO_UI], UI_CHANGE, 40, 10, 10, 10);
+	}
+	if (Application::IsKeyPressed('X'))
+	{
+		for (int i = 0; i < 8; ++i) renderLightPos(i);
+	}
 }
 
 void VehicleScene::renderSkysphere(int size)
 {
 	modelStack.PushMatrix();
-	modelStack.Scale(size, size, size);
-	RenderMesh(meshList[GEO_SKY], 0);
+	modelStack.Rotate(aniVal[ANI_SKYBOX_ROTATION], 0, 1, 0);
+	modelStack.Scale(size * 20, size * 20, size * 20);
+	RenderMesh(meshList[GEO_SKYSPHERE], false);
 	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Scale(size, size, size);
+
+	RenderMesh(meshList[GEO_WAREHOUSE_RING], true);
+	RenderMesh(meshList[GEO_WAREHOUSE_CENTRE], true);
+	RenderMesh(meshList[GEO_WAREHOUSE_SHELL], true);
+	
+	modelStack.PushMatrix(); modelStack.Translate(0, 2 - aniVal[ANI_SHIP_TEETH_POSITION], 0); RenderMesh(meshList[GEO_WAREHOUSE_TEETH_TOP], true); modelStack.PopMatrix();
+	modelStack.PushMatrix(); modelStack.Translate(0, aniVal[ANI_SHIP_TEETH_POSITION] - 2, 0); RenderMesh(meshList[GEO_WAREHOUSE_TEETH_BOTTOM], true); modelStack.PopMatrix();
+
+	modelStack.PopMatrix();
+}
+
+bool VehicleScene::confirmation(std::string text, bool twoOptions)
+{
+	return 0;
 }
 
 void VehicleScene::moveLight(double dt, int lightNum)
@@ -519,14 +1095,14 @@ void VehicleScene::CalculateLights()
 		{
 			Vector3 lightDir(light[i].position.x, light[i].position.y, light[i].position.z);
 			Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-			if (i == 0) glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 1) glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 2) glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 3) glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 4) glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 5) glUniform3fv(m_parameters[U_LIGHT5_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 6) glUniform3fv(m_parameters[U_LIGHT6_POSITION], 1, &lightDirection_cameraspace.x);
-			if (i == 7) glUniform3fv(m_parameters[U_LIGHT7_POSITION], 1, &lightDirection_cameraspace.x);
+			if (i == 0) glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 1) glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 2) glUniform3fv(m_parameters[U_LIGHT2_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 3) glUniform3fv(m_parameters[U_LIGHT3_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 4) glUniform3fv(m_parameters[U_LIGHT4_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 5) glUniform3fv(m_parameters[U_LIGHT5_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 6) glUniform3fv(m_parameters[U_LIGHT6_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
+			if (i == 7) glUniform3fv(m_parameters[U_LIGHT7_SPOTDIRECTION], 1, &lightDirection_cameraspace.x);
 		}
 		else if (light[i].type == Light::LIGHT_SPOT)
 		{
@@ -565,7 +1141,7 @@ void VehicleScene::CalculateLights()
 	}
 }
 
-void VehicleScene::RenderMesh(Mesh* mesh, bool enableLight, bool showBB)
+void VehicleScene::RenderMesh(Mesh* mesh, bool enableLight, float BBSize)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -602,11 +1178,14 @@ void VehicleScene::RenderMesh(Mesh* mesh, bool enableLight, bool showBB)
 	} 
 	mesh->Render(); //this line should only be called once in the whole function
 	
-	if (showBB)
+	if (BBSize != 0)
 	{
 		meshList[GEO_BOUNDINGBOX] = MeshBuilder::GenerateBoundingBox("Bounding Box", mesh->mSize.x, mesh->mSize.y, mesh->mSize.z,
 			mesh->size.x + mesh->mSize.x, mesh->size.y + mesh->mSize.y, mesh->size.z + mesh->mSize.z);
+		modelStack.PushMatrix();
+		modelStack.Scale(BBSize, BBSize, BBSize);
 		RenderMesh(meshList[GEO_BOUNDINGBOX], 0, 0);
+		modelStack.PopMatrix();
 	}
 
 	if(mesh->textureID > 0) glBindTexture(GL_TEXTURE_2D, 0);
@@ -617,8 +1196,10 @@ void VehicleScene::RenderSprite(Mesh* mesh, int frameCount)
 	if (!mesh || mesh->textureID <= 0) //Proper error check return; 
 		return;
 
+	Color color = Color(1, 1, 1);
 	glDisable(GL_DEPTH_TEST);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 	glActiveTexture(GL_TEXTURE0);
@@ -651,7 +1232,7 @@ void VehicleScene::RenderText(Mesh* mesh, std::string text, Color color)
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing; 
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value 
+		characterSpacing.SetToTranslation(i * .5f - (text.length() * 0.5f) / 2, 0, 0); //1.0f is the spacing of each character, you may change this value 
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing; 
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
@@ -680,7 +1261,9 @@ void VehicleScene::RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, flo
 	modelStack.Translate(x, y, 0);
 	modelStack.Scale(sizex, sizey, 1);
 
+	Color color = Color(1, 1, 1);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 	glActiveTexture(GL_TEXTURE0);
@@ -730,7 +1313,7 @@ void VehicleScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color,
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing; 
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value 
+		characterSpacing.SetToTranslation(i * .5f, 0, 0); //1.0f is the spacing of each character, you may change this value 
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing; 
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 

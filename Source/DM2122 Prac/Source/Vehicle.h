@@ -1,18 +1,35 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
-#include "Object.h"
+#include "Entity.h"
+#include "Chassis.h"
+#include "Weapon.h"
+#include "Wheel.h"
+#include <vector>
 
-class Vehicle: public Object
+class Vehicle: public Entity
 {
 private:
-	float bbScale;
+
+	Chassis* chassis;
+	Wheel* wheel;
+	Weapon* weapon;
 
 public:
+	std::vector<Position> wheelPos, weaponPos, wheelScale, weaponScale;
+
 	Vehicle();
 	~Vehicle();
 
-	float getBBScale();
+	Chassis* getChassis();
+	Wheel* getWheel();
+	Weapon* getWeapon();
+
+	void setChassis(int Type);
+	void setWheel(int Type);
+	void setWeapon(int Type);
+
+	void Update();
 };
 
 #endif

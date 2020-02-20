@@ -1,25 +1,111 @@
-#ifndef SCENESKYBOX_H
-#define SCENESKYBOX_H
+#ifndef VEHICLESCENE_H
+#define VEHICLESCENE_H
 
 #include "Scene.h"
 #include <MatrixStack.h>
 #include "Camera.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "Entity.h"
+#include "Vehicle.h"
+#include "Animate.h"
 
 class VehicleScene : public Scene
 {
+	enum GAME_STATES
+	{
+		S_LOADOUT = 0,
+		S_CUSTOMISE,
+		S_CUTSCENE,
+		S_FREECAM,
+		S_TOTAL,
+	};
+
+	enum ANIMATION_VALUES
+	{
+		ANI_CAMERA_POSITION_X = 0,
+		ANI_CAMERA_POSITION_Y,
+		ANI_CAMERA_POSITION_Z,
+		ANI_CAMERA_TARGET_X,
+		ANI_CAMERA_TARGET_Y,
+		ANI_CAMERA_TARGET_Z,
+
+		ANI_VEHICLE_POSITION,
+		ANI_VEHICLE_ROTATION_Y,
+		ANI_VEHICLE_ROTATION_Z,
+		ANI_WHEEL_ROTATION,
+
+		ANI_SKYBOX_ROTATION,
+		ANI_SHIP_ROTATION,
+		ANI_SHIP_BRIDGE_ROTATION,
+		ANI_SHIP_TEETH_POSITION,
+
+		ANI_CUSTOMISE_CHASSIS,
+		ANI_CUSTOMISE_WHEEL,
+		ANI_CUSTOMISE_WEAPON,
+
+		ANI_SELECTED_UI,
+		ANI_BUFFER,
+
+		ANI_TOTAL,
+	};
+
+	enum ANIMATION_STATES
+	{
+		ANIS_ANY = 0,
+		ANIS_RING,
+		ANIS_LOADOUT_TO_CUSTOMISE,
+		ANIS_CUSTOMISE_TO_LOADOUT,
+		ANIS_CUSTOMISE_PARTS,
+
+		ANIS_TOTAL,
+	};
+
+	enum DEBUG_VALUES
+	{
+		DEBUG_LIGHT_NUM = 0,
+		DEBUG_TOTAL,
+	};
+
+	enum MENU_SELECTION
+	{
+		MENU_CUSTOMISATION_Y = 0,
+		MENU_CUSTOMISATION_X,
+		MENU_LOADOUT,
+		MENU_CONIRMATION,
+
+		MENU_TOTAL,
+	};
+
+	enum UI_SHEET
+	{
+		UI_CHANGE = 0,
+		UI_EMPTY,
+		UI_BACK,
+		UI_ESCAPE,
+		UI_SELECTED,
+		UI_TEMP = UI_SELECTED + 4,
+		UI_TOTAL,
+	};
+	
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES = 0,
 		GEO_BOUNDINGBOX,
 		GEO_LIGHTSPHERE,
 
-		GEO_SKY,
-		GEO_FLOOR,
+		GEO_WAREHOUSE_SHELL,
+		GEO_WAREHOUSE_RING,
+		GEO_WAREHOUSE_CENTRE,
+		GEO_WAREHOUSE_BRIDGE,
+		GEO_WAREHOUSE_TEETH_TOP,
+		GEO_WAREHOUSE_TEETH_BOTTOM,
+		GEO_SKYSPHERE,
+
+		GEO_SHOWCASEFLOOR,
 
 		GEO_TEXT,
-		GEO_LOGO,
+		GEO_UI,
 		NUM_GEOMETRY,
 	};
 
@@ -150,21 +236,37 @@ private:
 
 	Light light[8];
 	Camera camera;
+	Animate animate;
 	
+	Chassis* custChassis[5];
+	Wheel* custWheel[5];
+	Weapon* custWeapon[5];
+	Vehicle* vehicle[8];
+
+	bool animation[ANIS_TOTAL],
+		 showDebugInfo,
+		 showBoundingBox;
+
 	int	screenSizeX,
 		screenSizeY,
-		menuSelected[2];
+		state,
+		debugValues[DEBUG_TOTAL],
+		menuSelected[MENU_TOTAL],
+		vehiclePartSelect[3];
 
-	float	bounceTime[10];
+	float	aniVal[ANI_TOTAL],
+			bounceTime[10];
 	
 	void renderScene();
 	void renderSkysphere(int size);
 
+	bool confirmation(std::string text, bool twoOptions);
+	
 	void moveLight(double dt, int lightNum);
 	void renderLightPos(int lightNum);
 
 	void CalculateLights();
-	void RenderMesh(Mesh* mesh, bool enableLight, bool showBB = 0);
+	void RenderMesh(Mesh* mesh, bool enableLight, float BBSize = 0);
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderSprite(Mesh* mesh, int frameCount);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
