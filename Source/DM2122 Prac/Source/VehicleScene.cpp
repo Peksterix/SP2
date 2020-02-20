@@ -792,6 +792,8 @@ void VehicleScene::Update(double dt)
 				animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -24.3, -8, 2, 0);
 
 				animate.AddToBuffer(aniVal[ANI_SHIP_BRIDGE_ROTATION], 180, 0, 2, 0);
+				aniVal[ANI_VEHICLE_ROTATION_Y] = 0;
+				aniVal[ANI_VEHICLE_POSITION] = 0;
 			}
 			else
 			{
@@ -1137,6 +1139,7 @@ void VehicleScene::renderScene()
 			}
 			else 
 			{
+				
 				// Render Stats
 				modelStack.PushMatrix();
 				modelStack.Translate(-1.25, -2, 0);
@@ -1147,6 +1150,7 @@ void VehicleScene::renderScene()
 				modelStack.Translate(1, -1, 0); RenderText(meshList[GEO_TEXT], "Wheel: " + vehicle[j]->getWheel()->getName(), Color(1, 1, 1), 1);
 				modelStack.Translate(-0.5, -1, 0); RenderText(meshList[GEO_TEXT], "Weapon: " + vehicle[j]->getWeapon()->getName(), Color(1, 1, 1), 1);
 				modelStack.PopMatrix();
+				
 			}
 			modelStack.PopMatrix();
 			

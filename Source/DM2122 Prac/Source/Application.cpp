@@ -18,6 +18,7 @@ GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 static int	screenSize_x, screenSize_y;
+static bool windowActive;
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -55,7 +56,8 @@ void GetDesktopResolution(int& horizontal, int& vertical)
 
 bool Application::IsKeyPressed(unsigned short key)
 {
-    if (GetActiveWindow()) return ((GetAsyncKeyState(key) & 0x8001) != 0);
+	if (windowActive) return ((GetAsyncKeyState(key) & 0x8001) != 0);
+	else return 0;
 }
 
 void Application::GetScreenSize(int& x, int& y)
@@ -66,6 +68,7 @@ void Application::GetScreenSize(int& x, int& y)
 
 Application::Application()
 {
+	
 }
 
 Application::~Application()
@@ -128,7 +131,6 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-
 	//Scene* scene = new TestScene();
 	Scene* scene = new VehicleScene();
 
@@ -137,6 +139,8 @@ void Application::Run()
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
+		windowActive = GetActiveWindow();
+		
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
 		//Swap buffers
