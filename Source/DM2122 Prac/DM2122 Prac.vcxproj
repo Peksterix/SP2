@@ -128,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="gameStateManager.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="soundManager.h" />
     <ClInclude Include="Source\Animate.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Camera.h" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="gameStateManager.cpp" />
     <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="Source\Animate.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />

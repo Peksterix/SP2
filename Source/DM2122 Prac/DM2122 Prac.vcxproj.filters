@@ -99,6 +99,9 @@
     <ClInclude Include="gameStateManager.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
+    <ClInclude Include="soundManager.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\VehicleScene.cpp">
@@ -156,6 +159,9 @@
       <Filter>Source Files\Other</Filter>
     </ClCompile>
     <ClCompile Include="gameStateManager.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="soundManager.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
   </ItemGroup>
