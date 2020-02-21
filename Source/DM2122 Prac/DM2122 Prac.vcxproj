@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="gameStateManager.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Source\Animate.h" />
     <ClInclude Include="Source\Application.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Source\Wheel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gameStateManager.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Source\Animate.cpp" />
     <ClCompile Include="Source\Application.cpp" />
