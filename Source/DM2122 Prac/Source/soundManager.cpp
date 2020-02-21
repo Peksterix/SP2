@@ -13,9 +13,12 @@ soundManager::~soundManager()
 
 void soundManager::play2DSound(string sound)
 {
-	sound += ".mp3";
+	string preString = "audio/";
+	string fullString;
+	fullString = preString += sound += ".mp3";
 	irrklang::ISoundEngine* Engine = irrklang::createIrrKlangDevice();
-	Engine->play2D(sound.c_str());
+
+	Engine->play2D(fullString.c_str(), true);
 }
 /*
 void play3DSound(string sound, float posX, float posY, float posZ)
