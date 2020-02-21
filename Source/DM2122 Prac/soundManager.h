@@ -1,6 +1,7 @@
 #pragma once
 #include "../irrklang/include/irrKlang.h"
 #include <string>
+#pragma comment(lib, "../irrklang/lib/irrKlang.lib")
 using namespace std;
 
 class soundManager
