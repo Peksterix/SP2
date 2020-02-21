@@ -18,7 +18,7 @@ GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 static int	screenSize_x, screenSize_y;
-static bool windowActive;
+static bool windowActive = 1;
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -139,7 +139,7 @@ void Application::Run()
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-		windowActive = GetActiveWindow();
+		//windowActive = GetActiveWindow();
 		
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
