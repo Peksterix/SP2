@@ -25,11 +25,17 @@
     <Filter Include="Header Files\Objects">
       <UniqueIdentifier>{edbf701d-7fad-41b5-bd8c-dc47d8e59de8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Other">
+    <Filter Include="Header Files\Framework">
+      <UniqueIdentifier>{8e64c0ce-c179-448e-8e4e-98893d17754e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{ad5cb8a5-4957-49ac-a8bf-6ff2a57cf0df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Other">
+      <UniqueIdentifier>{84290f41-2f54-40dc-92ee-9062396c2824}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Other">
-      <UniqueIdentifier>{8e64c0ce-c179-448e-8e4e-98893d17754e}</UniqueIdentifier>
+      <UniqueIdentifier>{7018198e-2867-42c5-bd0c-c8d9f793ffb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,45 +58,54 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Light.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\LoadOBJ.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\LoadTGA.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Material.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\MeshBuilder.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\shader.hpp">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utility.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Entity.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Source\Animate.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OptionMenu.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateManager.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\soundManager.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
   </ItemGroup>
@@ -105,31 +120,31 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\LoadOBJ.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\LoadTGA.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\main.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\MeshBuilder.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\shader.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Source\Weapon.cpp">
       <Filter>Source Files\Objects</Filter>
@@ -144,6 +159,15 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Source\Animate.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OptionMenu.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StateManager.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\soundManager.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,14 +11,20 @@
 
 #include "Application.h"
 
+//#include "StateManager.h"
+
 #include "TestScene.h"
 #include "VehicleScene.h"
 
 GLFWwindow* m_window;
+bool isFullscreen = 0;
+float bounceTime = 0;
+
+static bool windowActive = 1;
+static int	screenSize_x, screenSize_y;
+
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
-static int	screenSize_x, screenSize_y;
-static bool windowActive;
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -53,6 +59,7 @@ void GetDesktopResolution(int& horizontal, int& vertical)
 	horizontal = desktop.right;
 	vertical = desktop.bottom;
 }
+
 
 bool Application::IsKeyPressed(unsigned short key)
 {
@@ -137,10 +144,12 @@ void Application::Run()
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window))
 	{
-		windowActive = GetActiveWindow();
+		//windowActive = GetActiveWindow();
 		
+		if (bounceTime > 0) bounceTime -= m_timer.getElapsedTime();
+
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
 		//Swap buffers

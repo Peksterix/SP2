@@ -9,18 +9,10 @@
 #include "Entity.h"
 #include "Vehicle.h"
 #include "Animate.h"
+#include "soundManager.h"
 
 class VehicleScene : public Scene
 {
-	enum GAME_STATES
-	{
-		S_LOADOUT = 0,
-		S_CUSTOMISE,
-		S_CUTSCENE,
-		S_FREECAM,
-		S_TOTAL,
-	};
-
 	enum ANIMATION_VALUES
 	{
 		ANI_CAMERA_POSITION_X = 0,
@@ -54,8 +46,13 @@ class VehicleScene : public Scene
 	{
 		ANIS_ANY = 0,
 		ANIS_RING,
-		ANIS_LOADOUT_TO_CUSTOMISE,
+		
+		ANIS_LOADOUT_TO_MENU,
+		ANIS_MENU_TO_LOADOUT,
+
+		ANIS_LOADOUT_CUSTOM_TO_CUSTOMISE,
 		ANIS_CUSTOMISE_TO_LOADOUT,
+		
 		ANIS_CUSTOMISE_PARTS,
 
 		ANIS_TOTAL,
@@ -69,10 +66,13 @@ class VehicleScene : public Scene
 
 	enum MENU_SELECTION
 	{
-		MENU_CUSTOMISATION_Y = 0,
-		MENU_CUSTOMISATION_X,
-		MENU_LOADOUT,
+		MENU_CUSTOMISATION_X = 0,
+		MENU_CUSTOMISATION_Y,
+		MENU_LOADOUT_X,
+		MENU_LOADOUT_Y,
 		MENU_CONIRMATION,
+		MENU_MAIN,
+		MENU_OPTIONS,
 
 		MENU_TOTAL,
 	};
@@ -119,7 +119,7 @@ class VehicleScene : public Scene
 		NUM_GEOMETRY,
 	};
 
-	enum Scene5_UNIFORM_TYPE
+	enum UNIFORM_TYPE
 	{
 		U_MVP = 0,
 		U_MODELVIEW,
@@ -247,7 +247,8 @@ private:
 	Light light[8];
 	Camera camera;
 	Animate animate;
-	
+	soundManager sound;
+
 	Chassis* custChassis[5];
 	Wheel* custWheel[5];
 	Weapon* custWeapon[5];
@@ -255,18 +256,16 @@ private:
 
 	bool animation[ANIS_TOTAL],
 		 showDebugInfo,
-		 showBoundingBox;
+		 showBoundingBox; // Debug
 
 	int	screenSizeX,
 		screenSizeY,
-		state,
 		inWindow,
 		debugValues[DEBUG_TOTAL],
 		menuSelected[MENU_TOTAL],
 		vehiclePartSelect[3];
 
-	float	aniVal[ANI_TOTAL],
-			bounceTime[10];
+	float	aniVal[ANI_TOTAL];
 	
 	std::string textWindow,
 				textInput;

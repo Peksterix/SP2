@@ -7,6 +7,7 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include <string>
+#include <conio.h>
 
 #define ROT_LIMIT 45.f;
 #define SCALE_LIMIT 5.f;
@@ -381,12 +382,6 @@ void TestScene::Init()
 	
 		meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 		meshList[GEO_TEXT]->textureID = LoadTGA("image//calibri.tga");
-		//meshList[GEO_LOGO] = MeshBuilder::GenerateText("Logo", 4, 4);
-		//meshList[GEO_LOGO]->textureID = LoadTGA("Image//Infinity Train Logo.tga");
-
-		meshList[GEO_SKY] = MeshBuilder::GenerateOBJ("Skysphere", "obj//Skysphere.obj");
-		meshList[GEO_SKY]->textureID = LoadTGA("image//Skysphere.tga");
-		meshList[GEO_FLOOR] = MeshBuilder::GenerateQuad("Floor", Color(1,1,1), 1, 1);
 
 		meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f);
 	
@@ -395,8 +390,12 @@ void TestScene::Init()
 	#pragma region Initialise Values
 		
 		splitScreen = 0;
-		Application::GetScreenSize(screenSizeX, screenSizeY);
 		currentCam = 0;
+		stateInput = 0;
+		Application::GetScreenSize(screenSizeX, screenSizeY);
+
+		for (int i = 0; i < 10; ++i) bounceTime[i] = 0;
+		input = "";
 
 	#pragma endregion
 
@@ -417,6 +416,22 @@ void TestScene::Update(double dt)
 		if (Application::IsKeyPressed('X')) splitScreen = 0;
 	}
 
+	if (stateInput)
+	{
+		while (1)
+		{
+			char currKey = _getche();
+			if (currKey == VK_RETURN) break;
+			input += currKey;
+		}
+	}
+
+	if (Application::IsKeyPressed(VK_RETURN) && !stateInput)
+	{
+		stateInput = 1;
+	}
+
+	if (bounceTime[0] > 0) bounceTime[0] -= dt;
 	//camera[0].Update(dt, 0.);
 	//camera[1].Update(dt, 0.);
 }
@@ -472,12 +487,11 @@ void TestScene::Render()
 void TestScene::renderScene()
 {
 	//renderSkysphere(100);
-	
-	modelStack.PushMatrix();
-	RenderText(meshList[GEO_TEXT], "Test" ,Color(1, 0, 0));
-	modelStack.PopMatrix();
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 4, 0, 56);
+	RenderTextOnScreen(meshList[GEO_TEXT], "FPS: " + std::to_string(fps), Color(0, 1, 0), 1, 0, 58, 1);
+
+	RenderTextOnScreen(meshList[GEO_TEXT], "In: " + input, Color(0, 1, 0), 4, 0, 54, 1);
+	
 	//RenderSpriteOnScreen(meshList[GEO_LOGO], 15, 60, 0, 20, 20);
 }
 
@@ -485,7 +499,7 @@ void TestScene::renderSkysphere(int size)
 {
 	modelStack.PushMatrix();
 	modelStack.Scale(size, size, size);
-	RenderMesh(meshList[GEO_SKY], 0);
+	//RenderMesh(meshList[GEO_SKY], 0);
 	modelStack.PopMatrix();
 }
 
@@ -502,6 +516,7 @@ bool TestScene::CheckCollision(Mesh* one, Mesh* two, float x1, float y1, float z
 
 	return collisionX && collisionY && collisionZ;
 }
+
 /*
 bool TestScene::CheckT1Coll(float x, float y, float z)
 {
@@ -759,7 +774,7 @@ void TestScene::RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float 
 	glEnable(GL_DEPTH_TEST);
 }
 
-void TestScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+void TestScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int type)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check return; 
 		return;
@@ -787,7 +802,8 @@ void TestScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * .5f, 0, 0); //1.0f is the spacing of each character, you may change this value 
+		if (type == 0) characterSpacing.SetToTranslation(i * .5f - (text.length() * 0.5f) / 2, 0, 0); //1.0f is the spacing of each character, you may change this value 
+		else characterSpacing.SetToTranslation(i * .5f, 0, 0);
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 

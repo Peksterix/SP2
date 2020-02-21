@@ -153,13 +153,16 @@ private:
 	Camera camera[2];
 	Animate animate;
 
-	bool	splitScreen;
+	bool	stateInput,	
+			splitScreen;
 
 	int	screenSizeX,
 		screenSizeY,
 		currentCam;
 
 	float	bounceTime[10];
+
+	std::string input;
 	
 	void renderScene();
 	void renderSkysphere(int size);
@@ -175,7 +178,7 @@ private:
 	void RenderMesh(Mesh* mesh, bool enableLight, float BBSize = 0);
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderSprite(Mesh* mesh, int frameCount);
-	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int type = 0);
 	void RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float y, float sizex, float sizey);
 	void CalculateFPS();
 
