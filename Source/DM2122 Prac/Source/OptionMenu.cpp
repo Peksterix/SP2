@@ -8,10 +8,6 @@
 #include "LoadTGA.h"
 #include "shader.hpp"
 
-extern bool isFullscreen;	// Try to use accessor instead
-extern float bounceTime;	// Try to use accessor instead
-extern GLFWwindow* m_window;	// Try to use accessor instead
-
 OptionMenu* OptionMenu::instance = nullptr;
 
 OptionMenu::OptionMenu()
@@ -23,6 +19,8 @@ OptionMenu::OptionMenu()
 
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
+	
+	for (int i = 0; i < OPTIONS_TOTAL; ++i) menuSelected[i] = 0;
 }
 
 OptionMenu::~OptionMenu()
@@ -39,51 +37,52 @@ OptionMenu* OptionMenu::getInstance()
 
 void OptionMenu::Update(double dt)
 {
-	if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && bounceTime <= 0)
+	if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && Application::getBounceTime() <= 0)
 	{
 		if (menuSelected[MENU_OPTIONS_Y] != 0)
 			menuSelected[MENU_OPTIONS_Y]--;
 		else
 			menuSelected[MENU_OPTIONS_Y] = 1;
 
-		bounceTime = 0.25f;
+		Application::setBounceTime(0.2f);
 	}
-	if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && bounceTime <= 0)
+	if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
 	{
 		if (menuSelected[MENU_OPTIONS_Y] != 1)
 			menuSelected[MENU_OPTIONS_Y]++;
 		else
 			menuSelected[MENU_OPTIONS_Y] = 0;
 
-		bounceTime = 0.25f;
+		Application::setBounceTime(0.2f);
 	}
-	else if (Application::IsKeyPressed(VK_RETURN) && menuSelected[MENU_OPTIONS_Y] == 0 && bounceTime <= 0)
+	if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
 	{
-		int screenSizeX, screenSizeY;
-		Application::GetScreenSize(screenSizeX, screenSizeY);
-
-		if (isFullscreen)
+		if (menuSelected[MENU_OPTIONS_Y] == 0)
 		{
-			isFullscreen = 0;
-			glfwSetWindowMonitor(m_window, NULL, -2, 30, screenSizeX, screenSizeY, NULL);
+			int screenSizeX, screenSizeY;
+			Application::GetScreenSize(screenSizeX, screenSizeY);
+
+			if (Application::getFullscreen() == 1)
+			{
+				Application::setFullscreen(0);
+				glfwSetWindowMonitor(Application::getWindow(), NULL, -2, 30, screenSizeX, screenSizeY, NULL);
+			}
+			else
+			{
+				Application::setFullscreen(1);
+				glfwSetWindowMonitor(Application::getWindow(), glfwGetPrimaryMonitor(), NULL, NULL, screenSizeX, screenSizeY, NULL);
+			}
 		}
 		else
 		{
-			isFullscreen = 1;
-			glfwSetWindowMonitor(m_window, glfwGetPrimaryMonitor(), NULL, NULL, screenSizeX, screenSizeY, NULL);
+			if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
+				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
+
+			if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
+				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_GAME);
 		}
-
-		bounceTime = 0.25f;
+		Application::setBounceTime(0.2f);
 	}
-	else if (Application::IsKeyPressed(VK_RETURN) && menuSelected[MENU_OPTIONS_Y] == 1 && bounceTime <= 0)
-	{
-		// State check for game?
-		StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
-
-		bounceTime = 0.25f;
-	}
-
-	if (bounceTime > 0) bounceTime -= dt;
 }
 
 void OptionMenu::Render()

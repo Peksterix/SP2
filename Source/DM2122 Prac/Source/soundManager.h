@@ -8,15 +8,15 @@ using namespace std;
 class soundManager
 {
 private:
-	float posX;
-	float posY;
-	float posZ;
+	//float posX;
+	//float posY;
+	//float posZ;
 	string addSound;
 
 public:
 	soundManager();
 	~soundManager();
-	void play2DSound(string sound);
+	void play2DSound(string sound, bool isLoop);
 	/*void play3DSound(string sound, float posX, float posY, float posZ);
 
 	float getPosX();

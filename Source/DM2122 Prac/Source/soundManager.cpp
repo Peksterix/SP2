@@ -10,16 +10,21 @@ soundManager::~soundManager()
 
 }
 
-
-void soundManager::play2DSound(string sound)
+void soundManager::play2DSound(string sound, bool isLoop)
 {
 	string preString = "audio/";
 	string fullString;
 	fullString = preString += sound += ".mp3";
 	irrklang::ISoundEngine* Engine = irrklang::createIrrKlangDevice();
 
-	Engine->play2D(fullString.c_str(), true);
+	//irrklang::ISoundSource* playSound = 
+	Engine->play2D(fullString.c_str(), isLoop);
+
+	/*if(playSound)
+	playSound->setDefaultVolume(0.25);*/
+
 }
+
 /*
 void play3DSound(string sound, float posX, float posY, float posZ)
 {

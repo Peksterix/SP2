@@ -21,11 +21,6 @@ static float framesPerSecond;
 static int fps;
 static float lastTime;
 
-extern bool isFullscreen;	// Try to use accessor instead
-extern GLFWwindow* m_window;	// Try to use accessor instead
-extern float bounceTime;	// Try to use accessor instead
-//static bool isFullscreen = 1;
-
 VehicleScene::VehicleScene()
 {
 	for (int i = 0; i < NUM_GEOMETRY; ++i)
@@ -424,9 +419,6 @@ void VehicleScene::Init()
 		meshList[GEO_SKYSPHERE] = MeshBuilder::GenerateOBJ("Skysphere (Space)", "obj//Skysphere.obj");
 		meshList[GEO_SKYSPHERE]->textureID = LoadTGA("image//Flat Space2.tga");
 
-		meshList[GEO_SHOWCASEFLOOR] = MeshBuilder::GenerateQuad("Floor", Color(1,1,1), 20, 20);
-		meshList[GEO_SHOWCASEFLOOR]->textureID = LoadTGA("image//ShowcaseFloor.tga");
-
 		meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 8, 16, 1.f);
 	
 	#pragma endregion
@@ -437,6 +429,7 @@ void VehicleScene::Init()
 		
 		showDebugInfo = 1;
 		showBoundingBox = 0;
+		currentPlayer = 1;
 		inWindow = WINDOW_NONE;
 		for (int i = 0; i < 3; ++i)
 		{
@@ -481,7 +474,7 @@ void VehicleScene::Init()
 
 	#pragma endregion
 
-	sound.play2DSound("Vivaldi - Four Seasons - Winter");
+	//sound.play2DSound("Vivaldi - Four Seasons - Winter", true);
 }
 
 void VehicleScene::Update(double dt)
@@ -505,7 +498,7 @@ void VehicleScene::Update(double dt)
 	
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_MAINMENU)
 	{
-		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && bounceTime <= 0)
+		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && Application::getBounceTime() <= 0)
 		{
 			if (menuSelected[MENU_MAIN] != 0)
 			{
@@ -514,9 +507,9 @@ void VehicleScene::Update(double dt)
 			else
 				menuSelected[MENU_MAIN] = 3;
 
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 		}
-		else if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && bounceTime <= 0)
+		else if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
 		{
 			if (menuSelected[MENU_MAIN] != 3)
 			{
@@ -526,11 +519,11 @@ void VehicleScene::Update(double dt)
 				menuSelected[MENU_MAIN] = 0;
 
 
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 		}
-		else if (Application::IsKeyPressed(VK_RETURN) && bounceTime <= 0)
+		else if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 
 			if (menuSelected[MENU_MAIN] == 0 || menuSelected[MENU_MAIN] == 1)
 			{
@@ -562,32 +555,32 @@ void VehicleScene::Update(double dt)
 			}
 			else if (menuSelected[MENU_MAIN] == 3)
 			{
-				glfwSetWindowShouldClose(m_window, GL_TRUE);
+				glfwSetWindowShouldClose(Application::getWindow(), GL_TRUE);
 			}
 		}
 	}
-	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
 	{
 		/*
-		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && bounceTime <= 0)
+		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && Application::getBounceTime() <= 0)
 		{
 			if (menuSelected[MENU_OPTIONS] != 0)
 				menuSelected[MENU_OPTIONS]--;
 			else
 				menuSelected[MENU_OPTIONS] = 1;
 
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 		}
-		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && bounceTime <= 0)
+		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
 		{
 			if (menuSelected[MENU_OPTIONS] != 1)
 				menuSelected[MENU_OPTIONS]++;
 			else
 				menuSelected[MENU_OPTIONS] = 0;
 
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 		}
-		else if (Application::IsKeyPressed(VK_RETURN) && menuSelected[MENU_OPTIONS] == 0 && bounceTime <= 0)
+		else if (Application::IsKeyPressed(VK_RETURN) && menuSelected[MENU_OPTIONS] == 0 && Application::getBounceTime() <= 0)
 		{
 			if (isFullscreen)
 			{
@@ -600,39 +593,39 @@ void VehicleScene::Update(double dt)
 				glfwSetWindowMonitor(m_window, glfwGetPrimaryMonitor(), NULL, NULL, screenSizeX, screenSizeY, NULL);
 			}
 			
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 		}
-		else if (Application::IsKeyPressed(VK_RETURN) && menuSelected[MENU_OPTIONS] == 1 && bounceTime <= 0)
+		else if (Application::IsKeyPressed(VK_RETURN) && menuSelected[MENU_OPTIONS] == 1 && Application::getBounceTime() <= 0)
 		{
 			// State check for game?
 			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
 
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 		}
 		*/
 		OptionMenu::getInstance()->Update(dt);
 	}
-	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_CUSTOM || StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_PLAY)
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_CUSTOM || StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_PLAY)
 	{
-		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && !animation[ANIS_ANY] && bounceTime <= 0)
+		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 			--menuSelected[MENU_LOADOUT_Y];
 
 			if (menuSelected[MENU_LOADOUT_Y] > 1) menuSelected[MENU_LOADOUT_Y] = 0;
 			if (menuSelected[MENU_LOADOUT_Y] < 0) menuSelected[MENU_LOADOUT_Y] = 1;
 		}
-		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && !animation[ANIS_ANY] && bounceTime <= 0)
+		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 			++menuSelected[MENU_LOADOUT_Y];
 
 			if (menuSelected[MENU_LOADOUT_Y] > 1) menuSelected[MENU_LOADOUT_Y] = 0;
 			if (menuSelected[MENU_LOADOUT_Y] < 0) menuSelected[MENU_LOADOUT_Y] = 1;
 		}
-		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && !animation[ANIS_ANY] && bounceTime <= 0)
+		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 
 			if (inWindow == WINDOW_CONFIRM)
 			{
@@ -648,9 +641,9 @@ void VehicleScene::Update(double dt)
 				animation[ANIS_ANY] = 1;
 			}
 		}
-		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && !animation[ANIS_ANY] && bounceTime <= 0)
+		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 			
 			if (inWindow == WINDOW_CONFIRM)
 			{
@@ -666,9 +659,9 @@ void VehicleScene::Update(double dt)
 				animation[ANIS_ANY] = 1;
 			}
 		}
-		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY] && bounceTime <= 0)
+		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 			Chassis* tempChassis = vehicle[menuSelected[MENU_LOADOUT_X]]->getChassis();
 
 			if (inWindow)
@@ -735,25 +728,40 @@ void VehicleScene::Update(double dt)
 					// Select Vehicle
 					else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_PLAY)
 					{
-						// Play the Game
-						StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_FREECAM); // Temp
+						Application::getPlayer(currentPlayer - 1)->setVehicle(menuSelected[MENU_LOADOUT_X]);
+
+						if (currentPlayer == Application::getPlayerNum())
+						{
+							StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAP0);
+							//StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_FREECAM); // Temp
+						}
+						else
+						{
+							++currentPlayer;
+						}
 					}
 				}
 				
-				// Back to main menu
+				// Back to main menu || Prev Player
 				else if (menuSelected[MENU_CONIRMATION] == 1)
 				{
-					StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
-					animation[ANIS_ANY] = 1;
-					animation[ANIS_LOADOUT_TO_MENU] = 1;
+					if (currentPlayer != 1)
+					{
+						--currentPlayer;
+					}
+					else
+					{
+						StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
+						animation[ANIS_ANY] = 1;
+						animation[ANIS_LOADOUT_TO_MENU] = 1;
 
-					animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], 110, -43.996, 1, 0);
-					animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 12, 58.517, 1, 0);
-					animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -26, 45.608, 1, 1);
-					animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], 130, -43.164, 0.5, 0);
-					animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 4, 58.011, 0.5, 0);
-					animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -8, 45.053, 0.5, 0);
-					
+						animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_X], 110, -43.996, 1, 0);
+						animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Y], 12, 58.517, 1, 0);
+						animate.AddToBuffer(aniVal[ANI_CAMERA_POSITION_Z], -26, 45.608, 1, 1);
+						animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_X], 130, -43.164, 0.5, 0);
+						animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Y], 4, 58.011, 0.5, 0);
+						animate.AddToBuffer(aniVal[ANI_CAMERA_TARGET_Z], -8, 45.053, 0.5, 0);
+					}
 				}
 				inWindow = WINDOW_NONE;
 			}
@@ -776,8 +784,17 @@ void VehicleScene::Update(double dt)
 						inWindow = WINDOW_NOTIFY;
 						textWindow = "Vehicle is Empty";
 					}
-					else if (menuSelected[MENU_LOADOUT_Y] == 0) textWindow = "Play as Vechicle " + std::to_string(menuSelected[MENU_LOADOUT_X] + 1) + "?";
-					else if (menuSelected[MENU_LOADOUT_Y] == 1) textWindow = "Exit to Main Menu?";
+					else if (menuSelected[MENU_LOADOUT_Y] == 0)
+					{
+						textWindow = "Player: " + std::to_string(currentPlayer) + ", Play as Vechicle " + std::to_string(menuSelected[MENU_LOADOUT_X] + 1) + "?";
+					}
+					else if (menuSelected[MENU_LOADOUT_Y] == 1)
+					{
+						if (currentPlayer != 1)
+							textWindow = "Go Back?";
+						else
+							textWindow = "Exit to Main Menu?";
+					}
 					
 				}
 			}
@@ -786,31 +803,31 @@ void VehicleScene::Update(double dt)
 		if (menuSelected[MENU_LOADOUT_X] > 7) menuSelected[MENU_LOADOUT_X] = 0;
 		if (menuSelected[MENU_LOADOUT_X] < 0) menuSelected[MENU_LOADOUT_X] = 7;
 	}
-	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_CUSTOMISE)
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_CUSTOMISE)
 	{
-		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && bounceTime <= 0 && !animation[ANIS_ANY] && !inWindow)
+		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && Application::getBounceTime() <= 0 && !animation[ANIS_ANY] && !inWindow)
 		{
 			--menuSelected[MENU_CUSTOMISATION_Y];
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 			if (menuSelected[MENU_CUSTOMISATION_Y] > 4) menuSelected[MENU_CUSTOMISATION_Y] = 0;
 			if (menuSelected[MENU_CUSTOMISATION_Y] < 0) menuSelected[MENU_CUSTOMISATION_Y] = 4;
 			if (menuSelected[MENU_CUSTOMISATION_Y] >= 0 && menuSelected[MENU_CUSTOMISATION_Y] <= 2) menuSelected[MENU_CUSTOMISATION_X] = vehiclePartSelect[menuSelected[MENU_CUSTOMISATION_Y]];
 			//else if (menuSelected[MENU_CUSTOMISATION_Y] == 3) menuSelected[MENU_CUSTOMISATION_X] = showBoundingBox;
 			else menuSelected[MENU_CUSTOMISATION_X] = 0;
 		}
-		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && bounceTime <= 0 && !animation[ANIS_ANY] && !inWindow)
+		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0 && !animation[ANIS_ANY] && !inWindow)
 		{
 			++menuSelected[MENU_CUSTOMISATION_Y];
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 			if (menuSelected[MENU_CUSTOMISATION_Y] > 4) menuSelected[MENU_CUSTOMISATION_Y] = 0;
 			if (menuSelected[MENU_CUSTOMISATION_Y] < 0) menuSelected[MENU_CUSTOMISATION_Y] = 4;
 			if (menuSelected[MENU_CUSTOMISATION_Y] >= 0 && menuSelected[MENU_CUSTOMISATION_Y] <= 2) menuSelected[MENU_CUSTOMISATION_X] = vehiclePartSelect[menuSelected[MENU_CUSTOMISATION_Y]];
 			//else if (menuSelected[MENU_CUSTOMISATION_Y] == 3) menuSelected[MENU_CUSTOMISATION_X] = showBoundingBox;
 			else menuSelected[MENU_CUSTOMISATION_X] = 0;
 		}		
-		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && bounceTime <= 0 && !animation[ANIS_ANY] && inWindow != WINDOW_NOTIFY)
+		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && Application::getBounceTime() <= 0 && !animation[ANIS_ANY] && inWindow != WINDOW_NOTIFY)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 
 			if (inWindow == WINDOW_CONFIRM)
 			{
@@ -840,7 +857,7 @@ void VehicleScene::Update(double dt)
 				else if (menuSelected[MENU_CUSTOMISATION_Y] == 3)
 				{
 					aniVal[ANI_VEHICLE_ROTATION_Y] += dt * 40;
-					bounceTime = 0.f;
+					Application::setBounceTime(0.f);
 				}
 				else
 				{
@@ -849,9 +866,9 @@ void VehicleScene::Update(double dt)
 				}
 			}
 		}
-		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && bounceTime <= 0 && !animation[ANIS_ANY] && inWindow != WINDOW_NOTIFY)
+		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && Application::getBounceTime() <= 0 && !animation[ANIS_ANY] && inWindow != WINDOW_NOTIFY)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 
 			if (inWindow == WINDOW_CONFIRM)
 			{
@@ -882,7 +899,7 @@ void VehicleScene::Update(double dt)
 				else if (menuSelected[MENU_CUSTOMISATION_Y] == 3)
 				{
 					aniVal[ANI_VEHICLE_ROTATION_Y] -= dt * 40;
-					bounceTime = 0.f;
+					Application::setBounceTime(0.f);
 				}
 				else
 				{
@@ -891,9 +908,9 @@ void VehicleScene::Update(double dt)
 				}
 			}
 		}
-		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY] && menuSelected[MENU_CUSTOMISATION_Y] == 4 && bounceTime <= 0)
+		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY] && menuSelected[MENU_CUSTOMISATION_Y] == 4 && Application::getBounceTime() <= 0)
 		{
-			bounceTime = 0.25f;
+			Application::setBounceTime(0.2f);
 			Weapon* tempWeapon = vehicle[menuSelected[MENU_LOADOUT_X]]->getWeapon();
 			Wheel* tempWheel = vehicle[menuSelected[MENU_LOADOUT_X]]->getWheel();
 			Chassis* tempChassis = vehicle[menuSelected[MENU_LOADOUT_X]]->getChassis();
@@ -1045,7 +1062,7 @@ void VehicleScene::Update(double dt)
 
 	// Animation Logic
 	// animation[ANIS_ANY] = animate.Update(0.02);
-	if (fps >= 40) animation[ANIS_ANY] = animate.Update(0.02);
+	if (fps >= 40 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU) animation[ANIS_ANY] = animate.Update(0.02);
 
 	if (!animation[ANIS_ANY])
 		for (int i = 0; i < ANIS_TOTAL; ++i)
@@ -1063,16 +1080,13 @@ void VehicleScene::Render()
 	//Clear color & depth buffer every frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
+	// Viewport
 	// Full window	
 	glViewport(0, 0, screenSizeX, screenSizeY);
 	viewStack.LoadIdentity();
-	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z,
-		camera.target.x, camera.target.y, camera.target.z,
-		camera.up.x, camera.up.y, camera.up.z);
+	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
-
 	CalculateLights();
-
 	renderScene();
 	
 }

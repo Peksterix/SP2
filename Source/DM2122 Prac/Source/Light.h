@@ -32,6 +32,7 @@ struct Light
 		kC = 1.f;
 		kL = 0.f;
 		kQ = 0.f;
+
 	}
 };
 

@@ -72,7 +72,7 @@ class VehicleScene : public Scene
 		MENU_LOADOUT_Y,
 		MENU_CONIRMATION,
 		MENU_MAIN,
-		MENU_OPTIONS,
+		//MENU_OPTIONS,
 
 		MENU_TOTAL,
 	};
@@ -110,9 +110,8 @@ class VehicleScene : public Scene
 		GEO_WAREHOUSE_BRIDGE,
 		GEO_WAREHOUSE_TEETH_TOP,
 		GEO_WAREHOUSE_TEETH_BOTTOM,
+		
 		GEO_SKYSPHERE,
-
-		GEO_SHOWCASEFLOOR,
 
 		GEO_TEXT,
 		GEO_UI,
@@ -261,6 +260,7 @@ private:
 	int	screenSizeX,
 		screenSizeY,
 		inWindow,
+		currentPlayer,
 		debugValues[DEBUG_TOTAL],
 		menuSelected[MENU_TOTAL],
 		vehiclePartSelect[3];
