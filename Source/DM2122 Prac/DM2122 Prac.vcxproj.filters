@@ -108,6 +108,9 @@
     <ClInclude Include="Source\soundManager.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Physics.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\VehicleScene.cpp">
@@ -168,6 +171,9 @@
       <Filter>Source Files\Other</Filter>
     </ClCompile>
     <ClCompile Include="Source\soundManager.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
   </ItemGroup>
