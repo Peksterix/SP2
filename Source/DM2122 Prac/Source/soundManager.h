@@ -13,10 +13,14 @@ private:
 	//float posZ;
 	string addSound;
 
+	float vol;
+	irrklang::ISoundEngine* Engine;
+	irrklang::ISoundSource* playSound;
+
 public:
 	soundManager();
 	~soundManager();
-	void play2DSound(string sound, bool isLoop);
+	void play2DSound(string sound, bool isLoop, float volume);
 	/*void play3DSound(string sound, float posX, float posY, float posZ);
 
 	float getPosX();

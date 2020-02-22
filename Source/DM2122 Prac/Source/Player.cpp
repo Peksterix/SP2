@@ -38,7 +38,9 @@ void Player::setVehicle(int vehicleSlot)
 	vehicle = new Vehicle;
 
 	// Access vehicle in vehcile slot
-	vehicle->setChassis(2);
-	vehicle->setWheel(0);
-	vehicle->setWeapon(0);
+
+	// Temp
+	vehicle->setChassis(vehicleSlot);
+	vehicle->setWheel(vehicleSlot);
+	vehicle->setWeapon(vehicleSlot);
 }

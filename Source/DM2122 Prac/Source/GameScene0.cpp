@@ -429,7 +429,7 @@ void GameScene0::Update(double dt)
 		if (Application::IsKeyPressed('8')) glEnable(GL_CULL_FACE);						// Enable Cull
 		if (Application::IsKeyPressed('9')) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	// Normal
 		if (Application::IsKeyPressed('0')) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// Wireframe
-		if (Application::IsKeyPressed('Z'))
+		if (Application::IsKeyPressed('X'))
 		{
 			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_FREECAM);
 			camera[0].Update(0.01, Math::RadianToDegree(atan2(camera[0].target.x - camera[0].position.x, camera[0].target.z - camera[0].position.z)),
@@ -441,32 +441,44 @@ void GameScene0::Update(double dt)
 	for (int i = 0; i < Application::getPlayerNum(); ++i)
 	{
 		Player* tempPlayer = Application::getPlayer(i);
+		Vehicle* tempVehicle = tempPlayer->getVehicle();
 
 		if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
 		{
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->UP)))
 			{
 				// && Application::getBounceTime() <= 0
-				tempPlayer->getVehicle()->position.x += dt * 10;
+				//tempVehicle->position.z += dt * 10;
+				
+				// +Z is foward
+				tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+				tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 			}
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->DOWN)))
 			{
-				tempPlayer->getVehicle()->position.x -= dt * 10;
+				//tempVehicle->position.z -= dt * 10;
+
+				tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+				tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 			}
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->LEFT)))
 			{
-				tempPlayer->getVehicle()->position.z += dt * 10;
+				//tempVehicle->position.x += dt * 10;
+
+				// +X is Left
+				tempVehicle->rotate.y += dt * 30;
 			}
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->RIGHT)))
 			{
-				tempPlayer->getVehicle()->position.z -= dt * 10;
+				//tempVehicle->position.x -= dt * 10;
+				tempVehicle->rotate.y -= dt * 30;
 			}
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->ENTER)))
 			{
 
 			}
 
-			camera[i].Update(dt, tempPlayer->getVehicle(), Position(0, 1, 0), Position(0, 0, 0));
+			camera[i].Update(dt, tempVehicle, Position(0, 16, -40), Position(0, 8, 4));
 		}
 		else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
 		{
@@ -585,6 +597,13 @@ void GameScene0::Render()
 
 void GameScene0::renderScene()
 {
+	modelStack.PushMatrix();
+	
+	if (Application::getPlayerNum() == 1 || Application::getPlayerNum() == 4)
+		modelStack.Scale(1, 1, 1);
+	else
+		modelStack.Scale(1, Application::getPlayerNum(), 1);
+
 	renderSkysphere(100);
 
 	// Render Vehicles
@@ -593,7 +612,7 @@ void GameScene0::renderScene()
 		Vehicle* tempVehicle = Application::getPlayer(i)->getVehicle();
 
 		modelStack.PushMatrix();
-		modelStack.Translate(tempVehicle->position.x, tempVehicle->position.y, tempVehicle->position.z);
+		modelStack.Translate(tempVehicle->position.x, tempVehicle->position.y + tempVehicle->getChassis()->getMesh()->size.y / 2, tempVehicle->position.z);
 		modelStack.Rotate(tempVehicle->rotate.z, 0, 0, 1);
 		modelStack.Rotate(tempVehicle->rotate.y, 0, 1, 0);
 		modelStack.Rotate(tempVehicle->rotate.x, 1, 0, 0);
@@ -630,6 +649,7 @@ void GameScene0::renderScene()
 
 		modelStack.PopMatrix();
 	}
+
 	
 	// Render Options Text
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
@@ -686,12 +706,14 @@ void GameScene0::renderScene()
 			for (int i = 0; i < 8; ++i) renderLightPos(i);
 		}
 	}
+	
+	modelStack.PopMatrix();
 }
 
 void GameScene0::renderSkysphere(int size)
 {
 	modelStack.PushMatrix();
-	modelStack.Scale(size ,size, size);
+	modelStack.Scale(size, size * Application::getPlayerNum(), size);
 
 	RenderMesh(meshList[GEO_SKYSPHERE], false);
 	RenderMesh(meshList[GEO_FLOOR], false);
@@ -898,7 +920,11 @@ void GameScene0::RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity(); //Reset modelStack 
 	modelStack.Translate(x, y, 0);
-	modelStack.Scale(sizex, sizey, 1);
+
+	if (Application::getPlayerNum() == 1 || Application::getPlayerNum() == 4)
+		modelStack.Scale(sizex, sizex, 1);
+	else
+		modelStack.Scale(sizex, sizex * Application::getPlayerNum(), 1);
 
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
@@ -939,7 +965,8 @@ void GameScene0::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	modelStack.PushMatrix(); 
 	modelStack.LoadIdentity(); //Reset modelStack 
 	modelStack.Translate(x, y, 0); 
-	
+
+	//modelStack.Scale(size, size, size);
 	if (Application::getPlayerNum() == 1 || Application::getPlayerNum() == 4)
 		modelStack.Scale(size, size, size);
 	else 

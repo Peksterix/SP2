@@ -11,10 +11,6 @@
 
 #include "StateManager.h"
 
-//GLFWwindow* m_window;
-//bool isFullscreen = 0;
-//float bounceTime = 0;
-
 static bool windowActive = 1;
 static int	screenSize_x, screenSize_y;
 
@@ -22,7 +18,7 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 bool Application::isFullscreen = 0;
-int Application::playerNum = 1;
+int Application::playerNum = 2;
 float Application::bounceTime = 0;
 GLFWwindow* Application::m_window = NULL;
 Player* Application::player[4];
@@ -138,10 +134,10 @@ void Application::Init()
 	player[0]->setInput(player[0]->DOWN, 'S');
 	player[0]->setInput(player[0]->LEFT, 'A');
 	player[0]->setInput(player[0]->RIGHT, 'D');
-	player[0]->setInput(player[0]->ENTER, 'X');
+	player[0]->setInput(player[0]->ENTER, 'Z');
 	player[1]->setInput(player[0]->UP, 'T');
-	player[1]->setInput(player[0]->DOWN, 'F');
-	player[1]->setInput(player[0]->LEFT, 'G');
+	player[1]->setInput(player[0]->DOWN, 'G');
+	player[1]->setInput(player[0]->LEFT, 'F');
 	player[1]->setInput(player[0]->RIGHT, 'H');
 	player[1]->setInput(player[0]->ENTER, 'V');
 	player[2]->setInput(player[0]->UP, 'I');
@@ -160,8 +156,8 @@ void Application::Run()
 {
 	//Main Loop
 
-	StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAINMENU);
 	//StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_TEST);
+	StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAINMENU);
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window))

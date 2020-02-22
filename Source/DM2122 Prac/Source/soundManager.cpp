@@ -1,4 +1,5 @@
 #include "soundManager.h"
+#include "StateManager.h"
 
 soundManager::soundManager()
 {
@@ -10,19 +11,30 @@ soundManager::~soundManager()
 
 }
 
-void soundManager::play2DSound(string sound, bool isLoop)
+void soundManager::play2DSound(string sound, bool isLoop, float volume)
 {
-	string preString = "audio/";
-	string fullString;
-	fullString = preString += sound += ".mp3";
-	irrklang::ISoundEngine* Engine = irrklang::createIrrKlangDevice();
+    string preString = "audio/";
+    string fullString;
+    fullString = preString += sound += ".mp3";
+    Engine = irrklang::createIrrKlangDevice();
 
-	//irrklang::ISoundSource* playSound = 
-	Engine->play2D(fullString.c_str(), isLoop);
+    playSound = Engine->addSoundSourceFromFile(fullString.c_str());
+    vol = volume / 10;
+    playSound->setDefaultVolume(vol);
 
-	/*if(playSound)
-	playSound->setDefaultVolume(0.25);*/
+    Engine->play2D(playSound, isLoop);
 
+    if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
+    {
+        Engine->stopAllSounds();
+        Engine->drop();
+    }
+
+    else
+    {
+        Engine->stopAllSounds();
+        Engine->drop();
+    }
 }
 
 /*

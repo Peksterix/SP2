@@ -120,41 +120,6 @@ else if (currentCam == 1)
 	if (Application::IsKeyPressed(VK_LEFT)) TulipDir[0][0] += 2;
 	if (Application::IsKeyPressed(VK_RIGHT)) TulipDir[0][0] -= 2;
 
-	// Tulip Logic
-	{
-		// Jump
-		TulipPos[0][1] += sin(aniVal[4][0] * (3.14159265358979323846f / 180.0)) * 0.5;
-
-		// If below Tulip Collision,
-		if (!CheckT1Coll(0, -1, 0) && !animation[4])
-		{
-			TulipPos[0][1] -= dt * 20;
-		}
-
-		// If Tulip Collided with Floor,
-		if (CheckCollision(meshList[GEO_TULIP_JACKET], meshList[GEO_FLOOR], TulipPos[0][0], TulipPos[0][1] -1 , TulipPos[0][2], 0.05, 0, -6, 0, 1200) && animation[0])
-		{
-			TulipPos[0][0] -= dt * 40 * 2;
-		}
-
-		// If Tulip is out of Range
-		if (TulipPos[0][0] <= -400 || TulipPos[0][0] >= 400 || TulipPos[0][1] <= -10 || TulipPos[0][2] <= -400 || TulipPos[0][2] >= 400)
-		{
-			TulipPos[0][0] = -120;
-			TulipPos[0][1] = 100;
-			TulipPos[0][2] = 0;
-		}
-
-		// If Tulip is not on the Unfinished Train,
-		if (CheckCollision(meshList[GEO_TULIP_JACKET], meshList[GEO_UTRAINUP], TulipPos[0][0], TulipPos[0][1], TulipPos[0][2], 0.05, -24.8 * 2 + aniVal[1][1], 18.5 * 2 + aniVal[1][0], 0, 4.4))
-		{
-			TulipPos[0][0] = -120;
-			TulipPos[0][1] = 100;
-			TulipPos[0][2] = 0;
-			currentCam = 2;
-		}
-	}
-
 	TulipCam[0][0] = TulipPos[0][0] - 2 * cos(TulipDir[0][0] * (pi / 180.0));
 	TulipCam[0][1] = TulipPos[0][1] + TulipCam[0][3] * 0.01;
 	TulipCam[0][2] = TulipPos[0][2] + 2 * sin(TulipDir[0][0] * (pi / 180.0));

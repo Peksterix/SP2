@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Light.h"
 #include "Animate.h"
+#include "Entity.h"
 
 class TestScene : public Scene
 {
@@ -24,7 +25,7 @@ class TestScene : public Scene
 		NUM_GEOMETRY,
 	};
 
-	enum Scene5_UNIFORM_TYPE
+	enum UNIFORM_TYPE
 	{
 		U_MVP = 0,
 		U_MODELVIEW,
@@ -152,15 +153,15 @@ private:
 	Light light[8];
 	Camera camera[2];
 	Animate animate;
+	Entity* veh;
 
 	bool	stateInput,	
+			tempBool,
 			splitScreen;
 
 	int	screenSizeX,
 		screenSizeY,
 		currentCam;
-
-	float	bounceTime[10];
 
 	std::string input;
 	

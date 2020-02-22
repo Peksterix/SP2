@@ -382,6 +382,10 @@ void TestScene::Init()
 	
 		meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 		meshList[GEO_TEXT]->textureID = LoadTGA("image//calibri.tga");
+		meshList[GEO_SKY] = MeshBuilder::GenerateOBJ("Sky", "obj//Skysphere (Half).obj");
+		meshList[GEO_SKY]->textureID = LoadTGA("image//Flat Space2.tga");
+		meshList[GEO_FLOOR] = MeshBuilder::GenerateOBJ("Warehouse", "obj//Building2c.obj");
+		meshList[GEO_FLOOR]->textureID = LoadTGA("image//Building2.tga");
 
 		meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f);
 	
@@ -394,7 +398,7 @@ void TestScene::Init()
 		stateInput = 0;
 		Application::GetScreenSize(screenSizeX, screenSizeY);
 
-		for (int i = 0; i < 10; ++i) bounceTime[i] = 0;
+		veh = new Entity;
 		input = "";
 
 	#pragma endregion
@@ -412,30 +416,33 @@ void TestScene::Update(double dt)
 		if (Application::IsKeyPressed('9')) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	// Normal
 		if (Application::IsKeyPressed('0')) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// Wireframe
 
-		if (Application::IsKeyPressed('Z')) splitScreen = 1;
-		if (Application::IsKeyPressed('X')) splitScreen = 0;
+		if (Application::IsKeyPressed('Z')) currentCam = 1;
+		if (Application::IsKeyPressed('X')) currentCam = 0;
 	}
 
-	if (Application::IsKeyPressed('W'))
+	if (Application::IsKeyPressed('T'))
 	{
-
+		veh->position.x += dt * 20 * cos(Math::DegreeToRadian(veh->rotate.y));
+		veh->position.z += dt * 20 * sin(Math::DegreeToRadian(veh->rotate.y));
+		veh->position.y += dt * 20 * sin(Math::DegreeToRadian(veh->rotate.z));
 	}
-	if (Application::IsKeyPressed('S'))
+	if (Application::IsKeyPressed('G'))
 	{
-
+		veh->position.x -= dt * 20 * cos(Math::DegreeToRadian(veh->rotate.y));
+		veh->position.z -= dt * 20 * sin(Math::DegreeToRadian(veh->rotate.y));
+		veh->position.y -= dt * 20 * sin(Math::DegreeToRadian(veh->rotate.z));
 	}
-	if (Application::IsKeyPressed('A'))
+	if (Application::IsKeyPressed('F'))
 	{
-
+		veh->rotate.y += dt * 20;
 	}
-	if (Application::IsKeyPressed('D'))
+	if (Application::IsKeyPressed('H'))
 	{
-
+		veh->rotate.y -= dt * 20;
 	}
-
-	if (bounceTime[0] > 0) bounceTime[0] -= dt;
-	//camera[0].Update(dt, 0.);
-	//camera[1].Update(dt, 0.);
+	
+	camera[0].Update(dt, 0.);
+	camera[1].Update(dt, veh, Position(-5, 2, 0), Position(2, 1, 0));
 }
 
 void TestScene::Render()
@@ -488,20 +495,31 @@ void TestScene::Render()
 
 void TestScene::renderScene()
 {
-	//renderSkysphere(100);
+	renderSkysphere(100);
+
+	modelStack.PushMatrix();
+	modelStack.Translate(veh->position.x, veh->position.y, veh->position.z);
+	RenderMesh(meshList[GEO_FLOOR], 0);
+
+	modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS: " + std::to_string(fps), Color(0, 1, 0), 1, 0, 58, 1);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Camera0 Position: " + std::to_string(camera[0].position.x) + ", " + std::to_string(camera[0].position.y) +
+		", " + std::to_string(camera[0].position.z), Color(0, 1, 0), 1, 0, 56, 1);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Camera0 Target:   " + std::to_string(camera[0].target.x) + ", " + std::to_string(camera[0].target.y) +
+		", " + std::to_string(camera[0].target.z), Color(0, 1, 0), 1, 0, 55, 1);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "In: " + input, Color(0, 1, 0), 4, 0, 54, 1);
-	
-	//RenderSpriteOnScreen(meshList[GEO_LOGO], 15, 60, 0, 20, 20);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Camera1 Position: " + std::to_string(camera[1].position.x) + ", " + std::to_string(camera[1].position.y) +
+		", " + std::to_string(camera[1].position.z), Color(0, 1, 0), 1, 0, 53, 1);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Camera1 Target:   " + std::to_string(camera[1].target.x) + ", " + std::to_string(camera[1].target.y) +
+		", " + std::to_string(camera[1].target.z), Color(0, 1, 0), 1, 0, 52, 1);
 }
 
 void TestScene::renderSkysphere(int size)
 {
 	modelStack.PushMatrix();
 	modelStack.Scale(size, size, size);
-	//RenderMesh(meshList[GEO_SKY], 0);
+	RenderMesh(meshList[GEO_SKY], 0);
 	modelStack.PopMatrix();
 }
 

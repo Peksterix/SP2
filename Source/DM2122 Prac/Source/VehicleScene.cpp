@@ -733,7 +733,7 @@ void VehicleScene::Update(double dt)
 						if (currentPlayer == Application::getPlayerNum())
 						{
 							StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAP0);
-							//StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_FREECAM); // Temp
+							StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_GAME);
 						}
 						else
 						{
