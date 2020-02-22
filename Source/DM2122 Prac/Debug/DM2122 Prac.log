@@ -1,12 +1,5 @@
-﻿  GameScene0.cpp
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(450,52): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(454,52): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(458,52): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(462,52): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(605,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(619,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(646,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(694,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(694,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(694,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  Application.cpp
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\Application.cpp(171,61): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+  StateManager.cpp
+  Generating Code...
   DM2122 Prac.vcxproj -> C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\Debug\DM2122 Prac.exe

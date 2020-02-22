@@ -1,4 +1,5 @@
 #include "StateManager.h"
+#include "TestScene.h"
 #include "VehicleScene.h"
 #include "GameScene0.h"
 
@@ -29,8 +30,9 @@ void StateManager::setScene(SCENE_STATES scene)
 		delete currentScene;
 	}
 	
-	if (scene == SCENE_STATES::SS_MAINMENU) currentScene = new VehicleScene;
-	if (scene == SCENE_STATES::SS_MAP0) currentScene = new GameScene0;
+	if (scene == SCENE_STATES::SS_TEST) currentScene = new TestScene;
+	else if (scene == SCENE_STATES::SS_MAINMENU) currentScene = new VehicleScene;
+	else if (scene == SCENE_STATES::SS_MAP0) currentScene = new GameScene0;
 
 	currentScene->Init();
 	currentScene->Update(0.02);

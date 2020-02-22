@@ -416,19 +416,21 @@ void TestScene::Update(double dt)
 		if (Application::IsKeyPressed('X')) splitScreen = 0;
 	}
 
-	if (stateInput)
+	if (Application::IsKeyPressed('W'))
 	{
-		while (1)
-		{
-			char currKey = _getche();
-			if (currKey == VK_RETURN) break;
-			input += currKey;
-		}
-	}
 
-	if (Application::IsKeyPressed(VK_RETURN) && !stateInput)
+	}
+	if (Application::IsKeyPressed('S'))
 	{
-		stateInput = 1;
+
+	}
+	if (Application::IsKeyPressed('A'))
+	{
+
+	}
+	if (Application::IsKeyPressed('D'))
+	{
+
 	}
 
 	if (bounceTime[0] > 0) bounceTime[0] -= dt;
