@@ -2,7 +2,7 @@
 
 Vehicle::Vehicle()
 {
-	name = "Preset";
+	name = "N/A";
 
 	chassis = nullptr;
 	wheel = nullptr;
@@ -63,6 +63,11 @@ void Vehicle::setWeapon(int Type)
 	if (weapon != nullptr) delete weapon;
 	if (Type != -1) weapon = new Weapon(Type);
 	else weapon = nullptr;
+}
+
+void Vehicle::setName(std::string string)
+{
+	name = string;
 }
 
 void Vehicle::Update()

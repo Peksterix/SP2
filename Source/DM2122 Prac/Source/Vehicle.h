@@ -31,6 +31,7 @@ public:
 	void setChassis(int Type);
 	void setWheel(int Type);
 	void setWeapon(int Type);
+	void setName(std::string string);
 
 	void Update();
 };

@@ -400,6 +400,7 @@ void TestScene::Init()
 
 		veh = new Entity;
 		input = "";
+		bounceTime = 0;
 
 	#pragma endregion
 
@@ -420,27 +421,59 @@ void TestScene::Update(double dt)
 		if (Application::IsKeyPressed('X')) currentCam = 0;
 	}
 
-	if (Application::IsKeyPressed('T'))
+	if (stateInput)
 	{
-		veh->position.x += dt * 20 * cos(Math::DegreeToRadian(veh->rotate.y));
-		veh->position.z += dt * 20 * sin(Math::DegreeToRadian(veh->rotate.y));
-		veh->position.y += dt * 20 * sin(Math::DegreeToRadian(veh->rotate.z));
+		for (int i = 33; i <= 122; ++i)
+			if (Application::IsKeyPressed(i) && bounceTime <= 0)
+			{
+				bounceTime = 0.2f;
+				input += i;
+			}
+
+		if (Application::IsKeyPressed(VK_BACK) && bounceTime <= 0)
+		{
+			bounceTime = 0.2f;
+			input = input.substr(0, input.length() - 1);
+		}
+
+		if (Application::IsKeyPressed(VK_RETURN) && bounceTime <= 0) 
+		{
+			bounceTime = 0.2f;
+			stateInput = 0;
+		}
 	}
-	if (Application::IsKeyPressed('G'))
+	else
 	{
-		veh->position.x -= dt * 20 * cos(Math::DegreeToRadian(veh->rotate.y));
-		veh->position.z -= dt * 20 * sin(Math::DegreeToRadian(veh->rotate.y));
-		veh->position.y -= dt * 20 * sin(Math::DegreeToRadian(veh->rotate.z));
-	}
-	if (Application::IsKeyPressed('F'))
-	{
-		veh->rotate.y += dt * 20;
-	}
-	if (Application::IsKeyPressed('H'))
+		if (Application::IsKeyPressed('T'))
+		{
+			veh->position.x += dt * 20 * cos(Math::DegreeToRadian(veh->rotate.y));
+			veh->position.z += dt * 20 * sin(Math::DegreeToRadian(veh->rotate.y));
+			veh->position.y += dt * 20 * sin(Math::DegreeToRadian(veh->rotate.z));
+		}
+		if (Application::IsKeyPressed('G'))
+		{
+			veh->position.x -= dt * 20 * cos(Math::DegreeToRadian(veh->rotate.y));
+			veh->position.z -= dt * 20 * sin(Math::DegreeToRadian(veh->rotate.y));
+			veh->position.y -= dt * 20 * sin(Math::DegreeToRadian(veh->rotate.z));
+		}
+		if (Application::IsKeyPressed('F'))
+		{
+			veh->rotate.y += dt * 20;
+		}
+		if (Application::IsKeyPressed('H'))
 	{
 		veh->rotate.y -= dt * 20;
 	}
+
+		if (Application::IsKeyPressed(VK_RETURN) && bounceTime <= 0)
+		{
+			bounceTime = 0.2f;
+			stateInput = 1;
+		}
+	}
 	
+	if (bounceTime > 0) bounceTime -= dt;
+
 	camera[0].Update(dt, 0.);
 	camera[1].Update(dt, veh, Position(-5, 2, 0), Position(2, 1, 0));
 }
@@ -513,6 +546,8 @@ void TestScene::renderScene()
 		", " + std::to_string(camera[1].position.z), Color(0, 1, 0), 1, 0, 53, 1);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Camera1 Target:   " + std::to_string(camera[1].target.x) + ", " + std::to_string(camera[1].target.y) +
 		", " + std::to_string(camera[1].target.z), Color(0, 1, 0), 1, 0, 52, 1);
+
+	RenderTextOnScreen(meshList[GEO_TEXT], "Input: " + input, Color(0, 1, 0), 1, 0, 50, 1);
 }
 
 void TestScene::renderSkysphere(int size)

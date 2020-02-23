@@ -15,6 +15,16 @@ private:
 		OPTIONS_TOTAL
 	};
 
+	enum TEXT_INPUT_TYPE
+	{
+		TEXT_PLAYER1 = 0,
+		TEXT_PLAYER2,
+		TEXT_PLAYER3,
+		TEXT_PLAYER4,
+
+		TEXT_TOTAL,
+	};
+
 	enum UNIFORM_TYPE
 	{
 		U_MVP = 0,
@@ -45,6 +55,8 @@ private:
 	MS modelStack, viewStack, projectionStack;
 	Mesh* meshText;
 
+	std::string textInput[TEXT_TOTAL];
+
 public:
 	OptionMenu();
 	~OptionMenu();
@@ -53,6 +65,7 @@ public:
 
 	void Update(double dt);
 	void Render();
+	void Keyboard();
 
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int type = 0);
 };

@@ -21,12 +21,16 @@ public:
 	~Player();
 
 	int getInput(PLAYER_INPUT key);
-	void setInput(PLAYER_INPUT key, int newKey);
+	std::string getName();
 	Vehicle* getVehicle();
+
+	void setInput(PLAYER_INPUT key, int newKey);
+	void setName(std::string string);
 	void setVehicle(int vehicleSlot);
 
 private:
 	int inputs[INPUT_TOTAL];
+	std::string name;
 	Vehicle* vehicle;
 
 };

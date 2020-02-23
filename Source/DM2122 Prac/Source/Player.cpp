@@ -9,6 +9,7 @@ Player::Player()
 	inputs[RIGHT] = 'D';
 	inputs[ENTER] = VK_RETURN;
 
+	name = "Player";
 	vehicle = nullptr;
 }
 
@@ -22,14 +23,24 @@ int Player::getInput(PLAYER_INPUT key)
 	return inputs[key];
 }
 
-void Player::setInput(PLAYER_INPUT key, int newKey)
+std::string Player::getName()
 {
-	inputs[key] = newKey;
+	return name;
 }
 
 Vehicle* Player::getVehicle()
 {
 	return vehicle;
+}
+
+void Player::setInput(PLAYER_INPUT key, int newKey)
+{
+	inputs[key] = newKey;
+}
+
+void Player::setName(std::string string)
+{
+	name = string;
 }
 
 void Player::setVehicle(int vehicleSlot)

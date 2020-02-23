@@ -163,6 +163,8 @@ private:
 		screenSizeY,
 		currentCam;
 
+	float bounceTime;
+
 	std::string input;
 	
 	void renderScene();

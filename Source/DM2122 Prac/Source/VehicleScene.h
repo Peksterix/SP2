@@ -98,6 +98,13 @@ class VehicleScene : public Scene
 		WINDOW_TOTAL,
 	};
 
+	enum TEXT_INPUT_TYPE
+	{
+		TEXT_VEHICLE = 0,
+
+		TEXT_TOTAL,
+	};
+
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES = 0,
@@ -268,7 +275,7 @@ private:
 	float	aniVal[ANI_TOTAL];
 	
 	std::string textWindow,
-				textInput;
+				textInput[TEXT_TOTAL];
 
 	void renderScene();
 	void renderSkysphere(int size);

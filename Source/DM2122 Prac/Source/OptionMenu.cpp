@@ -78,8 +78,8 @@ void OptionMenu::Update(double dt)
 			if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
 				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
 
-			if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
-				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_GAME);
+			else if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAP0)
+					 StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_GAME);
 		}
 		Application::setBounceTime(0.2f);
 	}

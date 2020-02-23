@@ -415,6 +415,8 @@ void GameScene0::Init()
 		showBoundingBox = 0;
 		inWindow = WINDOW_NONE;
 
+		for (int i = 0; i < DEBUG_TOTAL; ++i) debugValues[i] = 0;
+
 	#pragma endregion
 }
 
@@ -445,6 +447,8 @@ void GameScene0::Update(double dt)
 
 		if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
 		{
+			for (int j = 0; j < 5; ++ j) debugValues[DEBUG_PLAYER0_UP + i * 5 + j] = 0;
+
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->UP)))
 			{
 				// && Application::getBounceTime() <= 0
@@ -453,6 +457,9 @@ void GameScene0::Update(double dt)
 				// +Z is foward
 				tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 				tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+
+				if (i == 0) debugValues[DEBUG_PLAYER0_UP] = 1;
+				if (i == 1) debugValues[DEBUG_PLAYER1_UP] = 1;
 			}
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->DOWN)))
 			{
@@ -460,6 +467,9 @@ void GameScene0::Update(double dt)
 
 				tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 				tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+
+				if (i == 0) debugValues[DEBUG_PLAYER0_DOWN] = 1;
+				if (i == 1) debugValues[DEBUG_PLAYER1_DOWN] = 1;
 			}
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->LEFT)))
 			{
@@ -467,11 +477,17 @@ void GameScene0::Update(double dt)
 
 				// +X is Left
 				tempVehicle->rotate.y += dt * 30;
+
+				if (i == 0) debugValues[DEBUG_PLAYER0_LEFT] = 1;
+				if (i == 1) debugValues[DEBUG_PLAYER1_LEFT] = 1;
 			}
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->RIGHT)))
 			{
 				//tempVehicle->position.x -= dt * 10;
 				tempVehicle->rotate.y -= dt * 30;
+
+				if (i == 0) debugValues[DEBUG_PLAYER0_RIGHT] = 1;
+				if (i == 1) debugValues[DEBUG_PLAYER1_RIGHT] = 1;
 			}
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->ENTER)))
 			{
@@ -649,7 +665,6 @@ void GameScene0::renderScene()
 
 		modelStack.PopMatrix();
 	}
-
 	
 	// Render Options Text
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
@@ -698,8 +713,16 @@ void GameScene0::renderScene()
 			", " + std::to_string(camera[0].position.z), Color(0, 1, 0), 1, 0, 56, 1);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Target:   " + std::to_string(camera[0].target.x) + ", " + std::to_string(camera[0].target.y) +
 			", " + std::to_string(camera[0].target.z), Color(0, 1, 0), 1, 0, 55, 1);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Val:" + std::to_string(aniVal[ANI_BUFFER]), Color(0, 1, 0), 1, 0, 53, 1);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Animation:" + std::to_string(animation[ANIS_ANY]), Color(0, 1, 0), 1, 0, 52, 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Player 1 Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER0_UP]) +
+												", Down: " + std::to_string(debugValues[DEBUG_PLAYER0_DOWN]) + 
+												", Left: " + std::to_string(debugValues[DEBUG_PLAYER0_LEFT]) + 
+												", Right: " + std::to_string(debugValues[DEBUG_PLAYER0_RIGHT]) + 
+												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER0_ENTER]), Color(0, 1, 0), 1, 0, 53, 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Player 2 Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER1_UP]) +
+												", Down: " + std::to_string(debugValues[DEBUG_PLAYER1_DOWN]) +
+												", Left: " + std::to_string(debugValues[DEBUG_PLAYER1_LEFT]) +
+												", Right: " + std::to_string(debugValues[DEBUG_PLAYER1_RIGHT]) +
+												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER1_ENTER]), Color(0, 1, 0), 1, 0, 52, 1);
 		
 		if (Application::IsKeyPressed('X'))
 		{
