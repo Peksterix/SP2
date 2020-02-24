@@ -8,9 +8,103 @@
 #include "Light.h"
 #include "Entity.h"
 #include "Vehicle.h"
+#include "Animate.h"
+#include "soundManager.h"
 
 class VehicleScene : public Scene
 {
+	enum ANIMATION_VALUES
+	{
+		ANI_CAMERA_POSITION_X = 0,
+		ANI_CAMERA_POSITION_Y,
+		ANI_CAMERA_POSITION_Z,
+		ANI_CAMERA_TARGET_X,
+		ANI_CAMERA_TARGET_Y,
+		ANI_CAMERA_TARGET_Z,
+
+		ANI_VEHICLE_POSITION,
+		ANI_VEHICLE_ROTATION_Y,
+		ANI_VEHICLE_ROTATION_Z,
+		ANI_WHEEL_ROTATION,
+
+		ANI_SKYBOX_ROTATION,
+		ANI_SHIP_ROTATION,
+		ANI_SHIP_BRIDGE_ROTATION,
+		ANI_SHIP_TEETH_POSITION,
+
+		ANI_CUSTOMISE_CHASSIS,
+		ANI_CUSTOMISE_WHEEL,
+		ANI_CUSTOMISE_WEAPON,
+
+		ANI_SELECTED_UI,
+		ANI_BUFFER,
+
+		ANI_TOTAL,
+	};
+
+	enum ANIMATION_STATES
+	{
+		ANIS_ANY = 0,
+		ANIS_RING,
+		
+		ANIS_LOADOUT_TO_MENU,
+		ANIS_MENU_TO_LOADOUT,
+
+		ANIS_LOADOUT_CUSTOM_TO_CUSTOMISE,
+		ANIS_CUSTOMISE_TO_LOADOUT,
+		
+		ANIS_CUSTOMISE_PARTS,
+
+		ANIS_TOTAL,
+	};
+
+	enum DEBUG_VALUES
+	{
+		DEBUG_LIGHT_NUM = 0,
+		DEBUG_TOTAL,
+	};
+
+	enum MENU_SELECTION
+	{
+		MENU_CUSTOMISATION_X = 0,
+		MENU_CUSTOMISATION_Y,
+		MENU_LOADOUT_X,
+		MENU_LOADOUT_Y,
+		MENU_CONIRMATION,
+		MENU_MAIN,
+		//MENU_OPTIONS,
+
+		MENU_TOTAL,
+	};
+
+	enum UI_SHEET
+	{
+		UI_CHANGE = 0,
+		UI_EMPTY,
+		UI_BACK,
+		UI_ESCAPE,
+		UI_SELECTED,
+		UI_TEMP = UI_SELECTED + 4,
+		UI_TOTAL,
+	};
+	
+	enum WINDOW_TYPES
+	{
+		WINDOW_NONE = 0,
+		WINDOW_CONFIRM,
+		WINDOW_NOTIFY,
+		WINDOW_INPUT,
+
+		WINDOW_TOTAL,
+	};
+
+	enum TEXT_INPUT_TYPE
+	{
+		TEXT_VEHICLE = 0,
+
+		TEXT_TOTAL,
+	};
+
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES = 0,
@@ -21,25 +115,17 @@ class VehicleScene : public Scene
 		GEO_WAREHOUSE_RING,
 		GEO_WAREHOUSE_CENTRE,
 		GEO_WAREHOUSE_BRIDGE,
+		GEO_WAREHOUSE_TEETH_TOP,
+		GEO_WAREHOUSE_TEETH_BOTTOM,
+		
 		GEO_SKYSPHERE,
 
-		GEO_SHOWCASEFLOOR,
-
 		GEO_TEXT,
+		GEO_UI,
 		NUM_GEOMETRY,
 	};
 
-	enum STATES
-	{
-		S_LOADOUT = 0,
-		S_MAINMENU,
-		S_CUSTOMISE, // reach Customize 
-		S_CUTSCENE, // in the middle of animation
-		S_FREECAM,
-		S_TOTAL,
-	};
-
-	enum Scene5_UNIFORM_TYPE
+	enum UNIFORM_TYPE
 	{
 		U_MVP = 0,
 		U_MODELVIEW,
@@ -157,16 +243,6 @@ class VehicleScene : public Scene
 		U_TOTAL,
 	};
 
-	enum Animation
-	{
-		ANI_CAMERA_POS_X = 0,
-		ANI_CAMERA_POS_Y,
-		ANI_CAMERA_TARGETX,
-		ANI_CAMERA_TARGETY,
-		ANI_VEHICLE_POSX,
-		ANI_VEHICLE_POSY,
-	};
-
 private:
 	unsigned m_vertexArrayID;
 	unsigned m_programID;
@@ -176,37 +252,43 @@ private:
 
 	Light light[8];
 	Camera camera;
-	
+	Animate animate;
+	soundManager sound;
+
+	Chassis* custChassis[5];
+	Wheel* custWheel[5];
+	Weapon* custWeapon[5];
 	Vehicle* vehicle[8];
 
-	bool showBoundingBox,
-		isFullScreen;
+	bool animation[ANIS_TOTAL],
+		 showDebugInfo,
+		 showBoundingBox; // Debug
 
 	int	screenSizeX,
 		screenSizeY,
-		state,
-		animation[10],
-		menuSelected[3],
-		vehiclePartSelect[3],
-		mainSelected,
-		MenuMode,
-		OptionSelected;
-	float	aniVal[10][10],
-			bounceTime[10],
-			aniVal2[10];
+		inWindow,
+		currentPlayer,
+		debugValues[DEBUG_TOTAL],
+		menuSelected[MENU_TOTAL],
+		vehiclePartSelect[3];
+
+	float	aniVal[ANI_TOTAL];
 	
+	std::string textWindow,
+				textInput[TEXT_TOTAL];
+
 	void renderScene();
 	void renderSkysphere(int size);
-
+	
 	void moveLight(double dt, int lightNum);
 	void renderLightPos(int lightNum);
 
 	void CalculateLights();
 	void RenderMesh(Mesh* mesh, bool enableLight, float BBSize = 0);
-	void RenderText(Mesh* mesh, std::string text, Color color);
-	void RenderSprite(Mesh* mesh, int frameCount);
-	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-	void RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float y, float sizex, float sizey);
+	void RenderText(Mesh* mesh, std::string text, Color color, int type = 0);
+	void RenderSprite(Mesh* mesh, int frameCount, Color color = Color(1, 1, 1));
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int type = 0);
+	void RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float y, float sizex, float sizey, Color color = Color(1, 1, 1));
 	void CalculateFPS();
 
 public:
