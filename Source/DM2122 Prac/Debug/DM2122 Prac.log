@@ -1,2 +1,15 @@
-﻿  Vehicle.cpp
+﻿  GameScene0.cpp
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(490,97): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(491,97): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(501,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(509,37): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(644,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(663,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(677,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(704,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(764,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(764,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Vehicle.cpp
+  Generating Code...
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(764,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   DM2122 Prac.vcxproj -> C:\Users\Pek Lin\Desktop\Y1S2\Source\Debug\DM2122 Prac.exe
