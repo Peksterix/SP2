@@ -1,8 +1,6 @@
 //Include GLEW
-#include <GL/glew.h>
 
 //Include GLFW
-#include <GLFW/glfw3.h>
 
 //Include the standard C++ headers
 #include <stdio.h>
@@ -11,14 +9,19 @@
 
 #include "Application.h"
 
-#include "TestScene.h"
-#include "VehicleScene.h"
+#include "StateManager.h"
 
-GLFWwindow* m_window;
+static bool windowActive = 1;
+static int	screenSize_x, screenSize_y;
+
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
-static int	screenSize_x, screenSize_y;
-static bool windowActive = 1;
+
+bool Application::isFullscreen = 0;
+int Application::playerNum = 2;
+float Application::bounceTime = 0;
+GLFWwindow* Application::m_window = NULL;
+Player* Application::player[4];
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -54,6 +57,7 @@ void GetDesktopResolution(int& horizontal, int& vertical)
 	vertical = desktop.bottom;
 }
 
+
 bool Application::IsKeyPressed(unsigned short key)
 {
 	if (windowActive) return ((GetAsyncKeyState(key) & 0x8001) != 0);
@@ -65,10 +69,9 @@ void Application::GetScreenSize(int& x, int& y)
 	x = screenSize_x;
 	y = screenSize_y;
 }
-
+;
 Application::Application()
 {
-	
 }
 
 Application::~Application()
@@ -126,32 +129,61 @@ void Application::Init()
 
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
+	for (int i = 0; i < 4; ++i) player[i] = new Player;
+	player[0]->setName("Player 1");
+	player[0]->setInput(player[0]->UP, 'W');
+	player[0]->setInput(player[0]->DOWN, 'S');
+	player[0]->setInput(player[0]->LEFT, 'A');
+	player[0]->setInput(player[0]->RIGHT, 'D');
+	player[0]->setInput(player[0]->ENTER, 'Z');
+
+	player[1]->setName("Player 2");
+	player[1]->setInput(player[0]->UP, 'T');
+	player[1]->setInput(player[0]->DOWN, 'G');
+	player[1]->setInput(player[0]->LEFT, 'F');
+	player[1]->setInput(player[0]->RIGHT, 'H');
+	player[1]->setInput(player[0]->ENTER, 'V');
+	
+	player[2]->setName("Player 3");
+	player[2]->setInput(player[0]->UP, 'I');
+	player[2]->setInput(player[0]->DOWN, 'K');
+	player[2]->setInput(player[0]->LEFT, 'J');
+	player[2]->setInput(player[0]->RIGHT, 'L');
+	player[2]->setInput(player[0]->ENTER, 'M');
+	
+	player[3]->setName("Player 4");
+	player[3]->setInput(player[0]->UP, VK_UP);
+	player[3]->setInput(player[0]->DOWN, VK_DOWN);
+	player[3]->setInput(player[0]->LEFT, VK_LEFT);
+	player[3]->setInput(player[0]->RIGHT, VK_RIGHT);
+	player[3]->setInput(player[0]->ENTER, VK_RETURN);
 }
 
 void Application::Run()
 {
 	//Main Loop
-	//Scene* scene = new TestScene();
-	Scene* scene = new VehicleScene();
 
-	scene->Init();
+	//StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_TEST);
+	StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAINMENU);
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window))
 	{
 		//windowActive = GetActiveWindow();
 		
-		scene->Update(m_timer.getElapsedTime());
-		scene->Render();
+		if (bounceTime > 0) bounceTime -= m_timer.getElapsedTime();
+
+		StateManager::getInstance()->getScene()->Update(m_timer.getElapsedTime());
+		StateManager::getInstance()->getScene()->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
-	} //Check if the ESC key had been pressed or if the window had been closed
-	scene->Exit();
-	delete scene;
+	} //If the window had been closed
+
+	StateManager::getInstance()->getScene()->Exit();
 }
 
 void Application::Exit()
@@ -160,4 +192,46 @@ void Application::Exit()
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW
 	glfwTerminate();
+
+	for (int i = 0; i < 4; ++i) delete player[i];
+}
+
+float Application::getBounceTime()
+{
+	return bounceTime;
+}
+
+void Application::setBounceTime(float bt)
+{
+	bounceTime = bt;
+}
+
+bool Application::getFullscreen()
+{
+	return isFullscreen;
+}
+
+void Application::setFullscreen (bool fullscreen)
+{
+	isFullscreen = fullscreen;
+}
+
+int Application::getPlayerNum()
+{
+	return playerNum;
+}
+
+void Application::setPlayerNum(int num)
+{
+	playerNum = num;
+}
+
+GLFWwindow* Application::getWindow()
+{
+	return m_window;
+}
+
+Player* Application::getPlayer(int num)
+{
+	return player[num];
 }
