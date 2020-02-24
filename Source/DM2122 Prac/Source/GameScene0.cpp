@@ -460,23 +460,23 @@ void GameScene0::Update(double dt)
 				//tempVehicle->position.z += dt * 10;
 				
 				// +Z is foward
-				/*Vector3 newForce = ;
+				//Vector3 newForce = ;
 	
-				tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
-				tempVehicle->position.z += dt * 20 * phys.addForce()*/
+				//tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+				//tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 				/*Vector3 newForce = phys.getForce().Length();
 				
 				if (newForce.Length() < maxSpeed)
 				{
 					Vector3 aForce = accel * phys.getFront();
 				}*/
+
 				Vector3 force = tempVehicle->getRB()->getForce().Length();
 
 				if (force.Length() < maxSpeed)
 				{
-					Vector3 newForce = (accel) * tempVehicle->RB.getFront();
-					//tempVehicle->RB.addForce(newForce);
-					tempVehicle->RB
+					Vector3 newForce = -accel * tempVehicle->RB.getFront();
+					tempVehicle->RB.addForce(newForce);
 				}
 
 				if (i == 0) debugValues[DEBUG_PLAYER0_UP] = 1;
@@ -523,7 +523,6 @@ void GameScene0::Update(double dt)
 		{
 
 		}
-
 	}
 
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_FREECAM)

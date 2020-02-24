@@ -17,11 +17,37 @@ physics::physics()
 	minVelo = 0.01f;
 	KElost = 0.99f;
 	gravity = -9.8;
+	inertiaCoeff = 10.f;
 }
 
 physics::~physics()
 {
 
+}
+
+float calcTforce(float a, float b)
+{
+	if (a > 0)
+	{
+		if (a + b < 0)
+		{
+			return 0;
+		}
+
+		return a + b;
+	}
+
+	else if (a < 0)
+	{
+		if (a + b > 0)
+		{
+			return 0;
+		}
+
+		return a + b;
+	}
+
+	return a + b;
 }
 
 void physics::Update()
@@ -97,9 +123,33 @@ void physics::Update()
 	preCollVelo = velocity;
 
 	//TODO: add force decay
+	if (force.x > 0)
+	{
+		force.x = calcTforce(force.x, -getMass() / inertiaCoeff);
+	}
+	else if (force.x < 0)
+	{
+		force.x = calcTforce(force.x, getMass() / inertiaCoeff);
+	}
 
+	if (force.y > 0)
+	{
+		force.y = calcTforce(force.y, -getMass() / inertiaCoeff);
+	}
+	else if (force.y < 0)
+	{
+		force.y = calcTforce(force.y, getMass() / inertiaCoeff);
+	}
+
+	if (force.z > 0)
+	{
+		force.z = calcTforce(force.z, -getMass() / inertiaCoeff);
+	}
+	else if (force.z < 0)
+	{
+		force.z = calcTforce(force.z, getMass() / inertiaCoeff);
+	}
 }
-
 /*
 void physics::rigidBody(physics* collidingRB, Vector3 penetrationDepth, Vector3 currentPos, Vector3 collidingPos, Directions dir)
 {

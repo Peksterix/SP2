@@ -97,7 +97,32 @@ physics* Vehicle::getRB()
 
 void Vehicle::updatePos()
 {
+
+	Vector3 currentPos = this->getPos();
 	position.x += this->RB.getVelo().x;
 	position.z += this->RB.getVelo().z;
 	position.y += this->RB.getVelo().y;
+	this->setPos(currentPos.x, currentPos.y, currentPos.z);
+}
+
+void Vehicle::setPos(float x, float y, float z)
+{
+	pos.x = x;
+	pos.y = y;
+	pos.z = z;
+}
+
+void Vehicle::setRotation(Vector3 rotation)
+{
+	this->rotation = rotation;
+}
+
+Vector3 Vehicle::getPos()
+{
+	return pos;
+}
+
+Vector3 Vehicle::getRotation()
+{
+	return rotation;
 }
