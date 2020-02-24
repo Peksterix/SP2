@@ -18,7 +18,7 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 bool Application::isFullscreen = 0;
-int Application::playerNum = 2;
+int Application::playerNum = 1;
 float Application::bounceTime = 0;
 GLFWwindow* Application::m_window = NULL;
 Player* Application::player[4];
@@ -164,7 +164,7 @@ void Application::Run()
 	//Main Loop
 
 	//StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_TEST);
-	StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAINMENU);
+	StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_TEST);
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window))

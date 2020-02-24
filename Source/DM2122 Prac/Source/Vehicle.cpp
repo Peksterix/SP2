@@ -4,6 +4,7 @@ Vehicle::Vehicle()
 {
 	name = "N/A";
 
+
 	chassis = nullptr;
 	wheel = nullptr;
 	weapon = nullptr;
@@ -87,4 +88,16 @@ void Vehicle::Update()
 		if (weapon ->getHealth() <= 0) delete weapon;
 	}
 
+}
+
+physics* Vehicle::getRB()
+{
+	return &RB;
+}
+
+void Vehicle::updatePos()
+{
+	position.x += this->RB.getVelo().x;
+	position.z += this->RB.getVelo().z;
+	position.y += this->RB.getVelo().y;
 }

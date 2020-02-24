@@ -19,6 +19,15 @@ private:
 
 public:
 	std::vector<Position> wheelPos, weaponPos, wheelScale, weaponScale;
+	Position position;
+	Position rotate;
+	Position scale;
+	physics RB;
+
+	physics* getRB();
+	void updatePos();
+	Vehicle getFront();
+	void setFront();
 
 	Vehicle();
 	~Vehicle();

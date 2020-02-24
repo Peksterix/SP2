@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "Vertex.h"
+#include "Physics.h"
 
 class Entity
 {
@@ -11,6 +12,7 @@ public:
 	Position position;
 	Position rotate;
 	Position scale;
+	
 
 	Entity();
 	~Entity();

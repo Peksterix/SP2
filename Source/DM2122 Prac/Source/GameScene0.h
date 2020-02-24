@@ -10,6 +10,7 @@
 #include "Vehicle.h"
 #include "Animate.h"
 #include "soundManager.h"
+#include "Entity.h"
 
 class GameScene0 : public Scene
 {
@@ -237,6 +238,11 @@ private:
 				textInput;
 
 	float	aniVal[ANI_TOTAL];
+
+	float maxSpeed;
+	float accel;
+	physics phys;
+	Entity ent;
 	
 	void renderScene();
 	void renderSkysphere(int size);

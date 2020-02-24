@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 #include "StateManager.h"
 #include "OptionMenu.h"
+#include "Physics.h"
 
 #define ROT_LIMIT 45.f;
 #define SCALE_LIMIT 5.f;
@@ -27,6 +28,9 @@ GameScene0::GameScene0()
 	{
 		meshList[i] = NULL;
 	}
+
+	maxSpeed = 150.f;
+	accel = 3.f;
 }
 
 GameScene0::~GameScene0()
@@ -444,6 +448,7 @@ void GameScene0::Update(double dt)
 	{
 		Player* tempPlayer = Application::getPlayer(i);
 		Vehicle* tempVehicle = tempPlayer->getVehicle();
+		
 
 		if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
 		{
@@ -455,16 +460,33 @@ void GameScene0::Update(double dt)
 				//tempVehicle->position.z += dt * 10;
 				
 				// +Z is foward
+				/*Vector3 newForce = ;
+	
 				tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
-				tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+				tempVehicle->position.z += dt * 20 * phys.addForce()*/
+				/*Vector3 newForce = phys.getForce().Length();
+				
+				if (newForce.Length() < maxSpeed)
+				{
+					Vector3 aForce = accel * phys.getFront();
+				}*/
+				Vector3 force = tempVehicle->getRB()->getForce().Length();
+
+				if (force.Length() < maxSpeed)
+				{
+					Vector3 newForce = (accel) * tempVehicle->RB.getFront();
+					//tempVehicle->RB.addForce(newForce);
+					tempVehicle->RB
+				}
 
 				if (i == 0) debugValues[DEBUG_PLAYER0_UP] = 1;
 				if (i == 1) debugValues[DEBUG_PLAYER1_UP] = 1;
 			}
+
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->DOWN)))
 			{
 				//tempVehicle->position.z -= dt * 10;
-
+				
 				tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 				tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 
@@ -494,12 +516,14 @@ void GameScene0::Update(double dt)
 
 			}
 
+			tempVehicle->updatePos();
 			camera[i].Update(dt, tempVehicle, Position(0, 16, -40), Position(0, 8, 4));
 		}
 		else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
 		{
 
 		}
+
 	}
 
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_FREECAM)
@@ -705,6 +729,8 @@ void GameScene0::renderScene()
 		}
 	}
 
+	physics phys;
+
 	// Render Debug Info
 	if (showDebugInfo)
 	{
@@ -718,12 +744,12 @@ void GameScene0::renderScene()
 												", Left: " + std::to_string(debugValues[DEBUG_PLAYER0_LEFT]) + 
 												", Right: " + std::to_string(debugValues[DEBUG_PLAYER0_RIGHT]) + 
 												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER0_ENTER]), Color(0, 1, 0), 1, 0, 53, 1);
+
 		RenderTextOnScreen(meshList[GEO_TEXT], "Player 2 Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER1_UP]) +
-												", Down: " + std::to_string(debugValues[DEBUG_PLAYER1_DOWN]) +
-												", Left: " + std::to_string(debugValues[DEBUG_PLAYER1_LEFT]) +
-												", Right: " + std::to_string(debugValues[DEBUG_PLAYER1_RIGHT]) +
-												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER1_ENTER]), Color(0, 1, 0), 1, 0, 52, 1);
-		
+			", Down: " + std::to_string(debugValues[DEBUG_PLAYER1_DOWN]) +
+			", Left: " + std::to_string(debugValues[DEBUG_PLAYER1_LEFT]) +
+			", Right: " + std::to_string(debugValues[DEBUG_PLAYER1_RIGHT]) +
+			", Enter: " + std::to_string(debugValues[DEBUG_PLAYER1_ENTER]), Color(0, 1, 0), 1, 0, 52, 1);
 		if (Application::IsKeyPressed('X'))
 		{
 			for (int i = 0; i < 8; ++i) renderLightPos(i);
