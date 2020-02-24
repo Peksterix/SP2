@@ -12,8 +12,8 @@ Wheel::Wheel(int Type)
 	
 	name = "None";
 
-	mesh = nullptr;
 	type = Type;
+	mesh = nullptr;
 
 	if (type == 0) 
 	{ 

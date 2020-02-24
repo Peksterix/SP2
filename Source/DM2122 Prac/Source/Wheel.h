@@ -15,8 +15,7 @@ private:
 			bbScale;
 
 	std::string name;
-
-	Mesh* mesh;
+	//Mesh* mesh;
 
 public:
 	Wheel(int Type);

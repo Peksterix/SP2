@@ -21,6 +21,8 @@ OptionMenu::OptionMenu()
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
 	
 	for (int i = 0; i < OPTIONS_TOTAL; ++i) menuSelected[i] = 0;
+
+	Volume = 5;
 }
 
 OptionMenu::~OptionMenu()
@@ -42,20 +44,65 @@ void OptionMenu::Update(double dt)
 		if (menuSelected[MENU_OPTIONS_Y] != 0)
 			menuSelected[MENU_OPTIONS_Y]--;
 		else
-			menuSelected[MENU_OPTIONS_Y] = 1;
+			menuSelected[MENU_OPTIONS_Y] = 4;
 
 		Application::setBounceTime(0.2f);
 	}
-	if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
+	else if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
 	{
-		if (menuSelected[MENU_OPTIONS_Y] != 1)
+		if (menuSelected[MENU_OPTIONS_Y] < 4)
 			menuSelected[MENU_OPTIONS_Y]++;
 		else
-			menuSelected[MENU_OPTIONS_Y] = 0;
+			menuSelected[MENU_OPTIONS_Y] = 4;
 
 		Application::setBounceTime(0.2f);
+	
 	}
-	if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
+	else if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && Application::getBounceTime() <= 0)
+	{
+		Application::setBounceTime(0.2f);
+
+		if (menuSelected[MENU_OPTIONS_Y] == 1)
+		{
+			// code to set number of player for game
+			if (Application::getPlayerNum() <= 1)
+				Application::setPlayerNum(4);
+			else
+				Application::setPlayerNum(Application::getPlayerNum() - 1);
+		}
+		else if (menuSelected[MENU_OPTIONS_Y] == 3)
+		{
+			if (Volume <= 0)
+				Volume = 10;
+			else
+				Volume--;
+
+			sound.UpdateVol(Volume);
+		}
+	}
+	else if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && Application::getBounceTime() <= 0)
+	{
+		Application::setBounceTime(0.2f);
+
+		if (menuSelected[MENU_OPTIONS_Y] == 1)
+		{
+			// code to set number of player for game
+			if (Application::getPlayerNum() >= 4)
+				Application::setPlayerNum(1);
+			else
+				Application::setPlayerNum(Application::getPlayerNum() + 1);
+		}
+		else if (menuSelected[MENU_OPTIONS_Y] == 3)
+		{
+			if (Volume >= 10)
+				Volume = 0;
+			else
+				Volume++;
+
+			sound.UpdateVol(Volume);
+		}
+	}
+	else if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
 	{
 		if (menuSelected[MENU_OPTIONS_Y] == 0)
 		{
@@ -73,6 +120,12 @@ void OptionMenu::Update(double dt)
 				glfwSetWindowMonitor(Application::getWindow(), glfwGetPrimaryMonitor(), NULL, NULL, screenSizeX, screenSizeY, NULL);
 			}
 		}
+
+		else if (menuSelected[MENU_OPTIONS_Y] == 2)
+		{
+			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_EDITNAMES);
+		}
+
 		else
 		{
 			if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
@@ -87,14 +140,17 @@ void OptionMenu::Update(double dt)
 
 void OptionMenu::Render()
 {
-	Color temp[2] = { Color(1,1,1), Color(1,1,1) };
+	Color temp[5] = { Color(1,1,1), Color(1,1,1), Color(1,1,1), Color(1,1,1),Color(1,1,1) };
 	temp[menuSelected[MENU_OPTIONS_Y]] = Color(1, 0, 0);
 
-	int Size[2] = { 3,3 };
+	int Size[5] = { 3,3,3,3,3 };
 
 	Size[menuSelected[MENU_OPTIONS_Y]] = 5;
-	RenderTextOnScreen(meshText, "Toggle Fullscreen", temp[0], Size[0], 3, 15, 1);
-	RenderTextOnScreen(meshText, "Back", temp[1], Size[1], 3, 7, 1);
+	RenderTextOnScreen(meshText, "Toggle Fullscreen", temp[0], Size[0], 3, 17, 1);
+	RenderTextOnScreen(meshText, "Number Of Players: " + std::to_string(Application::getPlayerNum()), temp[1], Size[1], 3, 13, 1);
+	RenderTextOnScreen(meshText, "Edit Players Names", temp[2], Size[2], 3, 9, 1);
+	RenderTextOnScreen(meshText, "Volume: " + std::to_string((int)Volume), temp[3], Size[3], 3, 5, 1);
+	RenderTextOnScreen(meshText, "Back", temp[4], Size[4], 3, 1, 1);
 }
 
 void OptionMenu::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int type)

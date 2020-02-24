@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 #include "StateManager.h"
 #include "OptionMenu.h"
+#include "PlayerName.h"
 
 #define ROT_LIMIT 45.f;
 #define SCALE_LIMIT 5.f;
@@ -452,7 +453,7 @@ void VehicleScene::Init()
 			vehicle[i]->setChassis(i);
 			vehicle[i]->setWheel(i);
 			vehicle[i]->setWeapon(i);
-			vehicle[i]->setName("PRESET: " + std::to_string(i + 1));
+			vehicle[i]->setName("PRESET " + std::to_string(i + 1));
 		}
 
 		for (int i = 0; i < ANI_TOTAL; ++i) aniVal[i] = 0;
@@ -483,11 +484,18 @@ void VehicleScene::Update(double dt)
 		if (Application::IsKeyPressed('8')) glEnable(GL_CULL_FACE);						// Enable Cull
 		if (Application::IsKeyPressed('9')) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	// Normal
 		if (Application::IsKeyPressed('0')) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// Wireframe
-		if (Application::IsKeyPressed('Z'))
+		if (Application::IsKeyPressed('X') && Application::getBounceTime() <= 0)
 		{
+			Application::setBounceTime(0.2f);
 			StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_FREECAM;
 			camera.Update(0.01, Math::RadianToDegree(atan2(camera.target.x - camera.position.x, camera.target.z - camera.position.z)),
 				Math::RadianToDegree(atan2(camera.target.y - camera.position.y, sqrt(pow(camera.position.x - camera.target.x, 2) + pow(camera.position.z - camera.target.z, 2)))));
+		}
+		if (Application::IsKeyPressed('C') && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f);
+			if (showBoundingBox) showBoundingBox = 0;
+			else showBoundingBox = 1;
 		}
 	}
 	
@@ -556,49 +564,11 @@ void VehicleScene::Update(double dt)
 	}
 	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
 	{
-		/*
-		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && Application::getBounceTime() <= 0)
-		{
-			if (menuSelected[MENU_OPTIONS] != 0)
-				menuSelected[MENU_OPTIONS]--;
-			else
-				menuSelected[MENU_OPTIONS] = 1;
-
-			Application::setBounceTime(0.2f);
-		}
-		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
-		{
-			if (menuSelected[MENU_OPTIONS] != 1)
-				menuSelected[MENU_OPTIONS]++;
-			else
-				menuSelected[MENU_OPTIONS] = 0;
-
-			Application::setBounceTime(0.2f);
-		}
-		else if (Application::IsKeyPressed(VK_RETURN) && menuSelected[MENU_OPTIONS] == 0 && Application::getBounceTime() <= 0)
-		{
-			if (isFullscreen)
-			{
-				isFullscreen = 0;
-				glfwSetWindowMonitor(m_window, NULL, -2, 30, screenSizeX, screenSizeY, NULL);
-			}
-			else
-			{
-				isFullscreen = 1;
-				glfwSetWindowMonitor(m_window, glfwGetPrimaryMonitor(), NULL, NULL, screenSizeX, screenSizeY, NULL);
-			}
-			
-			Application::setBounceTime(0.2f);
-		}
-		else if (Application::IsKeyPressed(VK_RETURN) && menuSelected[MENU_OPTIONS] == 1 && Application::getBounceTime() <= 0)
-		{
-			// State check for game?
-			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
-
-			Application::setBounceTime(0.2f);
-		}
-		*/
 		OptionMenu::getInstance()->Update(dt);
+	}
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_EDITNAMES)
+	{
+		PlayerName::getInstance()->Update(dt);
 	}
 	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_CUSTOM || StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_PLAY)
 	{
@@ -782,7 +752,7 @@ void VehicleScene::Update(double dt)
 					}
 					else if (menuSelected[MENU_LOADOUT_Y] == 0)
 					{
-						textWindow = "Player: " + std::to_string(currentPlayer) + ", Play as Slot " + std::to_string(menuSelected[MENU_LOADOUT_X] + 1) + "?";
+						textWindow = Application::getPlayer(currentPlayer - 1)->getName() + ", Play as Slot " + std::to_string(menuSelected[MENU_LOADOUT_X] + 1) + "?";
 					}
 					else if (menuSelected[MENU_LOADOUT_Y] == 1)
 					{
@@ -1130,7 +1100,6 @@ void VehicleScene::Update(double dt)
 	}
 
 	// Animation Logic
-	// animation[ANIS_ANY] = animate.Update(0.02);
 	if (fps >= 40 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU) animation[ANIS_ANY] = animate.Update(0.02);
 
 	if (!animation[ANIS_ANY])
@@ -1556,6 +1525,11 @@ void VehicleScene::renderScene()
 		OptionMenu::getInstance()->Render();
 	}
 
+	// Render EditNames Text
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_EDITNAMES)
+	{
+		PlayerName::getInstance()->Render();
+	}
 	// Render Confirmation Window
 	if (inWindow && inWindow != WINDOW_INPUT)
 	{

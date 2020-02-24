@@ -117,6 +117,12 @@
     <ClInclude Include="Source\Player.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Collision.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerName.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\VehicleScene.cpp">
@@ -186,6 +192,12 @@
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Player.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collision.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerName.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
   </ItemGroup>

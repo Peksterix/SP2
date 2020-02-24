@@ -590,7 +590,7 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 	v.pos.Set(Mx, my, mz);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, mz);
-	v.color.Set(0, 0, 1);
+	//v.color.Set(0, 0, 1);
 	vertex_buffer_data.push_back(v);
 
 	v.color.Set(1, 0, 0);
@@ -609,7 +609,7 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 	v.pos.Set(mx, My, mz);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, mz);
-	v.color.Set(0, 0, 1);
+	//v.color.Set(0, 0, 1);
 	vertex_buffer_data.push_back(v);
 
 	v.color.Set(1, 0, 0);
@@ -628,7 +628,7 @@ Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, float Mx, fl
 	v.pos.Set(mx, my, Mz);
 	vertex_buffer_data.push_back(v);
 	v.pos.Set(mx, my, mz);
-	v.color.Set(0, 0, 1);
+	//v.color.Set(0, 0, 1);
 	vertex_buffer_data.push_back(v);
 
 	std::vector<GLuint> index_buffer_data;

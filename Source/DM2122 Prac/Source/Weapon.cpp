@@ -19,6 +19,7 @@ Weapon::Weapon(int Type)
 	{
 		name = "Temp 0";
 		health = 100;
+		bbScale = 1;
 		mesh = MeshBuilder::GenerateOBJ("Weapon's Mesh", "obj//Weapon0.obj");
 		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
 	}
@@ -26,6 +27,7 @@ Weapon::Weapon(int Type)
 	{
 		name = "Temp 1";
 		health = 100;
+		bbScale = 1;
 		mesh = MeshBuilder::GenerateOBJ("Weapon's Mesh", "obj//Weapon1.obj");
 		mesh->textureID = LoadTGA("image//Vehicle1a.tga");
 	}
@@ -33,6 +35,7 @@ Weapon::Weapon(int Type)
 	{
 		name = "Temp 2";
 		health = 100;
+		bbScale = 1;
 		mesh = MeshBuilder::GenerateOBJ("Weapon's Mesh", "obj//Weapon2.obj");
 		mesh->textureID = LoadTGA("image//Vehicle2a.tga");
 	}
@@ -40,6 +43,7 @@ Weapon::Weapon(int Type)
 	{
 		name = "Temp 3";
 		health = 100;
+		bbScale = 1;
 		mesh = MeshBuilder::GenerateOBJ("Weapon's Mesh", "obj//Weapon3.obj");
 		mesh->textureID = LoadTGA("image//Vehicle3a.tga");
 	}

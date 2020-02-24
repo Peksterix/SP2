@@ -14,8 +14,7 @@ private:
 	float bbScale;
 
 	std::string name;
-
-	Mesh* mesh;
+	//Mesh* mesh;
 
 public:
 	std::vector<Position> wheelPos, weaponPos, wheelScale, weaponScale;

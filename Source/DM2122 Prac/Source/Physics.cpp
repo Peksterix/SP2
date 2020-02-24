@@ -10,7 +10,7 @@ physics::physics()
 
 	up.Set(0, 1, 0);
 	right.Set(1, 0, 0);
-	front.Set(0, 0, -1);
+	front.Set(0, 0, 1);
 
 	//values can be changed depending on what kind of physics you want(if that makes sense xd)
 	frictionalForce = -0.3f;

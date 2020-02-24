@@ -1,113 +1,20 @@
-﻿  Vehicle.cpp
-  VehicleScene.cpp
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(463,42): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(464,41): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(465,41): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(466,40): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(467,39): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(468,39): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(488,48): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(535,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(536,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(537,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(539,74): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(540,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(541,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(687,75): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(689,75): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(690,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(691,70): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(692,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(699,74): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(700,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(701,75): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(702,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(703,70): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(704,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(711,76): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(712,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(713,77): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(714,74): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(715,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(716,75): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(718,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(754,76): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(755,74): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(756,75): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(757,76): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(758,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(759,74): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(855,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(901,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(963,75): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(966,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(967,70): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(968,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(982,75): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(985,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(986,70): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(987,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1003,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1006,71): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1007,68): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1008,70): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1019,73): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1022,71): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1023,68): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1024,70): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1127,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1129,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1129,100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1140,41): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1143,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1174,59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1174,102): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1175,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1177,119): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1177,195): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1298,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1315,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1337,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1353,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1373,18): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1380,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1380,100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1381,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1387,41): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1393,35): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1396,41): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1412,40): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1471,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1477,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1477,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1477,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1481,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1481,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1481,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1485,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1485,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1485,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1489,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1489,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1489,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1493,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1493,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1493,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1497,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1497,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1497,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1501,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1501,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1501,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1537,65): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1538,78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1539,68): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1540,65): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1613,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1613,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1613,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1618,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1618,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1618,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
+﻿  GameScene0.cpp
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(431,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(431,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(432,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(483,97): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(484,97): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(491,97): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(492,97): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(500,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(507,37): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(517,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(639,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(669,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(683,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(710,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(752,111): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(767,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(767,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(767,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   DM2122 Prac.vcxproj -> C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\Debug\DM2122 Prac.exe

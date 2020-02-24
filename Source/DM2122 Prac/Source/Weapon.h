@@ -16,8 +16,7 @@ private:
 			bbScale;
 
 	std::string name;
-
-	Mesh* mesh;
+	//Mesh* mesh;
 
 public:
 	Weapon(int Type);

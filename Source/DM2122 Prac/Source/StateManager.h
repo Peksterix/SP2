@@ -11,6 +11,7 @@ public:
 		S_CUSTOMISE,
 		S_MAINMENU,
 		S_OPTIONS,
+		S_EDITNAMES,
 		S_GAME,
 		S_DEAD,
 		S_FREECAM, // Debug

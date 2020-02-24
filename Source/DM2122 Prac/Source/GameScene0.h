@@ -83,7 +83,6 @@ class GameScene0 : public Scene
 		GEO_BUILDING1,
 		GEO_BUILDING2,
 		GEO_BUILDING3,
-		GEO_BUILDING4,
 
 		GEO_SKYSPHERE,
 		GEO_FLOOR,
@@ -222,6 +221,8 @@ private:
 	Camera camera[4];
 	Animate animate;
 	soundManager sound;
+
+	Entity* buildings[16];
 
 	bool animation[ANIS_TOTAL],
 		 showDebugInfo,

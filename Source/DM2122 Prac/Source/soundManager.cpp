@@ -30,11 +30,11 @@ void soundManager::play2DSound(string sound, bool isLoop, float volume)
         Engine->drop();
     }
 
-    else
-    {
-        Engine->stopAllSounds();
-        Engine->drop();
-    }
+}
+
+void soundManager::UpdateVol(float a)
+{
+    Engine->setSoundVolume(a / 10.0);
 }
 
 /*

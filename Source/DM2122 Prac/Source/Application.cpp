@@ -18,7 +18,7 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 bool Application::isFullscreen = 0;
-int Application::playerNum = 2;
+int Application::playerNum = 4;
 float Application::bounceTime = 0;
 GLFWwindow* Application::m_window = NULL;
 Player* Application::player[4];
@@ -138,25 +138,25 @@ void Application::Init()
 	player[0]->setInput(player[0]->ENTER, 'Z');
 
 	player[1]->setName("Player 2");
-	player[1]->setInput(player[0]->UP, 'T');
-	player[1]->setInput(player[0]->DOWN, 'G');
-	player[1]->setInput(player[0]->LEFT, 'F');
-	player[1]->setInput(player[0]->RIGHT, 'H');
-	player[1]->setInput(player[0]->ENTER, 'V');
+	player[1]->setInput(player[1]->UP, 'T');
+	player[1]->setInput(player[1]->DOWN, 'G');
+	player[1]->setInput(player[1]->LEFT, 'F');
+	player[1]->setInput(player[1]->RIGHT, 'H');
+	player[1]->setInput(player[1]->ENTER, 'V');
 	
 	player[2]->setName("Player 3");
-	player[2]->setInput(player[0]->UP, 'I');
-	player[2]->setInput(player[0]->DOWN, 'K');
-	player[2]->setInput(player[0]->LEFT, 'J');
-	player[2]->setInput(player[0]->RIGHT, 'L');
-	player[2]->setInput(player[0]->ENTER, 'M');
+	player[2]->setInput(player[2]->UP, 'I');
+	player[2]->setInput(player[2]->DOWN, 'K');
+	player[2]->setInput(player[2]->LEFT, 'J');
+	player[2]->setInput(player[2]->RIGHT, 'L');
+	player[2]->setInput(player[2]->ENTER, 'M');
 	
 	player[3]->setName("Player 4");
-	player[3]->setInput(player[0]->UP, VK_UP);
-	player[3]->setInput(player[0]->DOWN, VK_DOWN);
-	player[3]->setInput(player[0]->LEFT, VK_LEFT);
-	player[3]->setInput(player[0]->RIGHT, VK_RIGHT);
-	player[3]->setInput(player[0]->ENTER, VK_RETURN);
+	player[3]->setInput(player[3]->UP, VK_UP);
+	player[3]->setInput(player[3]->DOWN, VK_DOWN);
+	player[3]->setInput(player[3]->LEFT, VK_LEFT);
+	player[3]->setInput(player[3]->RIGHT, VK_RIGHT);
+	player[3]->setInput(player[3]->ENTER, VK_RETURN);
 }
 
 void Application::Run()

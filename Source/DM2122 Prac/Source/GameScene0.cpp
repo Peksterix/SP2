@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 #include "StateManager.h"
 #include "OptionMenu.h"
+#include "Player.h"
 
 #define ROT_LIMIT 45.f;
 #define SCALE_LIMIT 5.f;
@@ -398,6 +399,15 @@ void GameScene0::Init()
 		meshList[GEO_UI] = MeshBuilder::GenerateText("UI", 16, 8);
 		meshList[GEO_UI]->textureID = LoadTGA("image//UI Sheet.tga");
 		
+		//meshList[GEO_BUILDING0] = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
+		//meshList[GEO_BUILDING0]->textureID = LoadTGA("image//scifi texture.tga");
+		//meshList[GEO_BUILDING1] = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
+		//meshList[GEO_BUILDING1]->textureID = LoadTGA("image//scifi texture 2.tga");
+		//meshList[GEO_BUILDING2] = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
+		//meshList[GEO_BUILDING2]->textureID = LoadTGA("image//scifi texture 3.tga");
+		//meshList[GEO_BUILDING3] = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
+		//meshList[GEO_BUILDING3]->textureID = LoadTGA("image//scifi texture 4.tga");
+		
 		meshList[GEO_SKYSPHERE] = MeshBuilder::GenerateOBJ("Skysphere (Space)", "obj//Skysphere (Half).obj");
 		meshList[GEO_SKYSPHERE]->textureID = LoadTGA("image//Flat Space2.tga");
 		meshList[GEO_FLOOR] = MeshBuilder::GenerateOBJ("Floor", "obj//Floor.obj");
@@ -415,6 +425,15 @@ void GameScene0::Init()
 		showBoundingBox = 0;
 		inWindow = WINDOW_NONE;
 
+		for (int i = 0; i < 16; ++i)
+		{
+			buildings[i] = new Entity;
+			buildings[i]->position.Set((i/4) * 167 - 250, 0, (i % 4) * 167 - 250);
+			buildings[i]->scale.Set(8.247, 26.575, 8.247);
+			buildings[i]->mesh = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
+			buildings[i]->mesh->textureID = LoadTGA("image//scifi texture.tga");
+		}
+
 		for (int i = 0; i < DEBUG_TOTAL; ++i) debugValues[i] = 0;
 
 	#pragma endregion
@@ -431,11 +450,18 @@ void GameScene0::Update(double dt)
 		if (Application::IsKeyPressed('8')) glEnable(GL_CULL_FACE);						// Enable Cull
 		if (Application::IsKeyPressed('9')) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	// Normal
 		if (Application::IsKeyPressed('0')) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	// Wireframe
-		if (Application::IsKeyPressed('X'))
+		if (Application::IsKeyPressed('X') && Application::getBounceTime() <= 0)
 		{
+			Application::setBounceTime(0.2f);
 			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_FREECAM);
 			camera[0].Update(0.01, Math::RadianToDegree(atan2(camera[0].target.x - camera[0].position.x, camera[0].target.z - camera[0].position.z)),
 				Math::RadianToDegree(atan2(camera[0].target.y - camera[0].position.y, sqrt(pow(camera[0].position.x - camera[0].target.x, 2) + pow(camera[0].position.z - camera[0].target.z, 2)))));
+		}
+		if (Application::IsKeyPressed('C') && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f);
+			if (showBoundingBox) showBoundingBox = 0;
+			else showBoundingBox = 1;
 		}
 	}
 
@@ -449,52 +475,46 @@ void GameScene0::Update(double dt)
 		{
 			for (int j = 0; j < 5; ++ j) debugValues[DEBUG_PLAYER0_UP + i * 5 + j] = 0;
 
-			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->UP)))
+			if (Application::IsKeyPressed(tempPlayer->getInput(Player::UP)) )
 			{
-				// && Application::getBounceTime() <= 0
-				//tempVehicle->position.z += dt * 10;
+				// && Application::getBounceTime() <= 0 // Application::setBounceTime(0.2f);
 				
 				// +Z is foward
 				tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 				tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 
-				if (i == 0) debugValues[DEBUG_PLAYER0_UP] = 1;
-				if (i == 1) debugValues[DEBUG_PLAYER1_UP] = 1;
+				debugValues[DEBUG_PLAYER0_UP + i * 5] = 1;
 			}
-			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->DOWN)))
+			if (Application::IsKeyPressed(tempPlayer->getInput(Player::DOWN)) )
 			{
-				//tempVehicle->position.z -= dt * 10;
 
 				tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
 				tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
-
-				if (i == 0) debugValues[DEBUG_PLAYER0_DOWN] = 1;
-				if (i == 1) debugValues[DEBUG_PLAYER1_DOWN] = 1;
+				
+				debugValues[DEBUG_PLAYER0_DOWN + i * 5] = 1;
 			}
-			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->LEFT)))
+			if (Application::IsKeyPressed(tempPlayer->getInput(Player::LEFT)) )
 			{
-				//tempVehicle->position.x += dt * 10;
 
 				// +X is Left
 				tempVehicle->rotate.y += dt * 30;
 
-				if (i == 0) debugValues[DEBUG_PLAYER0_LEFT] = 1;
-				if (i == 1) debugValues[DEBUG_PLAYER1_LEFT] = 1;
+				debugValues[DEBUG_PLAYER0_LEFT + i * 5] = 1;
 			}
-			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->RIGHT)))
+			if (Application::IsKeyPressed(tempPlayer->getInput(Player::RIGHT)) )
 			{
-				//tempVehicle->position.x -= dt * 10;
+
 				tempVehicle->rotate.y -= dt * 30;
 
-				if (i == 0) debugValues[DEBUG_PLAYER0_RIGHT] = 1;
-				if (i == 1) debugValues[DEBUG_PLAYER1_RIGHT] = 1;
+				debugValues[DEBUG_PLAYER0_RIGHT + i * 5] = 1;
 			}
+
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->ENTER)))
 			{
 
 			}
 
-			camera[i].Update(dt, tempVehicle, Position(0, 16, -40), Position(0, 8, 4));
+			camera[i].Update(dt, tempVehicle, Position(0, 16 + ((Application::getPlayerNum() - 1) % 3) * 4, -40), Position(0, 8, 4));
 		}
 		else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
 		{
@@ -615,16 +635,25 @@ void GameScene0::renderScene()
 {
 	modelStack.PushMatrix();
 	
-	if (Application::getPlayerNum() == 1 || Application::getPlayerNum() == 4)
-		modelStack.Scale(1, 1, 1);
-	else
-		modelStack.Scale(1, Application::getPlayerNum(), 1);
+	// Viewport Stretch
+	modelStack.Scale(1, 1 + (Application::getPlayerNum() - 1) % 3, 1);
 
-	renderSkysphere(100);
+	renderSkysphere(500);
+
+	// Render Buildings
+	for (int i = 0; i < 16; ++i)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(buildings[i]->position.x, buildings[i]->position.y, buildings[i]->position.z);
+		modelStack.Scale(buildings[i]->scale.x, buildings[i]->scale.y, buildings[i]->scale.z);
+		RenderMesh(meshList[GEO_BUILDING0 + i % 4], true);
+		modelStack.PopMatrix();
+	}
 
 	// Render Vehicles
 	for (int i = 0; i < Application::getPlayerNum(); ++i)
 	{
+		// Call Object once and store in temp var to decrease weight on program
 		Vehicle* tempVehicle = Application::getPlayer(i)->getVehicle();
 
 		modelStack.PushMatrix();
@@ -713,16 +742,15 @@ void GameScene0::renderScene()
 			", " + std::to_string(camera[0].position.z), Color(0, 1, 0), 1, 0, 56, 1);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Target:   " + std::to_string(camera[0].target.x) + ", " + std::to_string(camera[0].target.y) +
 			", " + std::to_string(camera[0].target.z), Color(0, 1, 0), 1, 0, 55, 1);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Player 1 Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER0_UP]) +
-												", Down: " + std::to_string(debugValues[DEBUG_PLAYER0_DOWN]) + 
-												", Left: " + std::to_string(debugValues[DEBUG_PLAYER0_LEFT]) + 
-												", Right: " + std::to_string(debugValues[DEBUG_PLAYER0_RIGHT]) + 
-												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER0_ENTER]), Color(0, 1, 0), 1, 0, 53, 1);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Player 2 Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER1_UP]) +
-												", Down: " + std::to_string(debugValues[DEBUG_PLAYER1_DOWN]) +
-												", Left: " + std::to_string(debugValues[DEBUG_PLAYER1_LEFT]) +
-												", Right: " + std::to_string(debugValues[DEBUG_PLAYER1_RIGHT]) +
-												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER1_ENTER]), Color(0, 1, 0), 1, 0, 52, 1);
+		
+		for (int i = 0; i < Application::getPlayerNum(); ++i)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Player " + std::to_string(i) + " Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER0_UP + i * 5]) +
+													", Down: " + std::to_string(debugValues[DEBUG_PLAYER0_DOWN + i * 5]) +
+													", Left: " + std::to_string(debugValues[DEBUG_PLAYER0_LEFT + i * 5]) +
+													", Right: " + std::to_string(debugValues[DEBUG_PLAYER0_RIGHT + i * 5]) +
+													", Enter: " + std::to_string(debugValues[DEBUG_PLAYER0_ENTER + i * 5]), Color(0, 1, 0), 1, 0, 53 - i, 1);
+		}
 		
 		if (Application::IsKeyPressed('X'))
 		{
@@ -905,6 +933,7 @@ void GameScene0::RenderText(Mesh* mesh, std::string text, Color color, int type)
 		return;
 
 	glDisable(GL_DEPTH_TEST); 
+
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1); 
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r); 
 	glUniform1i(m_parameters[U_LIGHTENABLED], 0); 
@@ -924,6 +953,7 @@ void GameScene0::RenderText(Mesh* mesh, std::string text, Color color, int type)
 	} 
 	glBindTexture(GL_TEXTURE_2D, 0); 
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0); 
+
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -943,11 +973,8 @@ void GameScene0::RenderSpriteOnScreen(Mesh* mesh, int frameCount, float x, float
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity(); //Reset modelStack 
 	modelStack.Translate(x, y, 0);
-
-	if (Application::getPlayerNum() == 1 || Application::getPlayerNum() == 4)
-		modelStack.Scale(sizex, sizex, 1);
-	else
-		modelStack.Scale(sizex, sizex * Application::getPlayerNum(), 1);
+	// Viewport Stretch
+	modelStack.Scale(sizex, sizey + sizey * ((Application::getPlayerNum() - 1) % 3), 1);
 
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
@@ -988,12 +1015,8 @@ void GameScene0::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	modelStack.PushMatrix(); 
 	modelStack.LoadIdentity(); //Reset modelStack 
 	modelStack.Translate(x, y, 0); 
-
-	//modelStack.Scale(size, size, size);
-	if (Application::getPlayerNum() == 1 || Application::getPlayerNum() == 4)
-		modelStack.Scale(size, size, size);
-	else 
-		modelStack.Scale(size, size * Application::getPlayerNum(), size);
+	// Viewport Stretch
+	modelStack.Scale(size, size + size * ((Application::getPlayerNum() - 1) % 3), size);
 
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1); 
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r); 
