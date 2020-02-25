@@ -62,7 +62,7 @@ void OptionMenu::Update(double dt)
 	{
 		Application::setBounceTime(0.2f);
 
-		if (menuSelected[MENU_OPTIONS_Y] == 1)
+		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
 		{
 			// code to set number of player for game
 			if (Application::getPlayerNum() <= 1)
@@ -84,7 +84,7 @@ void OptionMenu::Update(double dt)
 	{
 		Application::setBounceTime(0.2f);
 
-		if (menuSelected[MENU_OPTIONS_Y] == 1)
+		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
 		{
 			// code to set number of player for game
 			if (Application::getPlayerNum() >= 4)
@@ -126,7 +126,7 @@ void OptionMenu::Update(double dt)
 			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_EDITNAMES);
 		}
 
-		else
+		else if (menuSelected[MENU_OPTIONS_Y] == 4)
 		{
 			if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
 				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);

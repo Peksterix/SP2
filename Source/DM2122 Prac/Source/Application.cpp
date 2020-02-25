@@ -18,7 +18,7 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 bool Application::isFullscreen = 0;
-int Application::playerNum = 4;
+int Application::playerNum = 1;
 float Application::bounceTime = 0;
 GLFWwindow* Application::m_window = NULL;
 Player* Application::player[4];

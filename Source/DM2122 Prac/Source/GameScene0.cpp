@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 #include "StateManager.h"
 #include "OptionMenu.h"
+#include "PlayerName.h"
 #include "Player.h"
 
 #define ROT_LIMIT 45.f;
@@ -399,8 +400,8 @@ void GameScene0::Init()
 		meshList[GEO_UI] = MeshBuilder::GenerateText("UI", 16, 8);
 		meshList[GEO_UI]->textureID = LoadTGA("image//UI Sheet.tga");
 		
-		//meshList[GEO_BUILDING0] = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
-		//meshList[GEO_BUILDING0]->textureID = LoadTGA("image//scifi texture.tga");
+		meshList[GEO_BUILDING0] = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
+		meshList[GEO_BUILDING0]->textureID = LoadTGA("image//scifi texture.tga");
 		//meshList[GEO_BUILDING1] = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
 		//meshList[GEO_BUILDING1]->textureID = LoadTGA("image//scifi texture 2.tga");
 		//meshList[GEO_BUILDING2] = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
@@ -411,7 +412,7 @@ void GameScene0::Init()
 		meshList[GEO_SKYSPHERE] = MeshBuilder::GenerateOBJ("Skysphere (Space)", "obj//Skysphere (Half).obj");
 		meshList[GEO_SKYSPHERE]->textureID = LoadTGA("image//Flat Space2.tga");
 		meshList[GEO_FLOOR] = MeshBuilder::GenerateOBJ("Floor", "obj//Floor.obj");
-		meshList[GEO_FLOOR]->textureID = LoadTGA("image//Vehicle3a.tga");
+		meshList[GEO_FLOOR]->textureID = LoadTGA("image//Vehicle2a.tga");
 
 		meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 8, 16, 1.f);
 	
@@ -428,8 +429,8 @@ void GameScene0::Init()
 		for (int i = 0; i < 16; ++i)
 		{
 			buildings[i] = new Entity;
-			buildings[i]->position.Set((i/4) * 167 - 250, 0, (i % 4) * 167 - 250);
-			buildings[i]->scale.Set(8.247, 26.575, 8.247);
+			buildings[i]->position.Set((i/4) * 167 - 250, 26.575 / 2.f, (i % 4) * 167 - 250);
+			buildings[i]->scale.Set(8.247, 26.575 / 2.f, 8.247);
 			buildings[i]->mesh = MeshBuilder::GenerateOBJ("Building", "obj//scifi building.obj");
 			buildings[i]->mesh->textureID = LoadTGA("image//scifi texture.tga");
 		}
@@ -465,14 +466,14 @@ void GameScene0::Update(double dt)
 		}
 	}
 
-	// Repeat for each Player
-	for (int i = 0; i < Application::getPlayerNum(); ++i)
-	{
-		Player* tempPlayer = Application::getPlayer(i);
-		Vehicle* tempVehicle = tempPlayer->getVehicle();
 
-		if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
+	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
+	{
+		// Repeat for each Player
+		for (int i = 0; i < Application::getPlayerNum(); ++i)
 		{
+			Player* tempPlayer = Application::getPlayer(i);
+			Vehicle* tempVehicle = tempPlayer->getVehicle();
 			for (int j = 0; j < 5; ++ j) debugValues[DEBUG_PLAYER0_UP + i * 5 + j] = 0;
 
 			if (Application::IsKeyPressed(tempPlayer->getInput(Player::UP)) )
@@ -516,12 +517,22 @@ void GameScene0::Update(double dt)
 
 			camera[i].Update(dt, tempVehicle, Position(0, 16 + ((Application::getPlayerNum() - 1) % 3) * 4, -40), Position(0, 8, 4));
 		}
-		else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
-		{
 
+		if (Application::IsKeyPressed(VK_ESCAPE) && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f);
+
+			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_OPTIONS);
 		}
 	}
-
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
+	{
+		OptionMenu::getInstance()->Update(dt);
+	}
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_EDITNAMES)
+	{
+		PlayerName::getInstance()->Update(dt);
+	}
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_FREECAM)
 	{
 		camera[0].Update(dt, 0, 0);
@@ -646,7 +657,7 @@ void GameScene0::renderScene()
 		modelStack.PushMatrix();
 		modelStack.Translate(buildings[i]->position.x, buildings[i]->position.y, buildings[i]->position.z);
 		modelStack.Scale(buildings[i]->scale.x, buildings[i]->scale.y, buildings[i]->scale.z);
-		RenderMesh(meshList[GEO_BUILDING0 + i % 4], true);
+		RenderMesh(meshList[GEO_BUILDING0], true);
 		modelStack.PopMatrix();
 	}
 
@@ -699,6 +710,12 @@ void GameScene0::renderScene()
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
 	{
 		OptionMenu::getInstance()->Render();
+	}
+
+	// Render EditNames Text
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_EDITNAMES)
+	{
+		PlayerName::getInstance()->Render();
 	}
 
 	// Render Confirmation Window

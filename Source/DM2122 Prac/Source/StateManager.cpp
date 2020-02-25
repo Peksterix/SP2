@@ -30,9 +30,9 @@ void StateManager::setScene(SCENE_STATES scene)
 		delete currentScene;
 	}
 	
-	if (scene == SCENE_STATES::SS_TEST) currentScene = new TestScene;
-	else if (scene == SCENE_STATES::SS_MAINMENU) currentScene = new VehicleScene;
-	else if (scene == SCENE_STATES::SS_MAP0) currentScene = new GameScene0;
+	if (scene == SCENE_STATES::SS_TEST) { currentScene = new TestScene; currentSceneState = SCENE_STATES::SS_TEST; }
+	else if (scene == SCENE_STATES::SS_MAINMENU) { currentScene = new VehicleScene; currentSceneState = SCENE_STATES::SS_MAINMENU; }
+	else if (scene == SCENE_STATES::SS_MAP0) { currentScene = new GameScene0; currentSceneState = SCENE_STATES::SS_MAP0; }
 
 	currentScene->Init();
 	currentScene->Update(0.02);

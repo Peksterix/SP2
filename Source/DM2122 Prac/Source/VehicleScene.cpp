@@ -1530,6 +1530,7 @@ void VehicleScene::renderScene()
 	{
 		PlayerName::getInstance()->Render();
 	}
+
 	// Render Confirmation Window
 	if (inWindow && inWindow != WINDOW_INPUT)
 	{
