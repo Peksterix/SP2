@@ -4,10 +4,19 @@ Vehicle::Vehicle()
 {
 	name = "N/A";
 
-
 	chassis = nullptr;
 	wheel = nullptr;
 	weapon = nullptr;
+
+	maxSpeed = 70.f;
+	accel = 0.6f;
+
+	vehTurningSpeed = 0.f;
+	cMaxTurningSpeed = 5.f;
+	cTurningSpeedRate = 0.5f;
+	cTurningSpeedDecayRate = 2.f;
+
+	
 }
 
 Vehicle::~Vehicle()
@@ -90,6 +99,8 @@ void Vehicle::Update()
 
 }
 
+
+//New stuff from here---------------------------------------------------
 physics* Vehicle::getRB()
 {
 	return &RB;
@@ -97,9 +108,9 @@ physics* Vehicle::getRB()
 
 void Vehicle::updatePos()
 {
-	position.x += this->RB.getForce().x;
-	position.z += this->RB.getForce().z;
-	position.y += this->RB.getForce().y;
+	position.x += this->RB.getVelo().x;
+	position.z += this->RB.getVelo().z;
+	position.y += this->RB.getVelo().y;
 
 	Vector3 currentPos = this->getPos();
 	this->setPos(currentPos.x, currentPos.y, currentPos.z);
@@ -126,3 +137,19 @@ Vector3 Vehicle::getRotation()
 {
 	return rotation;
 }
+
+void Vehicle::setTurningSpeed(float speed)
+{
+	turningSpeed = speed;
+}
+
+void Vehicle::setMaxTurnSpeed(float speed)
+{
+	maxTurningSpeed = speed;
+}
+
+float Vehicle::getTurnRate()
+{
+	return vehTurningSpeed;
+}
+//--------------------------------------------------------------------------

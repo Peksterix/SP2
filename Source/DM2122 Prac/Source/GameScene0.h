@@ -11,6 +11,7 @@
 #include "Animate.h"
 #include "soundManager.h"
 #include "Entity.h"
+#include "Physics.h"
 
 class GameScene0 : public Scene
 {
@@ -239,8 +240,6 @@ private:
 
 	float	aniVal[ANI_TOTAL];
 
-	float maxSpeed;
-	float accel;
 	physics phys;
 	Entity ent;
 	

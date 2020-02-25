@@ -12,7 +12,6 @@
 #include <GLFW/glfw3.h>
 #include "StateManager.h"
 #include "OptionMenu.h"
-#include "Physics.h"
 
 #define ROT_LIMIT 45.f;
 #define SCALE_LIMIT 5.f;
@@ -28,9 +27,6 @@ GameScene0::GameScene0()
 	{
 		meshList[i] = NULL;
 	}
-
-	maxSpeed = 150.f;
-	accel = 3.f;
 }
 
 GameScene0::~GameScene0()
@@ -449,7 +445,8 @@ void GameScene0::Update(double dt)
 		Player* tempPlayer = Application::getPlayer(i);
 		Vehicle* tempVehicle = tempPlayer->getVehicle();
 		
-
+	//***********************************************************************************************************************************************
+	//MERGE THIS
 		if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
 		{
 			for (int j = 0; j < 5; ++ j) debugValues[DEBUG_PLAYER0_UP + i * 5 + j] = 0;
@@ -473,10 +470,11 @@ void GameScene0::Update(double dt)
 
 				Vector3 force = tempVehicle->getRB()->getForce().Length();
 
-				if (force.Length() < maxSpeed)
+				if (force.Length() < tempVehicle->maxSpeed)
 				{
-					Vector3 newForce = -accel * tempVehicle->RB.getFront();
-					tempVehicle->RB.addForce(newForce);
+					Vector3 newForce = tempVehicle->accel * tempVehicle->RB.getFront();
+					//tempVehicle->RB.addForce(newForce);
+					tempVehicle->RB.setVelo(newForce);
 				}
 
 				if (i == 0) debugValues[DEBUG_PLAYER0_UP] = 1;
@@ -487,8 +485,17 @@ void GameScene0::Update(double dt)
 			{
 				//tempVehicle->position.z -= dt * 10;
 				
-				tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
-				tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+				/*tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+				tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));*/
+
+				Vector3 force = tempVehicle->getRB()->getForce().Length();
+
+				if (force.Length() < tempVehicle->maxSpeed)
+				{
+					Vector3 newForce = -tempVehicle->accel * tempVehicle->RB.getFront();
+					//tempVehicle->RB.addForce(newForce);
+					tempVehicle->RB.setVelo(newForce);
+				}
 
 				if (i == 0) debugValues[DEBUG_PLAYER0_DOWN] = 1;
 				if (i == 1) debugValues[DEBUG_PLAYER1_DOWN] = 1;
@@ -498,7 +505,31 @@ void GameScene0::Update(double dt)
 				//tempVehicle->position.x += dt * 10;
 
 				// +X is Left
-				tempVehicle->rotate.y += dt * 30;
+				//tempVehicle->rotate.y += dt * 30;
+
+				if (tempVehicle->RB.getVelo().Length() < 0.5f)
+				{
+					return;
+				}
+				if (tempVehicle->vehTurningSpeed < tempVehicle->cMaxTurningSpeed)
+				{
+					tempVehicle->vehTurningSpeed += tempVehicle->cTurningSpeedRate;
+				}
+
+				Mtx44 rotate;
+				tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * 1) * tempVehicle->RB.getVelo().Length();
+				//TODO: Add rotation for reversing
+
+				rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
+				//front rotation
+				Vector3 rotFront = rotate * tempVehicle->RB.getFront();
+				rotFront.Normalize();
+				tempVehicle->RB.setFront(rotFront);
+
+				tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
+
+
+
 
 				if (i == 0) debugValues[DEBUG_PLAYER0_LEFT] = 1;
 				if (i == 1) debugValues[DEBUG_PLAYER1_LEFT] = 1;
@@ -506,7 +537,28 @@ void GameScene0::Update(double dt)
 			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->RIGHT)))
 			{
 				//tempVehicle->position.x -= dt * 10;
-				tempVehicle->rotate.y -= dt * 30;
+				//tempVehicle->rotate.y -= dt * 30;
+
+				if (tempVehicle->RB.getVelo().Length() < 0.5f)
+				{
+					return;
+				}
+				if (tempVehicle->vehTurningSpeed < tempVehicle->cMaxTurningSpeed)
+				{
+					tempVehicle->vehTurningSpeed += tempVehicle->cTurningSpeedRate;
+				}
+
+				Mtx44 rotate;
+				tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * -1) * tempVehicle->RB.getVelo().Length();
+				//TODO: Add rotation for reversing
+
+				rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
+				//front rotation
+				Vector3 rotFront = rotate * tempVehicle->RB.getFront();
+				rotFront.Normalize();
+				tempVehicle->RB.setFront(rotFront);
+
+				tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
 
 				if (i == 0) debugValues[DEBUG_PLAYER0_RIGHT] = 1;
 				if (i == 1) debugValues[DEBUG_PLAYER1_RIGHT] = 1;
@@ -524,7 +576,8 @@ void GameScene0::Update(double dt)
 
 		}
 	}
-
+	//END
+	//***********************************************************************************************************************************************
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_FREECAM)
 	{
 		camera[0].Update(dt, 0, 0);
