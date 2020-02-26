@@ -445,8 +445,7 @@ void GameScene0::Update(double dt)
 		Player* tempPlayer = Application::getPlayer(i);
 		Vehicle* tempVehicle = tempPlayer->getVehicle();
 		
-	//***********************************************************************************************************************************************
-	//MERGE THIS
+		//**************NEW*************
 		if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
 		{
 			for (int j = 0; j < 5; ++ j) debugValues[DEBUG_PLAYER0_UP + i * 5 + j] = 0;
@@ -518,7 +517,7 @@ void GameScene0::Update(double dt)
 
 				Mtx44 rotate;
 				tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * 1) * tempVehicle->RB.getVelo().Length();
-				//TODO: Add rotation for reversing
+				//TODO: Add rotation for reversing(DONE)
 
 				rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
 				//front rotation
@@ -528,8 +527,8 @@ void GameScene0::Update(double dt)
 
 				tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
 
-
-
+				//rotate mesh
+				tempVehicle->rotate.y += tempVehicle->turningAngle;
 
 				if (i == 0) debugValues[DEBUG_PLAYER0_LEFT] = 1;
 				if (i == 1) debugValues[DEBUG_PLAYER1_LEFT] = 1;
@@ -550,7 +549,7 @@ void GameScene0::Update(double dt)
 
 				Mtx44 rotate;
 				tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * -1) * tempVehicle->RB.getVelo().Length();
-				//TODO: Add rotation for reversing
+				//TODO: Add rotation for reversing(DONE)
 
 				rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
 				//front rotation
@@ -559,6 +558,9 @@ void GameScene0::Update(double dt)
 				tempVehicle->RB.setFront(rotFront);
 
 				tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
+
+				//rotate mesh
+				tempVehicle->rotate.y += tempVehicle->turningAngle;
 
 				if (i == 0) debugValues[DEBUG_PLAYER0_RIGHT] = 1;
 				if (i == 1) debugValues[DEBUG_PLAYER1_RIGHT] = 1;
@@ -576,8 +578,8 @@ void GameScene0::Update(double dt)
 
 		}
 	}
-	//END
-	//***********************************************************************************************************************************************
+	//**************END*************
+
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_FREECAM)
 	{
 		camera[0].Update(dt, 0, 0);

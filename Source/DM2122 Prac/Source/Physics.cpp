@@ -12,7 +12,6 @@ physics::physics()
 	right.Set(1, 0, 0);
 	front.Set(0, 0, 1);
 
-	//values can be changed depending on what kind of physics you want(if that makes sense xd)
 	frictionalForce = -1.7f;
 	minVelo = 0.01f;
 	KElost = 0.99f;

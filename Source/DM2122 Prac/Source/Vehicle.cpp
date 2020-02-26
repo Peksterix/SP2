@@ -8,6 +8,7 @@ Vehicle::Vehicle()
 	wheel = nullptr;
 	weapon = nullptr;
 
+	//**************NEW*************
 	maxSpeed = 70.f;
 	accel = 0.6f;
 
@@ -15,7 +16,7 @@ Vehicle::Vehicle()
 	cMaxTurningSpeed = 5.f;
 	cTurningSpeedRate = 0.5f;
 	cTurningSpeedDecayRate = 2.f;
-
+	//**************END*************
 	
 }
 

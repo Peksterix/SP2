@@ -27,6 +27,7 @@ public:
 	Position scale;
 	physics RB;
 
+	//**************NEW*************
 	float maxSpeed;
 	float accel;
 	
@@ -44,6 +45,7 @@ public:
 	void updatePos();
 	Vehicle getFront();
 	void setFront();
+	//**************END*************
 
 	Vehicle();
 	~Vehicle();
