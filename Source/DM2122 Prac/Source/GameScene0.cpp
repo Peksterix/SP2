@@ -424,7 +424,12 @@ void GameScene0::Init()
 		
 		showDebugInfo = 1;
 		showBoundingBox = 0;
-		inWindow = WINDOW_NONE;
+
+		for (int i = 0; i < 4; ++i)
+		{
+			inWindow[i] = WINDOW_NONE;
+			for (int j = 0; j < 3; ++j) health[j][i] = 0;
+		}
 
 		for (int i = 0; i < 16; ++i)
 		{
@@ -435,7 +440,19 @@ void GameScene0::Init()
 			buildings[i]->mesh->textureID = LoadTGA("image//scifi texture.tga");
 		}
 
+		for (int i = 0; i < MENU_TOTAL; ++i) menuSelected[i] = 0;
 		for (int i = 0; i < DEBUG_TOTAL; ++i) debugValues[i] = 0;
+
+		for (int i = 0; i < Application::getPlayerNum(); ++i)
+		{
+			health[0][i] = Application::getPlayer(i)->getVehicle()->getChassis()->getHealth();
+			health[1][i] = Application::getPlayer(i)->getVehicle()->getWheel()->getHealth();
+			health[2][i] = Application::getPlayer(i)->getVehicle()->getWeapon()->getHealth();
+
+			Application::getPlayer(i)->getVehicle()->position.Set((i / 2) * 390 - 195, 0, (i % 2) * 390 - 195);
+		}
+
+		for (int k = 0; k < 5; ++k) textWindow[k] = " ";
 
 	#pragma endregion
 }
@@ -464,6 +481,16 @@ void GameScene0::Update(double dt)
 			if (showBoundingBox) showBoundingBox = 0;
 			else showBoundingBox = 1;
 		}
+		if (Application::IsKeyPressed('Q') && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f);
+			Application::getPlayer(0)->setKills(5);
+		}
+		if (Application::IsKeyPressed('E') && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f);
+			health[0][0] = 0;
+		}
 	}
 
 
@@ -476,46 +503,78 @@ void GameScene0::Update(double dt)
 			Vehicle* tempVehicle = tempPlayer->getVehicle();
 			for (int j = 0; j < 5; ++ j) debugValues[DEBUG_PLAYER0_UP + i * 5 + j] = 0;
 
-			if (Application::IsKeyPressed(tempPlayer->getInput(Player::UP)) )
+			if (tempPlayer->getKills() > 4)
 			{
-				// && Application::getBounceTime() <= 0 // Application::setBounceTime(0.2f);
+				Application::setBounceTime(1.f);
+				inWindow[0] = WINDOW_CONFIRM;
 				
-				// +Z is foward
-				tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
-				tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+				textWindow[0] = tempPlayer->getName() + " Has Won!";
+				for (int k = 0; k < Application::getPlayerNum(); ++k) 
+					textWindow[k + 1] += Application::getPlayer(k)->getName() + ": Kills: " + std::to_string(Application::getPlayer(k)->getKills());
 
-				debugValues[DEBUG_PLAYER0_UP + i * 5] = 1;
+				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_GAMEOVER);
 			}
-			if (Application::IsKeyPressed(tempPlayer->getInput(Player::DOWN)) )
+			// If Chassis Health > 0
+			else if (health[0][i] > 0)
 			{
+				if (Application::IsKeyPressed(tempPlayer->getInput(Player::UP)) && health[1][i] > 0)
+				{
+					// && Application::getBounceTime() <= 0 // Application::setBounceTime(0.2f);
 
-				tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
-				tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+					// +Z is foward
+					tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+					tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+
+					debugValues[DEBUG_PLAYER0_UP + i * 5] = 1;
+				}
+				if (Application::IsKeyPressed(tempPlayer->getInput(Player::DOWN)) && health[1][i] > 0)
+				{
+
+					tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+					tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+
+					debugValues[DEBUG_PLAYER0_DOWN + i * 5] = 1;
+				}
+				if (Application::IsKeyPressed(tempPlayer->getInput(Player::LEFT)) && health[1][i] > 0)
+				{
+
+					// +X is Left
+					tempVehicle->rotate.y += dt * 30;
+
+					debugValues[DEBUG_PLAYER0_LEFT + i * 5] = 1;
+				}
+				if (Application::IsKeyPressed(tempPlayer->getInput(Player::RIGHT)) && health[1][i] > 0)
+				{
+
+					tempVehicle->rotate.y -= dt * 30;
+
+					debugValues[DEBUG_PLAYER0_RIGHT + i * 5] = 1;
+				}
+
+				if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->ENTER)) && health[2][i] > 0)
+				{
+
+				}
 				
-				debugValues[DEBUG_PLAYER0_DOWN + i * 5] = 1;
+				camera[i].Update(dt, tempVehicle, Position(0, 16 + ((Application::getPlayerNum() - 1) % 3) * 4, -40), Position(0, 8, 4));
 			}
-			if (Application::IsKeyPressed(tempPlayer->getInput(Player::LEFT)) )
+			else
 			{
+				inWindow[i] = WINDOW_NOTIFY;
+				textWindow[0] = "Respawn...";
+				for (int k = 0; k < 4; ++k) textWindow[k + 1] = " ";
 
-				// +X is Left
-				tempVehicle->rotate.y += dt * 30;
+				if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->ENTER)))
+				{
+					inWindow[i] = WINDOW_NONE;
+					
+					tempVehicle->position.Set((i / 2) * 390 - 195, 0, (i % 2) * 390 - 195);
 
-				debugValues[DEBUG_PLAYER0_LEFT + i * 5] = 1;
+					health[0][i] = Application::getPlayer(i)->getVehicle()->getChassis()->getHealth();
+					health[1][i] = Application::getPlayer(i)->getVehicle()->getWheel()->getHealth();
+					health[2][i] = Application::getPlayer(i)->getVehicle()->getWeapon()->getHealth();
+				}
 			}
-			if (Application::IsKeyPressed(tempPlayer->getInput(Player::RIGHT)) )
-			{
-
-				tempVehicle->rotate.y -= dt * 30;
-
-				debugValues[DEBUG_PLAYER0_RIGHT + i * 5] = 1;
-			}
-
-			if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->ENTER)))
-			{
-
-			}
-
-			camera[i].Update(dt, tempVehicle, Position(0, 16 + ((Application::getPlayerNum() - 1) % 3) * 4, -40), Position(0, 8, 4));
 		}
 
 		if (Application::IsKeyPressed(VK_ESCAPE) && Application::getBounceTime() <= 0)
@@ -523,6 +582,38 @@ void GameScene0::Update(double dt)
 			Application::setBounceTime(0.2f);
 
 			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_OPTIONS);
+		}
+	}
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAMEOVER)
+	{
+		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f); 
+			--menuSelected[MENU_CONIRMATION];
+
+			if (menuSelected[MENU_CONIRMATION] > 1) menuSelected[MENU_CONIRMATION] = 0;
+			if (menuSelected[MENU_CONIRMATION] < 0) menuSelected[MENU_CONIRMATION] = 1;
+		}
+		else if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f);
+			++menuSelected[MENU_CONIRMATION];
+
+			if (menuSelected[MENU_CONIRMATION] > 1) menuSelected[MENU_CONIRMATION] = 0;
+			if (menuSelected[MENU_CONIRMATION] < 0) menuSelected[MENU_CONIRMATION] = 1;
+		}
+		else if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
+		{
+			if (menuSelected[MENU_CONIRMATION] == 0)
+			{
+				StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAINMENU);
+				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
+			}
+			else
+			{
+				StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAP0);
+				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_GAME);
+			}
 		}
 	}
 	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
@@ -533,7 +624,7 @@ void GameScene0::Update(double dt)
 	{
 		PlayerName::getInstance()->Update(dt);
 	}
-	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_FREECAM)
+	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_FREECAM)
 	{
 		camera[0].Update(dt, 0, 0);
 	}
@@ -552,65 +643,15 @@ void GameScene0::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Viewport
-	if (Application::getPlayerNum() == 4)
+	if (Application::getPlayerNum() == 1 || StateManager::getInstance()->getGameState() != StateManager::GAME_STATES::S_GAME)
 	{
-		// Top Left
-		glViewport(0, screenSizeY / 2, screenSizeX / 2, screenSizeY / 2);
+		// Full window	
+		glViewport(0, 0, screenSizeX, screenSizeY);
 		viewStack.LoadIdentity();
 		viewStack.LookAt(camera[0].position.x, camera[0].position.y, camera[0].position.z, camera[0].target.x, camera[0].target.y, camera[0].target.z, camera[0].up.x, camera[0].up.y, camera[0].up.z);
 		modelStack.LoadIdentity();
 		CalculateLights();
-		renderScene();
-
-		// Top Right
-		glViewport(screenSizeX / 2, screenSizeY / 2, screenSizeX / 2, screenSizeY / 2);
-		viewStack.LoadIdentity();
-		viewStack.LookAt(camera[1].position.x, camera[1].position.y, camera[1].position.z, camera[1].target.x, camera[1].target.y, camera[1].target.z, camera[1].up.x, camera[1].up.y, camera[1].up.z);
-		modelStack.LoadIdentity();
-		CalculateLights();
-		renderScene();
-
-		// Bottom Left
-		glViewport(0, 0, screenSizeX / 2, screenSizeY / 2);
-		viewStack.LoadIdentity();
-		viewStack.LookAt(camera[2].position.x, camera[2].position.y, camera[2].position.z, camera[2].target.x, camera[2].target.y, camera[2].target.z, camera[2].up.x, camera[2].up.y, camera[2].up.z);
-		modelStack.LoadIdentity();
-		CalculateLights();
-		renderScene();
-
-		// Bottom Right
-		glViewport(screenSizeX / 2, 0, screenSizeX / 2, screenSizeY / 2);
-		viewStack.LoadIdentity();
-		viewStack.LookAt(camera[3].position.x, camera[3].position.y, camera[3].position.z, camera[3].target.x, camera[3].target.y, camera[3].target.z, camera[3].up.x, camera[3].up.y, camera[3].up.z);
-		modelStack.LoadIdentity();
-		CalculateLights();
-		renderScene();
-	}
-	else if (Application::getPlayerNum() == 3)
-	{
-		// Top
-		glViewport(0, 2 * (screenSizeY / 3), screenSizeX, screenSizeY / 3);
-		viewStack.LoadIdentity();
-		viewStack.LookAt(camera[0].position.x, camera[0].position.y, camera[0].position.z, camera[0].target.x, camera[0].target.y, camera[0].target.z, camera[0].up.x, camera[0].up.y, camera[0].up.z);
-		modelStack.LoadIdentity();
-		CalculateLights();
-		renderScene();
-
-		// Middle
-		glViewport(0, screenSizeY / 3, screenSizeX, screenSizeY / 3);
-		viewStack.LoadIdentity();
-		viewStack.LookAt(camera[1].position.x, camera[1].position.y, camera[1].position.z, camera[1].target.x, camera[1].target.y, camera[1].target.z, camera[1].up.x, camera[1].up.y, camera[1].up.z);
-		modelStack.LoadIdentity();
-		CalculateLights();
-		renderScene();
-
-		// Bottom
-		glViewport(0, 0, screenSizeX, screenSizeY / 3);
-		viewStack.LoadIdentity();
-		viewStack.LookAt(camera[2].position.x, camera[2].position.y, camera[2].position.z, camera[2].target.x, camera[2].target.y, camera[2].target.z, camera[2].up.x, camera[2].up.y, camera[2].up.z);
-		modelStack.LoadIdentity();
-		CalculateLights();
-		renderScene();
+		renderScene(0);
 	}
 	else if (Application::getPlayerNum() == 2)
 	{
@@ -620,7 +661,7 @@ void GameScene0::Render()
 		viewStack.LookAt(camera[0].position.x, camera[0].position.y, camera[0].position.z, camera[0].target.x, camera[0].target.y, camera[0].target.z, camera[0].up.x, camera[0].up.y, camera[0].up.z);
 		modelStack.LoadIdentity();
 		CalculateLights();
-		renderScene();
+		renderScene(0);
 
 		// Bottom
 		glViewport(0, 0, screenSizeX, screenSizeY / 2);
@@ -628,26 +669,76 @@ void GameScene0::Render()
 		viewStack.LookAt(camera[1].position.x, camera[1].position.y, camera[1].position.z, camera[1].target.x, camera[1].target.y, camera[1].target.z, camera[1].up.x, camera[1].up.y, camera[1].up.z);
 		modelStack.LoadIdentity();
 		CalculateLights();
-		renderScene();
+		renderScene(1);
 	}
-	else
+	else if (Application::getPlayerNum() == 3)
 	{
-		// Full window	
-		glViewport(0, 0, screenSizeX, screenSizeY);
+		// Top
+		glViewport(0, 2 * (screenSizeY / 3), screenSizeX, screenSizeY / 3);
 		viewStack.LoadIdentity();
 		viewStack.LookAt(camera[0].position.x, camera[0].position.y, camera[0].position.z, camera[0].target.x, camera[0].target.y, camera[0].target.z, camera[0].up.x, camera[0].up.y, camera[0].up.z);
 		modelStack.LoadIdentity();
 		CalculateLights();
-		renderScene();
+		renderScene(0);
+
+		// Middle
+		glViewport(0, screenSizeY / 3, screenSizeX, screenSizeY / 3);
+		viewStack.LoadIdentity();
+		viewStack.LookAt(camera[1].position.x, camera[1].position.y, camera[1].position.z, camera[1].target.x, camera[1].target.y, camera[1].target.z, camera[1].up.x, camera[1].up.y, camera[1].up.z);
+		modelStack.LoadIdentity();
+		CalculateLights();
+		renderScene(1);
+
+		// Bottom
+		glViewport(0, 0, screenSizeX, screenSizeY / 3);
+		viewStack.LoadIdentity();
+		viewStack.LookAt(camera[2].position.x, camera[2].position.y, camera[2].position.z, camera[2].target.x, camera[2].target.y, camera[2].target.z, camera[2].up.x, camera[2].up.y, camera[2].up.z);
+		modelStack.LoadIdentity();
+		CalculateLights();
+		renderScene(2);
+	}
+	else if (Application::getPlayerNum() == 4)
+	{
+		// Top Left
+		glViewport(0, screenSizeY / 2, screenSizeX / 2, screenSizeY / 2);
+		viewStack.LoadIdentity();
+		viewStack.LookAt(camera[0].position.x, camera[0].position.y, camera[0].position.z, camera[0].target.x, camera[0].target.y, camera[0].target.z, camera[0].up.x, camera[0].up.y, camera[0].up.z);
+		modelStack.LoadIdentity();
+		CalculateLights();
+		renderScene(0);
+
+		// Top Right
+		glViewport(screenSizeX / 2, screenSizeY / 2, screenSizeX / 2, screenSizeY / 2);
+		viewStack.LoadIdentity();
+		viewStack.LookAt(camera[1].position.x, camera[1].position.y, camera[1].position.z, camera[1].target.x, camera[1].target.y, camera[1].target.z, camera[1].up.x, camera[1].up.y, camera[1].up.z);
+		modelStack.LoadIdentity();
+		CalculateLights();
+		renderScene(1);
+
+		// Bottom Left
+		glViewport(0, 0, screenSizeX / 2, screenSizeY / 2);
+		viewStack.LoadIdentity();
+		viewStack.LookAt(camera[2].position.x, camera[2].position.y, camera[2].position.z, camera[2].target.x, camera[2].target.y, camera[2].target.z, camera[2].up.x, camera[2].up.y, camera[2].up.z);
+		modelStack.LoadIdentity();
+		CalculateLights();
+		renderScene(2);
+
+		// Bottom Right
+		glViewport(screenSizeX / 2, 0, screenSizeX / 2, screenSizeY / 2);
+		viewStack.LoadIdentity();
+		viewStack.LookAt(camera[3].position.x, camera[3].position.y, camera[3].position.z, camera[3].target.x, camera[3].target.y, camera[3].target.z, camera[3].up.x, camera[3].up.y, camera[3].up.z);
+		modelStack.LoadIdentity();
+		CalculateLights();
+		renderScene(3);
 	}
 }
 
-void GameScene0::renderScene()
+void GameScene0::renderScene(int PlayerScreen)
 {
 	modelStack.PushMatrix();
 	
 	// Viewport Stretch
-	modelStack.Scale(1, 1 + (Application::getPlayerNum() - 1) % 3, 1);
+	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME) modelStack.Scale(1, 1 + (Application::getPlayerNum() - 1) % 3, 1);
 
 	renderSkysphere(500);
 
@@ -661,7 +752,7 @@ void GameScene0::renderScene()
 		modelStack.PopMatrix();
 	}
 
-	// Render Vehicles
+	// Render Vehicles && Player Names
 	for (int i = 0; i < Application::getPlayerNum(); ++i)
 	{
 		// Call Object once and store in temp var to decrease weight on program
@@ -704,6 +795,19 @@ void GameScene0::renderScene()
 		}
 
 		modelStack.PopMatrix();
+
+		// Render Player Names
+		for (int j = 0; j < Application::getPlayerNum(); ++j)
+		{
+			if (j == i) continue;
+			
+			Vehicle* tempOther = Application::getPlayer(j)->getVehicle();
+
+			if (tempOther->position.z - tempVehicle->position.z > 0)
+			{
+
+			}
+		}
 	}
 	
 	// Render Options Text
@@ -719,35 +823,32 @@ void GameScene0::renderScene()
 	}
 
 	// Render Confirmation Window
-	if (inWindow)
+	if (inWindow[PlayerScreen])
 	{
-		if (Application::getPlayerNum() == 1 || Application::getPlayerNum() == 4) 
-			RenderSpriteOnScreen(meshList[GEO_UI], UI_SELECTED, 40 - 20, 32 - 10, 40, 20, Color(0, 0, 1));
-		else 
-			RenderSpriteOnScreen(meshList[GEO_UI], UI_SELECTED, 40 - 20, 32 - 10, 40, 20 * Application::getPlayerNum(), Color(0, 0, 1));
+		RenderSpriteOnScreen(meshList[GEO_UI], UI_SELECTED, 40 - 20, 32 - 10, 40, 20, Color(0, 0, 1));
 
-		RenderTextOnScreen(meshList[GEO_TEXT], textWindow, Color(1, 1, 0), 3, 40, 32);
+		RenderTextOnScreen(meshList[GEO_TEXT], textWindow[0], Color(1, 1, 0), 3, 40, 32);
+		RenderTextOnScreen(meshList[GEO_TEXT], textWindow[1], Color(1, 1, 0), 3, 40, 29);
+		RenderTextOnScreen(meshList[GEO_TEXT], textWindow[2], Color(1, 1, 0), 3, 40, 26);
+		RenderTextOnScreen(meshList[GEO_TEXT], textWindow[3], Color(1, 1, 0), 3, 40, 23);
+		RenderTextOnScreen(meshList[GEO_TEXT], textWindow[4], Color(1, 1, 0), 3, 40, 20);
 
-		if (inWindow == WINDOW_CONFIRM)
+		if (inWindow[PlayerScreen] == WINDOW_CONFIRM)
 		{
 			if (menuSelected[MENU_CONIRMATION] == 0)
 			{
-				RenderTextOnScreen(meshList[GEO_TEXT], "Deny", Color(1, 0, 0), 5, 32, 28);
-				RenderTextOnScreen(meshList[GEO_TEXT], "Confirm", Color(1, 1, 0), 3, 45, 28);
+				RenderTextOnScreen(meshList[GEO_TEXT], "MainMenu", Color(1, 0, 0), 5, 32, 16);
+				RenderTextOnScreen(meshList[GEO_TEXT], "Replay", Color(1, 1, 0), 3, 45, 16);
 			}
 			else
 			{
-				RenderTextOnScreen(meshList[GEO_TEXT], "Deny", Color(1, 1, 0), 3, 32, 28);
-				RenderTextOnScreen(meshList[GEO_TEXT], "Confirm", Color(1, 0, 0), 5, 45, 28);
+				RenderTextOnScreen(meshList[GEO_TEXT], "MainMenu", Color(1, 1, 0), 3, 32, 16);
+				RenderTextOnScreen(meshList[GEO_TEXT], "Replay", Color(1, 0, 0), 5, 45, 16);
 			}
 		}
-		else if (inWindow == WINDOW_NOTIFY)
+		else if (inWindow[PlayerScreen] == WINDOW_NOTIFY)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Okay", Color(1, 0, 0), 5, 40, 25);
-		}
-		else if (inWindow == WINDOW_INPUT)
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], textInput, Color(1, 0, 0), 3, 40, 25);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Okay", Color(1, 0, 0), 5, 40, 22);
 		}
 	}
 

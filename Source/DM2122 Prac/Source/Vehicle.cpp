@@ -70,21 +70,21 @@ void Vehicle::setName(std::string string)
 	name = string;
 }
 
-void Vehicle::Update()
-{
-	if (chassis != nullptr)
-	{
-		if (chassis->getHealth() <= 0) delete chassis;
-	}
-
-	if (wheel != nullptr)
-	{
-		if (wheel->getHealth() <= 0) delete wheel;
-	}
-
-	if (weapon != nullptr)
-	{
-		if (weapon ->getHealth() <= 0) delete weapon;
-	}
-
-}
+//void Vehicle::Update()
+//{
+//	if (chassis != nullptr)
+//	{
+//		if (chassis->getHealth() <= 0) delete chassis;
+//	}
+//
+//	if (wheel != nullptr)
+//	{
+//		if (wheel->getHealth() <= 0) delete wheel;
+//	}
+//
+//	if (weapon != nullptr)
+//	{
+//		if (weapon ->getHealth() <= 0) delete weapon;
+//	}
+//
+//}

@@ -13,7 +13,7 @@ public:
 		S_OPTIONS,
 		S_EDITNAMES,
 		S_GAME,
-		S_DEAD,
+		S_GAMEOVER,
 		S_FREECAM, // Debug
 
 		S_TOTAL,

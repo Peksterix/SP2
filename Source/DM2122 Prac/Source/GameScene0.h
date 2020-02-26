@@ -230,16 +230,16 @@ private:
 
 	int	screenSizeX,
 		screenSizeY,
-		inWindow,
+		inWindow[4],
+		health[3][4],
 		menuSelected[MENU_TOTAL],
 		debugValues[DEBUG_TOTAL];
 
-	std::string textWindow,
-				textInput;
+	std::string textWindow[5];
 
 	float	aniVal[ANI_TOTAL];
 	
-	void renderScene();
+	void renderScene(int PlayerScreen);
 	void renderSkysphere(int size);
 	
 	void moveLight(double dt, int lightNum);

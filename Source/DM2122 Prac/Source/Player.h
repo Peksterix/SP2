@@ -20,15 +20,18 @@ public:
 	Player();
 	~Player();
 
+	int getKills();
 	int getInput(PLAYER_INPUT key);
 	std::string getName();
 	Vehicle* getVehicle();
 
+	void setKills(int killNum);
 	void setInput(PLAYER_INPUT key, int newKey);
 	void setName(std::string string);
 	void setVehicle(int vehicleSlot);
 
 private:
+	int kills;
 	int inputs[INPUT_TOTAL];
 	std::string name;
 	Vehicle* vehicle;
