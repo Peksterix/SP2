@@ -8,13 +8,14 @@ Vehicle::Vehicle()
 	wheel = nullptr;
 	weapon = nullptr;
 
-	maxSpeed = 70.f;
-	accel = 0.6f;
+	maxSpeed = 150.f;
 
 	vehTurningSpeed = 0.f;
-	cMaxTurningSpeed = 5.f;
+	cMaxTurningSpeed = 2.f;
 	cTurningSpeedRate = 0.5f;
-	cTurningSpeedDecayRate = 2.f;
+	//cTurningSpeedDecayRate = 10.f;
+
+	RB.setAccel(0.7);
 }
 
 Vehicle::~Vehicle()
@@ -108,7 +109,7 @@ void Vehicle::updatePos()
 	position.z += this->RB.getVelo().z;
 	position.y += this->RB.getVelo().y;
 
-	RB.Update();
+	//RB.Update();
 }
 
 void Vehicle::setTurningSpeed(float speed)
@@ -124,4 +125,14 @@ void Vehicle::setMaxTurnSpeed(float speed)
 float Vehicle::getTurnRate()
 {
 	return vehTurningSpeed;
+}
+
+void Vehicle::setRotation(Vector3 rotation)
+{
+	this->rotation = rotation;
+}
+
+Vector3 Vehicle::getRotation()
+{
+	return rotation;
 }

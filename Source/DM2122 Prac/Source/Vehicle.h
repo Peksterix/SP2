@@ -18,12 +18,13 @@ private:
 	Wheel* wheel;
 	Weapon* weapon;
 
+	Vector3 rotation;
+
 public:
 	std::vector<Position> wheelPos, weaponPos, wheelScale, weaponScale;
 	physics RB;
 
 	float maxSpeed;
-	float accel;
 
 	float vehTurningSpeed;
 	float turningAngle;
@@ -33,7 +34,7 @@ public:
 
 	float cMaxTurningSpeed;
 	float cTurningSpeedRate;
-	float cTurningSpeedDecayRate;
+	//float cTurningSpeedDecayRate;
 
 	physics* getRB();
 	void updatePos();
@@ -42,6 +43,9 @@ public:
 	void setTurningSpeed(float speed);
 	void setMaxTurnSpeed(float speed);
 	float getTurnRate();
+
+	Vector3 getRotation();
+	void setRotation(Vector3 rotation);
 
 	Vehicle();
 	~Vehicle();

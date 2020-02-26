@@ -533,11 +533,10 @@ void GameScene0::Update(double dt)
 
 					if (force.Length() < tempVehicle->maxSpeed)
 					{
-						Vector3 newForce = tempVehicle->accel * tempVehicle->RB.getFront();
+						Vector3 newForce = tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront();
 						tempVehicle->RB.setVelo(newForce);
 					}
 					//END
-
 					debugValues[DEBUG_PLAYER0_UP + i * 5] = 1;
 				}
 				if (Application::IsKeyPressed(tempPlayer->getInput(Player::DOWN)) && health[1][i] > 0)
@@ -551,7 +550,7 @@ void GameScene0::Update(double dt)
 
 					if (force.Length() < tempVehicle->maxSpeed)
 					{
-						Vector3 newForce = -tempVehicle->accel * tempVehicle->RB.getFront();
+						Vector3 newForce = -tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront();
 						tempVehicle->RB.setVelo(newForce);
 					}
 					//END
@@ -584,7 +583,7 @@ void GameScene0::Update(double dt)
 					rotFront.Normalize();
 					tempVehicle->RB.setFront(rotFront);
 
-					tempVehicle->RB.setVelo(rotate* tempVehicle->RB.getVelo());
+					tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
 
 					//rotate mesh
 					tempVehicle->rotate.y += tempVehicle->turningAngle;
@@ -954,7 +953,7 @@ void GameScene0::renderScene(int PlayerScreen)
 		RenderTextOnScreen(meshList[GEO_TEXT], "Ax:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().x), Color(0, 1, 0), 3, 0, 40, 1);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Ay:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().y), Color(0, 1, 0), 3, 0, 36, 1);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Az:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().z), Color(0, 1, 0), 3, 0, 32, 1);
-		
+
 		if (Application::IsKeyPressed('X'))
 		{
 			for (int i = 0; i < 8; ++i) renderLightPos(i);

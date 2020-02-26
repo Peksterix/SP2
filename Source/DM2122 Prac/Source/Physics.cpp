@@ -2,7 +2,7 @@
 
 physics::physics()
 {
-	mass = 1.f;
+	mass = 1000.f;
 	size = 1.f; // Tie to the Bounding Box scale, which is tied to the Mesh
 
 	velocity = (0, 0, 0);
@@ -81,7 +81,6 @@ void physics::Update()
 	frictionAccel.x = friction.x * (-velocity.x);
 	frictionAccel.z = friction.z * (-velocity.z);
 	acceleration += frictionAccel;
-	velocity.y += acceleration.y;
 
 	// Mtx44 Inverse ERROR
 	/*if (velocity.x > 0)
@@ -95,6 +94,7 @@ void physics::Update()
 		{
 			velocity.x = 0;
 		}
+
 	}
 
 	else
