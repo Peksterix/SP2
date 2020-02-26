@@ -572,7 +572,7 @@ void VehicleScene::Update(double dt)
 	}
 	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_CUSTOM || StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_LOADOUT_PLAY)
 	{
-		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0)
+		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0 && !inWindow)
 		{
 			Application::setBounceTime(0.2f);
 			--menuSelected[MENU_LOADOUT_Y];
@@ -580,7 +580,7 @@ void VehicleScene::Update(double dt)
 			if (menuSelected[MENU_LOADOUT_Y] > 1) menuSelected[MENU_LOADOUT_Y] = 0;
 			if (menuSelected[MENU_LOADOUT_Y] < 0) menuSelected[MENU_LOADOUT_Y] = 1;
 		}
-		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0)
+		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0 && !inWindow)
 		{
 			Application::setBounceTime(0.2f);
 			++menuSelected[MENU_LOADOUT_Y];
@@ -1433,6 +1433,7 @@ void VehicleScene::renderScene()
 	{
 		Color tempCol[7] = { Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
 		if (menuSelected[MENU_CUSTOMISATION_Y] == 5) tempCol[menuSelected[MENU_CUSTOMISATION_X] + 5] = Color(1, 0, 0);
+		else if (inWindow == WINDOW_INPUT) tempCol[menuSelected[MENU_CUSTOMISATION_Y]] = Color(0, 1, 1);
 		else tempCol[menuSelected[MENU_CUSTOMISATION_Y]] = Color(1, 0, 0);
 
 		int Size[7] = { 1, 1, 1, 1, 1, 1, 1 };

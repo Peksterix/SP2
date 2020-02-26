@@ -15,7 +15,9 @@ private:
 	Vector3 right;
 	Vector3 front;
 	Vector3 force;
-	float frictionalForce, minVelo, KElost, gravity;
+	float frictionalForce, minVelo, KElost, gravity, inertiaCoeff;
+	Vector3 momentum;
+	Vector3 impulse;
 
 public:
 	physics();

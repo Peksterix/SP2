@@ -21,7 +21,7 @@ PlayerName::PlayerName()
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
 
-	for (int i = 0; i < OPTIONS_TOTAL; ++i) menuSelected[i] = 0;
+	for (int i = 0; i < OPTIONS_TOTAL; ++i) menuSelected[i] = 4;
 }
 
 PlayerName::~PlayerName()
@@ -40,25 +40,27 @@ void PlayerName::Update(double dt)
 {
 	if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && !isEditing && Application::getBounceTime() <= 0)
 	{
+		Application::setBounceTime(0.2f);
+		
 		if (menuSelected[PLAYER_OPTIONS_Y] != 0)
 			menuSelected[PLAYER_OPTIONS_Y]--;
 		else
 			menuSelected[PLAYER_OPTIONS_Y] = 4;
-
-		Application::setBounceTime(0.2f);
 	}
 	if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN))&& !isEditing && Application::getBounceTime() <= 0)
 	{
+		Application::setBounceTime(0.2f);
+
 		if (menuSelected[PLAYER_OPTIONS_Y] < 4)
 			menuSelected[PLAYER_OPTIONS_Y]++;
 		else
 			menuSelected[PLAYER_OPTIONS_Y] = 0;
-
-		Application::setBounceTime(0.2f);
 	}
 	
 	if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
 	{
+		Application::setBounceTime(0.2f);
+
 		if (menuSelected[PLAYER_OPTIONS_Y] != 4)
 		{
 			if (!isEditing)	isEditing = 1;
@@ -70,9 +72,9 @@ void PlayerName::Update(double dt)
 				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_OPTIONS);
 			else if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAP0)
 				StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_GAME);
-			Application::setBounceTime(0.2f);
 		}
 	}
+
 	if (isEditing && menuSelected[PLAYER_OPTIONS_Y] != 4)
 	{
 		Player* tempPlayer = Application::getPlayer(menuSelected[PLAYER_OPTIONS_Y]);
@@ -94,15 +96,15 @@ void PlayerName::Update(double dt)
 
 void PlayerName::Render()
 {
-
-
-	Color temp[5] = { Color(1,1,1), Color(1,1,1), Color(1,1,1), Color(1,1,1),Color(1,1,1) };
-	temp[menuSelected[PLAYER_OPTIONS_Y]] = Color(1, 0, 0);
+	Color temp[5] = { Color(0,1,0), Color(0,0,1), Color(1,0,1), Color(1,1,0), Color(1,1,1) };
+	if (isEditing) temp[menuSelected[PLAYER_OPTIONS_Y]] = Color(0, 1, 1);
+	else temp[menuSelected[PLAYER_OPTIONS_Y]] = Color(1, 0, 0);
 
 	int Size[5] = { 3,3,3,3,3 };
 
 
 	Size[menuSelected[PLAYER_OPTIONS_Y]] = 5;
+	//for (int i = 0; i < Application::getPlayerNum(); ++i) RenderTextOnScreen(meshText, Application::getPlayer(i)->getName(), Application::getPlayer(i)->getColor(), Size[i], 3, 17 - i * 4, 1);
 	RenderTextOnScreen(meshText, Application::getPlayer(0)->getName(), temp[0], Size[0], 3, 17, 1);
 	RenderTextOnScreen(meshText, Application::getPlayer(1)->getName(), temp[1], Size[1], 3, 13, 1);
 	RenderTextOnScreen(meshText, Application::getPlayer(2)->getName(), temp[2], Size[2], 3, 9, 1);

@@ -22,17 +22,20 @@ public:
 
 	int getKills();
 	int getInput(PLAYER_INPUT key);
+	Color getColor();
 	std::string getName();
 	Vehicle* getVehicle();
 
 	void setKills(int killNum);
 	void setInput(PLAYER_INPUT key, int newKey);
+	void setColor(Color newColor);
 	void setName(std::string string);
 	void setVehicle(int vehicleSlot);
 
 private:
 	int kills;
 	int inputs[INPUT_TOTAL];
+	Color color;
 	std::string name;
 	Vehicle* vehicle;
 

@@ -12,6 +12,8 @@ Player::Player()
 	name = "Player";
 	kills = 0;
 	vehicle = nullptr;
+
+	color = Color(0, 1, 0);
 }
 
 Player::~Player()
@@ -27,6 +29,11 @@ int Player::getKills()
 int Player::getInput(PLAYER_INPUT key)
 {
 	return inputs[key];
+}
+
+Color Player::getColor()
+{
+	return color;
 }
 
 std::string Player::getName()
@@ -47,6 +54,11 @@ void Player::setKills(int killNum)
 void Player::setInput(PLAYER_INPUT key, int newKey)
 {
 	inputs[key] = newKey;
+}
+
+void Player::setColor(Color newColor)
+{
+	color = newColor;
 }
 
 void Player::setName(std::string string)

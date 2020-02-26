@@ -43,7 +43,10 @@ void GameScene0::Exit()
 		if (meshList[i] != NULL)
 			delete meshList[i];
 	}
-	
+	for (int i = 0; i < 16; ++i)
+	{
+		delete buildings[i];
+	}
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
@@ -522,16 +525,36 @@ void GameScene0::Update(double dt)
 					// && Application::getBounceTime() <= 0 // Application::setBounceTime(0.2f);
 
 					// +Z is foward
-					tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
-					tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+					//tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)) * 10.00;
+					//tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)) * 10.00;
+
+					//NEW
+					Vector3 force = tempVehicle->getRB()->getForce().Length();
+
+					if (force.Length() < tempVehicle->maxSpeed)
+					{
+						Vector3 newForce = tempVehicle->accel * tempVehicle->RB.getFront();
+						tempVehicle->RB.setVelo(newForce);
+					}
+					//END
 
 					debugValues[DEBUG_PLAYER0_UP + i * 5] = 1;
 				}
 				if (Application::IsKeyPressed(tempPlayer->getInput(Player::DOWN)) && health[1][i] > 0)
 				{
 
-					tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
-					tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f));
+					//tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)) * 10.00;
+					//tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)) * 10.00;
+
+					//NEW
+					Vector3 force = tempVehicle->getRB()->getForce().Length();
+
+					if (force.Length() < tempVehicle->maxSpeed)
+					{
+						Vector3 newForce = -tempVehicle->accel * tempVehicle->RB.getFront();
+						tempVehicle->RB.setVelo(newForce);
+					}
+					//END
 
 					debugValues[DEBUG_PLAYER0_DOWN + i * 5] = 1;
 				}
@@ -539,14 +562,66 @@ void GameScene0::Update(double dt)
 				{
 
 					// +X is Left
-					tempVehicle->rotate.y += dt * 30;
+					//tempVehicle->rotate.y += dt * 30 * 10.00;
+
+					//NEW
+					if (tempVehicle->RB.getVelo().Length() < 0.5f)
+					{
+						return;
+					}
+					if (tempVehicle->vehTurningSpeed < tempVehicle->cMaxTurningSpeed)
+					{
+						tempVehicle->vehTurningSpeed += tempVehicle->cTurningSpeedRate;
+					}
+
+					Mtx44 rotate;
+					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * 1) * tempVehicle->RB.getVelo().Length();
+					//TODO: Add rotation for reversing(DONE)
+
+					rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
+					//front rotation
+					Vector3 rotFront = rotate * tempVehicle->RB.getFront();
+					rotFront.Normalize();
+					tempVehicle->RB.setFront(rotFront);
+
+					tempVehicle->RB.setVelo(rotate* tempVehicle->RB.getVelo());
+
+					//rotate mesh
+					tempVehicle->rotate.y += tempVehicle->turningAngle;
+					//END
 
 					debugValues[DEBUG_PLAYER0_LEFT + i * 5] = 1;
 				}
 				if (Application::IsKeyPressed(tempPlayer->getInput(Player::RIGHT)) && health[1][i] > 0)
 				{
 
-					tempVehicle->rotate.y -= dt * 30;
+					//tempVehicle->rotate.y -= dt * 30 * 10.00;
+
+					//NEW
+					if (tempVehicle->RB.getVelo().Length() < 0.5f)
+					{
+						return;
+					}
+					if (tempVehicle->vehTurningSpeed < tempVehicle->cMaxTurningSpeed)
+					{
+						tempVehicle->vehTurningSpeed += tempVehicle->cTurningSpeedRate;
+					}
+
+					Mtx44 rotate;
+					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * -1) * tempVehicle->RB.getVelo().Length();
+					//TODO: Add rotation for reversing(DONE)
+
+					rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
+					//front rotation
+					Vector3 rotFront = rotate * tempVehicle->RB.getFront();
+					rotFront.Normalize();
+					tempVehicle->RB.setFront(rotFront);
+
+					tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
+
+					//rotate mesh
+					tempVehicle->rotate.y += tempVehicle->turningAngle;
+					//END
 
 					debugValues[DEBUG_PLAYER0_RIGHT + i * 5] = 1;
 				}
@@ -556,6 +631,7 @@ void GameScene0::Update(double dt)
 
 				}
 				
+				tempVehicle->updatePos();
 				camera[i].Update(dt, tempVehicle, Position(0, 16 + ((Application::getPlayerNum() - 1) % 3) * 4, -40), Position(0, 8, 4));
 			}
 			else
@@ -748,7 +824,7 @@ void GameScene0::renderScene(int PlayerScreen)
 		modelStack.PushMatrix();
 		modelStack.Translate(buildings[i]->position.x, buildings[i]->position.y, buildings[i]->position.z);
 		modelStack.Scale(buildings[i]->scale.x, buildings[i]->scale.y, buildings[i]->scale.z);
-		RenderMesh(meshList[GEO_BUILDING0], true);
+		//RenderMesh(meshList[GEO_BUILDING0], true);
 		modelStack.PopMatrix();
 	}
 
@@ -797,19 +873,29 @@ void GameScene0::renderScene(int PlayerScreen)
 		modelStack.PopMatrix();
 
 		// Render Player Names
-		for (int j = 0; j < Application::getPlayerNum(); ++j)
-		{
-			if (j == i) continue;
-			
-			Vehicle* tempOther = Application::getPlayer(j)->getVehicle();
+		/*
+		if (PlayerScreen == i) continue;
 
-			if (tempOther->position.z - tempVehicle->position.z > 0)
-			{
+		Vehicle* tempSelf = Application::getPlayer(PlayerScreen)->getVehicle();
 
-			}
-		}
+		// Get Angle between Curr Vehicle to Other Vehicle - Curr Vehicle Angle
+		float tempDistance = sqrt( pow(tempVehicle->position.z - tempSelf->position.z, 2) + pow(tempVehicle->position.x - tempSelf->position.x, 2));
+		float tempAngle = Math::RadianToDegree(acos(-(tempVehicle->position.x - tempSelf->position.x) / tempDistance)) - 
+							Math::RadianToDegree(asin((tempVehicle->position.z - tempSelf->position.z) / tempDistance)) - 45.f;
+
+		RenderTextOnScreen(meshList[GEO_TEXT], Application::getPlayer(i)->getName(), Application::getPlayer(i)->getColor(),
+			1, 10 * sin(Math::DegreeToRadian(tempAngle)) + 40, 10 * cos(Math::DegreeToRadian(tempAngle)) + 30);
+
+		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(i) + Application::getPlayer(i)->getName() + std::to_string(tempAngle), Color(0, 1, 0), 3, 0, 20 - i * 4, 1);
+		*/
 	}
 	
+	// Render UI
+	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
+	{
+
+	}
+
 	// Render Options Text
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_OPTIONS)
 	{
@@ -856,19 +942,18 @@ void GameScene0::renderScene(int PlayerScreen)
 	if (showDebugInfo)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + std::to_string(fps), Color(0, 1, 0), 1, 0, 58, 1);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Position: " + std::to_string(camera[0].position.x) + ", " + std::to_string(camera[0].position.y) + 
+		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Position: " + std::to_string(camera[PlayerScreen].position.x) + ", " + std::to_string(camera[PlayerScreen].position.y) +
 			", " + std::to_string(camera[0].position.z), Color(0, 1, 0), 1, 0, 56, 1);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Target:   " + std::to_string(camera[0].target.x) + ", " + std::to_string(camera[0].target.y) +
+		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Target:   " + std::to_string(camera[PlayerScreen].target.x) + ", " + std::to_string(camera[PlayerScreen].target.y) +
 			", " + std::to_string(camera[0].target.z), Color(0, 1, 0), 1, 0, 55, 1);
-		
-		for (int i = 0; i < Application::getPlayerNum(); ++i)
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Player " + std::to_string(i) + " Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER0_UP + i * 5]) +
-													", Down: " + std::to_string(debugValues[DEBUG_PLAYER0_DOWN + i * 5]) +
-													", Left: " + std::to_string(debugValues[DEBUG_PLAYER0_LEFT + i * 5]) +
-													", Right: " + std::to_string(debugValues[DEBUG_PLAYER0_RIGHT + i * 5]) +
-													", Enter: " + std::to_string(debugValues[DEBUG_PLAYER0_ENTER + i * 5]), Color(0, 1, 0), 1, 0, 53 - i, 1);
-		}
+		RenderTextOnScreen(meshList[GEO_TEXT], " Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER0_UP + PlayerScreen * 5]) +
+												", Down: " + std::to_string(debugValues[DEBUG_PLAYER0_DOWN + PlayerScreen * 5]) +
+												", Left: " + std::to_string(debugValues[DEBUG_PLAYER0_LEFT + PlayerScreen * 5]) +
+												", Right: " + std::to_string(debugValues[DEBUG_PLAYER0_RIGHT + PlayerScreen * 5]) +
+												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER0_ENTER + PlayerScreen * 5]), Color(0, 1, 0), 1, 0, 53 - PlayerScreen, 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Ax:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().x), Color(0, 1, 0), 3, 0, 40, 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Ay:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().y), Color(0, 1, 0), 3, 0, 36, 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Az:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().z), Color(0, 1, 0), 3, 0, 32, 1);
 		
 		if (Application::IsKeyPressed('X'))
 		{

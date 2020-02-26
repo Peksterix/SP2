@@ -41,22 +41,27 @@ void OptionMenu::Update(double dt)
 {
 	if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && Application::getBounceTime() <= 0)
 	{
+		Application::setBounceTime(0.2f);
+
 		if (menuSelected[MENU_OPTIONS_Y] != 0)
 			menuSelected[MENU_OPTIONS_Y]--;
 		else
 			menuSelected[MENU_OPTIONS_Y] = 4;
 
-		Application::setBounceTime(0.2f);
+		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() != StateManager::SCENE_STATES::SS_MAINMENU) menuSelected[MENU_OPTIONS_Y]--;
+		
 	}
 	else if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
 	{
+		Application::setBounceTime(0.2f);
+
 		if (menuSelected[MENU_OPTIONS_Y] < 4)
 			menuSelected[MENU_OPTIONS_Y]++;
 		else
 			menuSelected[MENU_OPTIONS_Y] = 4;
 
-		Application::setBounceTime(0.2f);
-	
+		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() != StateManager::SCENE_STATES::SS_MAINMENU) menuSelected[MENU_OPTIONS_Y]++;
+		
 	}
 	else if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && Application::getBounceTime() <= 0)
 	{
@@ -84,7 +89,7 @@ void OptionMenu::Update(double dt)
 	{
 		Application::setBounceTime(0.2f);
 
-		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
+		if (menuSelected[MENU_OPTIONS_Y] == 1)
 		{
 			// code to set number of player for game
 			if (Application::getPlayerNum() >= 4)
