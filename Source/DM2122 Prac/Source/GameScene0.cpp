@@ -543,11 +543,11 @@ void GameScene0::Update(double dt)
 
 					Vector3 force = tempVehicle->getRB()->getForce().Length();
 
-					if (force.Length() < tempVehicle->maxSpeed)
-					{
-						Vector3 newForce = tempVehicle->getRB()->getAccel().x * tempVehicle->RB.getFront();
-						tempVehicle->RB.setVelo(newForce);
-					}
+                    if (force.Length() < tempVehicle->maxSpeed)
+                    {
+                        Vector3 newForce = (tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront()) * (1.f / (tempVehicle->RB.getMass()));
+                        tempVehicle->RB.addForce(newForce);
+                    }
 
 
 					tempVehicle->getWheel()->rotate.x += dt * 50;
@@ -564,8 +564,8 @@ void GameScene0::Update(double dt)
 
 					if (force.Length() < tempVehicle->maxSpeed)
 					{
-						Vector3 newForce = -tempVehicle->getRB()->getAccel().x * tempVehicle->RB.getFront();
-						tempVehicle->RB.setVelo(newForce);
+						Vector3 newForce = -(tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront()) * (1.f / (tempVehicle->RB.getMass()));
+						tempVehicle->RB.addForce(newForce);
 					}
 					
 
@@ -577,7 +577,7 @@ void GameScene0::Update(double dt)
 					//tempVehicle->rotate.y += dt * 30 * 10.00;
 
 					
-					if (tempVehicle->RB.getVelo().Length() < 0.5f)
+					if (tempVehicle->RB.getForce().Length() < 0.1f)
 					{
 						return;
 					}
@@ -587,7 +587,7 @@ void GameScene0::Update(double dt)
 					}
 
 					Mtx44 rotate;
-					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * 1) * tempVehicle->RB.getVelo().Length();
+					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * 1) * tempVehicle->RB.getForce().Length();
 					//TODO: Add rotation for reversing(DONE)
 
 					rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
@@ -596,8 +596,10 @@ void GameScene0::Update(double dt)
 					rotFront.Normalize();
 					tempVehicle->RB.setFront(rotFront);
 
-					tempVehicle->RB.setVelo(rotate* tempVehicle->RB.getVelo());
+					tempVehicle->RB.setForce(rotate * tempVehicle->RB.getForce());
+					//tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
 
+					//rotate mesh
 					tempVehicle->rotate.y += tempVehicle->turningAngle;
 					
 
@@ -610,7 +612,7 @@ void GameScene0::Update(double dt)
 					//tempVehicle->rotate.y -= dt * 30 * 10.00;
 
 					
-					if (tempVehicle->RB.getVelo().Length() < 0.5f)
+					if (tempVehicle->RB.getForce().Length() < 0.1f)
 					{
 						return;
 					}
@@ -620,7 +622,7 @@ void GameScene0::Update(double dt)
 					}
 
 					Mtx44 rotate;
-					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * -1) * tempVehicle->RB.getVelo().Length();
+					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * -1) * tempVehicle->RB.getForce().Length();
 					//TODO: Add rotation for reversing(DONE)
 
 					rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
@@ -629,8 +631,10 @@ void GameScene0::Update(double dt)
 					rotFront.Normalize();
 					tempVehicle->RB.setFront(rotFront);
 
-					tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
+					tempVehicle->RB.setForce(rotate * tempVehicle->RB.getForce());
+					//tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
 
+					//rotate mesh
 					tempVehicle->rotate.y += tempVehicle->turningAngle;
 					
 

@@ -115,9 +115,9 @@ physics* Vehicle::getRB()
 
 void Vehicle::updatePos()
 {
-	position.x += this->RB.getVelo().x;
-	position.z += this->RB.getVelo().z;
-	position.y += this->RB.getVelo().y;
+	position.x += this->RB.getForce().x;
+	position.z += this->RB.getForce().z;
+	position.y += this->RB.getForce().y;
 	
 	chassis->position = position;
 	wheel->position = position;
