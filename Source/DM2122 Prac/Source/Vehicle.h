@@ -23,8 +23,8 @@ public:
 	physics RB;
 
 	float maxSpeed;
-	float accel;
 
+	//float accel;
 	float vehTurningSpeed;
 	float turningAngle;
 	//set to vehicle

@@ -1,5 +1,4 @@
 #pragma once
-//#include "directions.h"
 #include "Vertex.h"
 
 class physics
@@ -8,16 +7,17 @@ class physics
 private:
 	float mass;
 	float size;
+	Vector3 momentum;
 	Vector3 velocity;
-	Vector3 preCollVelo;
 	Vector3 acceleration;
+	Vector3 force;
+	//Vector3 impulse;
+
+	Vector3 preCollVelo;
 	Vector3 up;
 	Vector3 right;
 	Vector3 front;
-	Vector3 force;
 	float frictionalForce, minVelo, KElost, gravity, inertiaCoeff;
-	Vector3 momentum;
-	Vector3 impulse;
 
 public:
 	physics();
@@ -28,7 +28,7 @@ public:
 	void setSize(float size);
 	float getSize();
 
-	void Update();
+	void Update(float dt);
 	//void rigidBody(physics* collidingRB, Vector3 penetrationDepth, Vector3 currentPos, Vector3 collidingPos, Directions dir);
 
 	Vector3 getUp();

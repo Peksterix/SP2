@@ -8,13 +8,15 @@ Vehicle::Vehicle()
 	wheel = nullptr;
 	weapon = nullptr;
 
-	maxSpeed = 70.f;
-	accel = 0.6f;
+	maxSpeed = 150.f;
+	//accel = 0.6f;
 
 	vehTurningSpeed = 0.f;
-	cMaxTurningSpeed = 5.f;
-	cTurningSpeedRate = 0.5f;
-	cTurningSpeedDecayRate = 2.f;
+	cMaxTurningSpeed = 2.f;
+	cTurningSpeedRate = 0.2f;
+	cTurningSpeedDecayRate = 10.f;
+
+	RB.setAccel(1.5);
 }
 
 Vehicle::~Vehicle()
@@ -121,7 +123,7 @@ void Vehicle::updatePos()
 	wheel->position = position;
 	weapon->position = position;
 
-	RB.Update();
+	//RB.Update();
 }
 
 void Vehicle::setTurningSpeed(float speed)

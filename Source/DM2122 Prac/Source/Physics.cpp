@@ -2,7 +2,7 @@
 
 physics::physics()
 {
-	mass = 1.f;
+	mass = 200.f;
 	size = 1.f; // Tie to the Bounding Box scale, which is tied to the Mesh
 
 	velocity = (0, 0, 0);
@@ -12,7 +12,7 @@ physics::physics()
 	right.Set(-1, 0, 0);
 	front.Set(0, 0, 1);
 
-	frictionalForce = -1.7f;
+	frictionalForce = -3.5f;
 	minVelo = 0.01f;
 	KElost = 0.99f;
 	gravity = -9.8;
@@ -49,7 +49,7 @@ float calcTforce(float a, float b)
 	return a + b;
 }
 
-void physics::Update()
+void physics::Update(float dt)
 {
 	Vector3 traction;
 	Vector3 tractionAccel;
@@ -81,7 +81,11 @@ void physics::Update()
 	frictionAccel.x = friction.x * (-velocity.x);
 	frictionAccel.z = friction.z * (-velocity.z);
 	acceleration += frictionAccel;
-	velocity.y += acceleration.y;
+
+	momentum += force * dt;
+	acceleration += force * (1.f / mass);
+	velocity += momentum * (1.f / mass);
+	//velocity.y += acceleration.y;
 
 	// Mtx44 Inverse ERROR
 	/*if (velocity.x > 0)

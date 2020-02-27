@@ -1,6 +1,7 @@
 #include "OptionMenu.h"
 
 #include "Application.h"
+#include "soundManager.h"
 #include "StateManager.h"
 #include "GL\glew.h"
 #include <GLFW/glfw3.h>
@@ -9,6 +10,7 @@
 #include "shader.hpp"
 
 OptionMenu* OptionMenu::instance = nullptr;
+float OptionMenu::Volume = 5.f;
 
 OptionMenu::OptionMenu()
 {
@@ -48,7 +50,7 @@ void OptionMenu::Update(double dt)
 		else
 			menuSelected[MENU_OPTIONS_Y] = 4;
 
-		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() != StateManager::SCENE_STATES::SS_MAINMENU) menuSelected[MENU_OPTIONS_Y]--;
+		//if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() != StateManager::SCENE_STATES::SS_MAINMENU) menuSelected[MENU_OPTIONS_Y]--;
 		
 	}
 	else if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
@@ -58,9 +60,9 @@ void OptionMenu::Update(double dt)
 		if (menuSelected[MENU_OPTIONS_Y] < 4)
 			menuSelected[MENU_OPTIONS_Y]++;
 		else
-			menuSelected[MENU_OPTIONS_Y] = 4;
+			menuSelected[MENU_OPTIONS_Y] = 0;
 
-		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() != StateManager::SCENE_STATES::SS_MAINMENU) menuSelected[MENU_OPTIONS_Y]++;
+		//if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() != StateManager::SCENE_STATES::SS_MAINMENU) menuSelected[MENU_OPTIONS_Y]++;
 		
 	}
 	else if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && Application::getBounceTime() <= 0)
@@ -69,7 +71,6 @@ void OptionMenu::Update(double dt)
 
 		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
 		{
-			// code to set number of player for game
 			if (Application::getPlayerNum() <= 1)
 				Application::setPlayerNum(4);
 			else
@@ -82,20 +83,19 @@ void OptionMenu::Update(double dt)
 			else
 				Volume--;
 
-			sound.UpdateVol(Volume);
+			soundManager::getInstance()->UpdateVol(Volume);
 		}
 	}
 	else if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && Application::getBounceTime() <= 0)
 	{
 		Application::setBounceTime(0.2f);
 
-		if (menuSelected[MENU_OPTIONS_Y] == 1)
-		{
-			// code to set number of player for game
+		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
+		{	
 			if (Application::getPlayerNum() >= 4)
 				Application::setPlayerNum(1);
 			else
-				Application::setPlayerNum(Application::getPlayerNum() + 1);
+				Application::setPlayerNum(Application::getPlayerNum() + 1);	
 		}
 		else if (menuSelected[MENU_OPTIONS_Y] == 3)
 		{
@@ -104,7 +104,7 @@ void OptionMenu::Update(double dt)
 			else
 				Volume++;
 
-			sound.UpdateVol(Volume);
+			soundManager::getInstance()->UpdateVol(Volume);
 		}
 	}
 	else if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
@@ -125,7 +125,11 @@ void OptionMenu::Update(double dt)
 				glfwSetWindowMonitor(Application::getWindow(), glfwGetPrimaryMonitor(), NULL, NULL, screenSizeX, screenSizeY, NULL);
 			}
 		}
-
+		else if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAP0)
+		{
+			StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAINMENU);
+			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_MAINMENU);
+		}
 		else if (menuSelected[MENU_OPTIONS_Y] == 2)
 		{
 			StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_EDITNAMES);
@@ -152,10 +156,16 @@ void OptionMenu::Render()
 
 	Size[menuSelected[MENU_OPTIONS_Y]] = 5;
 	RenderTextOnScreen(meshText, "Toggle Fullscreen", temp[0], Size[0], 3, 17, 1);
-	RenderTextOnScreen(meshText, "Number Of Players: " + std::to_string(Application::getPlayerNum()), temp[1], Size[1], 3, 13, 1);
+	if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU) RenderTextOnScreen(meshText, "Number Of Players: " + std::to_string(Application::getPlayerNum()), temp[1], Size[1], 3, 13, 1);
+	else if (StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAP0) RenderTextOnScreen(meshText, "Exit to Main Menu: " + std::to_string(Application::getPlayerNum()), temp[1], Size[1], 3, 13, 1);
 	RenderTextOnScreen(meshText, "Edit Players Names", temp[2], Size[2], 3, 9, 1);
 	RenderTextOnScreen(meshText, "Volume: " + std::to_string((int)Volume), temp[3], Size[3], 3, 5, 1);
 	RenderTextOnScreen(meshText, "Back", temp[4], Size[4], 3, 1, 1);
+}
+
+float OptionMenu::getVolume()
+{
+	return Volume;
 }
 
 void OptionMenu::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int type)

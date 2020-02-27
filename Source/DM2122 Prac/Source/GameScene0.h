@@ -10,7 +10,6 @@
 #include "Vehicle.h"
 #include "Animate.h"
 #include "Bullet.h"
-#include "soundManager.h"
 
 class GameScene0 : public Scene
 {
@@ -209,7 +208,6 @@ private:
 
 	Light light[8];
 	Camera camera[4];
-	soundManager sound;
 
 	Entity* buildings[16];
 	std::vector<Bullet*> bullets;
@@ -226,7 +224,8 @@ private:
 
 	std::string textWindow[5];
 
-	float	fireTimer[4];
+	float	respawnTimer[4],
+			fireTimer[4];
 	
 	void renderScene(int PlayerScreen);
 	void renderSkysphere(int size);

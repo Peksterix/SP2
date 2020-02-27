@@ -1,40 +1,64 @@
 #include "soundManager.h"
-#include "StateManager.h"
+
+#include "OptionMenu.h"
+
+soundManager* soundManager::instance = nullptr;
 
 soundManager::soundManager()
 {
+    //Engine = irrklang::createIrrKlangDevice();
 
 }
 
 soundManager::~soundManager()
 {
-
+    //Engine->drop();
+    for (int i = Engine.size(); i > 0; --i)
+    {
+        Engine[i]->drop();
+        Engine.pop_back();
+    }
 }
 
-void soundManager::play2DSound(string sound, bool isLoop, float volume)
+void soundManager::play2DSound(string sound, bool isLoop)
 {
     string preString = "audio/";
     string fullString;
     fullString = preString += sound += ".mp3";
-    Engine = irrklang::createIrrKlangDevice();
+    Engine.push_back(irrklang::createIrrKlangDevice());
 
-    playSound = Engine->addSoundSourceFromFile(fullString.c_str());
-    vol = volume / 10;
-    playSound->setDefaultVolume(vol);
+    playSound = Engine[Engine.size() - 1]->addSoundSourceFromFile(fullString.c_str());
+    Engine[Engine.size() - 1]->setSoundVolume(OptionMenu::getInstance()->getVolume() / 10.f);
 
-    Engine->play2D(playSound, isLoop);
-
-    if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
-    {
-        Engine->stopAllSounds();
-        Engine->drop();
-    }
-
+    Engine[Engine.size() - 1]->play2D(playSound, isLoop);
 }
 
 void soundManager::UpdateVol(float a)
 {
-    Engine->setSoundVolume(a / 10.0);
+    //Engine->setSoundVolume(a / 10.f);   
+    for (int i = Engine.size(); i > 0; --i)
+    {
+        Engine[i - 1]->setSoundVolume(a / 10.f);
+    }
+}
+
+void soundManager::StopSounds()
+{
+    for (int i = Engine.size(); i > 0; --i)
+    {
+        Engine[i - 1]->removeAllSoundSources();
+        Engine[i - 1]->stopAllSounds();
+        Engine[i - 1]->drop();
+        Engine.pop_back();
+    }
+    //Engine->drop();
+}
+
+soundManager* soundManager::getInstance()
+{
+    if (instance == nullptr)
+        instance = new soundManager;
+    return instance;
 }
 
 /*

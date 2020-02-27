@@ -13,6 +13,7 @@
 #include "StateManager.h"
 #include "OptionMenu.h"
 #include "PlayerName.h"
+#include "soundManager.h"
 
 #define ROT_LIMIT 45.f;
 #define SCALE_LIMIT 5.f;
@@ -470,7 +471,7 @@ void VehicleScene::Init()
 
 	#pragma endregion
 
-	//sound.play2DSound("Vivaldi - Four Seasons - Winter", true);
+	//soundManager::getInstance()->play2DSound("Vivaldi - Four Seasons - Winter", true);
 }
 
 void VehicleScene::Update(double dt)
@@ -496,6 +497,16 @@ void VehicleScene::Update(double dt)
 			Application::setBounceTime(0.2f);
 			if (showBoundingBox) showBoundingBox = 0;
 			else showBoundingBox = 1;
+		}
+		if (Application::IsKeyPressed('V') && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f);
+			soundManager::getInstance()->play2DSound("Vivaldi - Four Seasons - Winter", true);
+		}
+		if (Application::IsKeyPressed('B') && Application::getBounceTime() <= 0)
+		{
+			Application::setBounceTime(0.2f);
+			soundManager::getInstance()->StopSounds();
 		}
 	}
 	
@@ -1146,84 +1157,6 @@ void VehicleScene::renderScene()
 		vehicle[menuSelected[MENU_LOADOUT_X]]->position.Set((130 - aniVal[ANI_VEHICLE_POSITION]) * cos(Math::DegreeToRadian(angle)), 2, (130 - aniVal[ANI_VEHICLE_POSITION]) * sin(Math::DegreeToRadian(angle)));
 		vehicle[menuSelected[MENU_LOADOUT_X]]->rotate.Set(0, 180 - angle - aniVal[ANI_VEHICLE_ROTATION_Y], aniVal[ANI_VEHICLE_ROTATION_Z]);
 		
-		// Old code
-		/*
-		if (!(vehicle[j]->getChassis() == nullptr && vehicle[j]->getWheel() == nullptr && vehicle[j]->getWeapon() == nullptr))
-		{
-			// Call positions once and store in temp var to decrease weight on program
-			Position tempVehPos[2] = { vehicle[j]->position, vehicle[j]->rotate };
-			modelStack.Translate(tempVehPos[0].x, tempVehPos[0].y, tempVehPos[0].z);
-			modelStack.Rotate(tempVehPos[1].x, 0, 0, 1);
-			modelStack.Rotate(tempVehPos[1].y, 0, 1, 0);
-			modelStack.Rotate(tempVehPos[1].z, 1, 0, 0);
-			
-			modelStack.PushMatrix();
-			
-			if (vehicle[j]->getChassis() != nullptr)
-			{
-				// Render Pre-Loaded Parts for Customisation
-				if (j == menuSelected[MENU_LOADOUT_X] && state == S_CUSTOMISE && !animation[ANIS_LOADOUT_CUSTOM_TO_CUSTOMISE])
-				{
-					if (vehiclePartSelect[0] != -1)
-					{
-						Mesh* tempChaMesh = custChassis[vehiclePartSelect[0] + 1]->getMesh();
-						modelStack.Translate(0, tempChaMesh->size.y / 2, 0);
-						RenderMesh(custChassis[vehiclePartSelect[0] + 1]->getMesh(), true, custChassis[vehiclePartSelect[0] + 1]->getBBScale() * showBoundingBox);
-					}
-				}
-				// Render Vehicle's Parts
-				else
-				{
-					Mesh* tempChaMesh = vehicle[j]->getChassis()->getMesh();
-					modelStack.Translate(0, tempChaMesh->size.y / 2, 0);
-					RenderMesh(tempChaMesh, true, vehicle[j]->getChassis()->getBBScale() * showBoundingBox);
-				}
-			}
-			if (vehicle[j]->getWheel() != nullptr)
-			{
-				// Render Pre-Loaded Parts for Customisation
-				if (j == menuSelected[MENU_LOADOUT_X] && state == S_CUSTOMISE && !animation[ANIS_LOADOUT_CUSTOM_TO_CUSTOMISE])
-				{
-					if (vehiclePartSelect[1] != -1)
-						for (int i = 0; i < custChassis[vehiclePartSelect[0] + 1]->wheelPos.size(); ++i)
-						{
-							Position tempWheelPos[2];
-							tempWheelPos[0] = custChassis[vehiclePartSelect[0] + 1]->wheelPos[i]; tempWheelPos[1] = custChassis[vehiclePartSelect[0] + 1]->wheelScale[i];
-							modelStack.PushMatrix();
-							modelStack.Translate(tempWheelPos[0].x, tempWheelPos[0].y, tempWheelPos[0].z);
-							modelStack.Rotate(aniVal[ANI_WHEEL_ROTATION] * 2 + aniVal[ANI_VEHICLE_POSITION] * 2, 1, 0, 0);
-							modelStack.Scale(tempWheelPos[1].x, tempWheelPos[1].y, tempWheelPos[1].z);
-							RenderMesh(custWheel[vehiclePartSelect[1] + 1]->getMesh(), true, custWheel[vehiclePartSelect[1] + 1]->getBBScale() * showBoundingBox);
-							modelStack.PopMatrix();
-						}
-				}
-				// Render Vehicle's Parts
-				else
-				{
-					for (int i = 0; i < vehicle[j]->getChassis()->wheelPos.size(); ++i)
-					{
-						Position tempWheelPos[2];
-						tempWheelPos[0] = vehicle[j]->wheelPos[i]; tempWheelPos[1] = vehicle[j]->wheelScale[i];
-						modelStack.PushMatrix();
-						modelStack.Translate(tempWheelPos[0].x, tempWheelPos[0].y, tempWheelPos[0].z);
-						modelStack.Rotate(aniVal[ANI_WHEEL_ROTATION] * 2 + aniVal[ANI_VEHICLE_POSITION] * 2, 1, 0, 0);
-						modelStack.Scale(tempWheelPos[1].x, tempWheelPos[1].y, tempWheelPos[1].z);
-						RenderMesh(vehicle[j]->getWheel()->getMesh(), true, vehicle[j]->getWheel()->getBBScale() * showBoundingBox);
-						modelStack.PopMatrix();
-					}
-				}
-			}
-			if (vehicle[j]->getWeapon() != nullptr)
-			{
-
-			}
-
-			modelStack.PopMatrix();
-			
-		}
-		modelStack.PopMatrix();
-		*/
-
 		// Call positions once and store in temp var to decrease weight on program
 		Position tempVehPos[2] = { vehicle[j]->position, vehicle[j]->rotate };
 		modelStack.Translate(tempVehPos[0].x, tempVehPos[0].y, tempVehPos[0].z);

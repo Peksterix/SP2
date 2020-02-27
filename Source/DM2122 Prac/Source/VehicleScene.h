@@ -9,7 +9,6 @@
 #include "Entity.h"
 #include "Vehicle.h"
 #include "Animate.h"
-#include "soundManager.h"
 
 class VehicleScene : public Scene
 {
@@ -253,7 +252,6 @@ private:
 	Light light[8];
 	Camera camera;
 	Animate animate;
-	soundManager sound;
 
 	Chassis* custChassis[5];
 	Wheel* custWheel[5];

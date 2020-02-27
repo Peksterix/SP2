@@ -2,7 +2,6 @@
 #define OPTIONMENU_H
 
 #include "Mesh.h"
-#include "soundManager.h"
 #include <MatrixStack.h>
 
 class OptionMenu
@@ -44,11 +43,9 @@ private:
 	unsigned m_parameters[U_TOTAL];
 	int menuSelected[OPTIONS_TOTAL];
 
-	float Volume;
+	static float Volume;
 	MS modelStack, viewStack, projectionStack;
 	Mesh* meshText;
-	
-	soundManager sound;
 
 public:
 	OptionMenu();
@@ -58,6 +55,8 @@ public:
 
 	void Update(double dt);
 	void Render();
+
+	static float getVolume();
 
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, int type = 0);
 };
