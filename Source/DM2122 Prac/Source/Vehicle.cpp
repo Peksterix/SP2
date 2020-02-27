@@ -12,8 +12,8 @@ Vehicle::Vehicle()
 
 	vehTurningSpeed = 0.f;
 	cMaxTurningSpeed = 2.f;
-	cTurningSpeedRate = 0.5f;
-	//cTurningSpeedDecayRate = 10.f;
+	cTurningSpeedRate = 0.2f;
+	cTurningSpeedDecayRate = 10.f;
 
 	RB.setAccel(1.5);
 }

@@ -34,7 +34,7 @@ public:
 
 	float cMaxTurningSpeed;
 	float cTurningSpeedRate;
-	//float cTurningSpeedDecayRate;
+	float cTurningSpeedDecayRate;
 
 	physics* getRB();
 	void updatePos();

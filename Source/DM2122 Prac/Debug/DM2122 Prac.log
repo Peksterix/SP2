@@ -1,18 +1,186 @@
-﻿  GameScene0.cpp
+﻿  Application.cpp
+  Camera.cpp
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Application.cpp(178,61): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(49,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(49,76): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(50,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(50,76): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(51,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(51,76): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(55,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(55,76): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(56,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(56,76): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(57,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(57,76): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(61,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(61,83): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(62,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(62,83): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(66,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(66,83): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(67,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(67,83): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(69,74): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(70,76): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(80,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(81,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  GameScene0.cpp
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\Camera.cpp(82,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(440,78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(440,83): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(440,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(441,54): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(455,96): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(455,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(634,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(646,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(646,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(816,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(846,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(860,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(952,121): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(969,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(969,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(969,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(636,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(648,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(648,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(818,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(848,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(862,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(954,121): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(971,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(971,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Player.cpp
+  PlayerName.cpp
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(971,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\PlayerName.cpp(108,84): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\PlayerName.cpp(109,84): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\PlayerName.cpp(110,84): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\PlayerName.cpp(111,84): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  StateManager.cpp
+  main.cpp
+  OptionMenu.cpp
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\PlayerName.cpp(112,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\OptionMenu.cpp(154,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\OptionMenu.cpp(155,115): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\OptionMenu.cpp(156,68): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\OptionMenu.cpp(157,88): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  TestScene.cpp
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\OptionMenu.cpp(158,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(449,73): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(450,73): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(451,73): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(455,73): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(456,73): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(457,73): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(461,28): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(465,27): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(475,38): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(556,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(556,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Vehicle.cpp
+  VehicleScene.cpp
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\TestScene.cpp(556,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(464,42): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(465,41): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(466,41): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(467,40): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(468,39): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(469,39): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(490,48): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(543,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(544,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(545,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(547,74): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(548,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(549,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(657,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(659,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(660,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(661,70): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(662,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(669,74): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(670,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(671,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(672,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(673,70): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(674,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(681,76): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(682,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(683,77): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(684,74): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(685,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(686,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(688,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(724,76): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(725,74): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(726,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(727,76): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(728,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(729,74): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(825,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(871,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(933,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(936,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(937,70): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(938,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(952,75): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(955,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(956,70): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(957,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(973,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(976,71): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(977,68): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(978,70): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(989,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(992,71): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(993,68): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(994,70): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1097,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1099,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1099,100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1109,41): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1112,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1143,59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1143,102): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1144,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1146,119): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1146,195): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1267,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1284,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1306,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1322,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1342,18): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1349,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1349,100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1350,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1356,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1362,35): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1365,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1381,40): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1441,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1447,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1447,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1447,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1451,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1451,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1451,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1455,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1455,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1455,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1459,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1459,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1459,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1463,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1463,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1463,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1467,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1467,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1467,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1471,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1471,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1471,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1507,65): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1508,78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1509,68): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1510,65): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1589,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1589,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1589,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1594,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1594,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\VehicleScene.cpp(1594,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   DM2122 Prac.vcxproj -> C:\Users\Pek Lin\Desktop\Y1S2\Source\Debug\DM2122 Prac.exe
