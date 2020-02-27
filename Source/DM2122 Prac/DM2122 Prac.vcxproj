@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="collisionDir.h" />
     <ClInclude Include="Source\Animate.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Bullet.h" />

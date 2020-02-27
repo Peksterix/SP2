@@ -129,6 +129,9 @@
     <ClInclude Include="Source\LoadingScene.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="collisionDir.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\VehicleScene.cpp">

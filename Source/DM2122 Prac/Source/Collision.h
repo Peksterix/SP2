@@ -4,6 +4,7 @@
 #include "Vertex.h"
 #include "Mesh.h"
 #include "Entity.h"
+#include "collisionDir.h"
 #include <vector>
 
 class Collision
@@ -15,7 +16,9 @@ public:
 	~Collision();
 
 	static bool CheckCollision(Entity* one, Entity* two);
-
+	collDir getDir(Vector3 dir);
+	void update(float dt);
+	
 };
 
 #endif
