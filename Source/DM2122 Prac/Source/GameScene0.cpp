@@ -533,8 +533,8 @@ void GameScene0::Update(double dt)
 
 					if (force.Length() < tempVehicle->maxSpeed)
 					{
-						Vector3 newForce = tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront();
-						tempVehicle->RB.setVelo(newForce);
+						Vector3 newForce = (tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront()) * (1.f / (tempVehicle->RB.getMass()));
+						tempVehicle->RB.addForce(newForce);
 					}
 					//END
 					debugValues[DEBUG_PLAYER0_UP + i * 5] = 1;
@@ -550,8 +550,8 @@ void GameScene0::Update(double dt)
 
 					if (force.Length() < tempVehicle->maxSpeed)
 					{
-						Vector3 newForce = -tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront();
-						tempVehicle->RB.setVelo(newForce);
+						Vector3 newForce = -(tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront()) * (1.f / (tempVehicle->RB.getMass()));
+						tempVehicle->RB.addForce(newForce);
 					}
 					//END
 
@@ -564,7 +564,7 @@ void GameScene0::Update(double dt)
 					//tempVehicle->rotate.y += dt * 30 * 10.00;
 
 					//NEW
-					if (tempVehicle->RB.getVelo().Length() < 0.5f)
+					if (tempVehicle->RB.getForce().Length() < 0.5f)
 					{
 						return;
 					}

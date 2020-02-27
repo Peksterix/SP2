@@ -5,14 +5,14 @@ C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(440,43): 
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(441,54): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(455,96): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(455,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(635,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(647,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(647,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(817,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(847,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(861,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(953,121): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(970,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(970,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(970,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(634,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(646,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(646,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(816,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(846,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(860,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(952,121): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(969,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(969,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pek Lin\Desktop\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(969,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   DM2122 Prac.vcxproj -> C:\Users\Pek Lin\Desktop\Y1S2\Source\Debug\DM2122 Prac.exe
