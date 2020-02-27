@@ -6,8 +6,7 @@
 Weapon::Weapon(int Type)
 {
 	health = 0;
-	bbScale = 0;
-	ammoType = 0;
+	magSize = 0;
 	damage = 0;
 	fireRate = 0;
 	name = "None";
@@ -20,6 +19,9 @@ Weapon::Weapon(int Type)
 		name = "Temp 0";
 		health = 100;
 		bbScale = 1;
+		magSize = 10;
+		damage = 10;
+		fireRate = 0.5f;
 		mesh = MeshBuilder::GenerateOBJ("Weapon's Mesh", "obj//Weapon0.obj");
 		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
 	}
@@ -28,6 +30,9 @@ Weapon::Weapon(int Type)
 		name = "Temp 1";
 		health = 100;
 		bbScale = 1;
+		magSize = 10;
+		damage = 10;
+		fireRate = 0.5f;
 		mesh = MeshBuilder::GenerateOBJ("Weapon's Mesh", "obj//Weapon1.obj");
 		mesh->textureID = LoadTGA("image//Vehicle1a.tga");
 	}
@@ -36,6 +41,9 @@ Weapon::Weapon(int Type)
 		name = "Temp 2";
 		health = 100;
 		bbScale = 1;
+		magSize = 10;
+		damage = 10;
+		fireRate = 0.5f;
 		mesh = MeshBuilder::GenerateOBJ("Weapon's Mesh", "obj//Weapon2.obj");
 		mesh->textureID = LoadTGA("image//Vehicle2a.tga");
 	}
@@ -44,6 +52,9 @@ Weapon::Weapon(int Type)
 		name = "Temp 3";
 		health = 100;
 		bbScale = 1;
+		magSize = 10;
+		damage = 10;
+		fireRate = 0.5f;
 		mesh = MeshBuilder::GenerateOBJ("Weapon's Mesh", "obj//Weapon3.obj");
 		mesh->textureID = LoadTGA("image//Vehicle3a.tga");
 	}
@@ -59,7 +70,11 @@ int Weapon::getType() { return type; }
 float Weapon::getBBScale() { return bbScale; }
 std::string Weapon::getName() { return name; }
 Mesh* Weapon::getMesh() { return mesh; }
+float Weapon::getDamage() { return damage; }
+float Weapon::getMag() { return magSize; }
+float Weapon::getFire() { return fireRate; }
 
 void Weapon::setHealth(int Health) { health = Health; }
 void Weapon::setType(int Type) { type = Type; }
 void Weapon::setBBScale(int BBScale) { bbScale = BBScale; }
+void Weapon::setMag(int mag) { magSize = mag; }

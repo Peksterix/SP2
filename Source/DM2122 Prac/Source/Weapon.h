@@ -2,21 +2,20 @@
 #define WEAPON_H
 
 #include "Entity.h"
-#include "Mesh.h"
+#include "Bullet.h"
+#include <vector>
 
 class Weapon : public Entity
 {
 private:
 	int health,
+		magSize,
 		type;
 
-	float	ammoType,
-			fireRate,
-			damage,
-			bbScale;
+	float	fireRate,
+			damage;
 
 	std::string name;
-	//Mesh* mesh;
 
 public:
 	Weapon(int Type);
@@ -27,10 +26,14 @@ public:
 	float getBBScale();
 	std::string getName();
 	Mesh* getMesh();
+	float getDamage();
+	float getMag();
+	float getFire();
 
 	void setHealth(int Health);
 	void setType(int Type);
 	void setBBScale(int BBScale);
+	void setMag(int mag);
 };
 
 #endif

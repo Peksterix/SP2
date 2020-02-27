@@ -51,6 +51,7 @@ void Vehicle::setChassis(int Type)
 	{
 		chassis = new Chassis(Type);
 		wheelPos.clear(), weaponPos.clear(), wheelScale.clear(), weaponScale.clear();
+		chassis->position = position;
 		wheelPos = chassis->wheelPos;
 		weaponPos = chassis->weaponPos;
 		wheelScale = chassis->wheelScale;
@@ -62,14 +63,22 @@ void Vehicle::setChassis(int Type)
 void Vehicle::setWheel(int Type)
 {
 	if (wheel != nullptr) delete wheel;
-	if (Type != -1) wheel = new Wheel(Type);
+	if (Type != -1)
+	{
+		wheel = new Wheel(Type);
+		wheel->position = position;
+	}
 	else wheel = nullptr;
 }
 
 void Vehicle::setWeapon(int Type)
 {
 	if (weapon != nullptr) delete weapon;
-	if (Type != -1) weapon = new Weapon(Type);
+	if (Type != -1) 
+	{
+		weapon = new Weapon(Type);
+		weapon->position = position;
+	}
 	else weapon = nullptr;
 }
 
@@ -107,6 +116,10 @@ void Vehicle::updatePos()
 	position.x += this->RB.getVelo().x;
 	position.z += this->RB.getVelo().z;
 	position.y += this->RB.getVelo().y;
+	
+	chassis->position = position;
+	wheel->position = position;
+	weapon->position = position;
 
 	RB.Update();
 }

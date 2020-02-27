@@ -11,8 +11,6 @@ private:
 	int health,
 		type;
 
-	float bbScale;
-
 	std::string name;
 	//Mesh* mesh;
 

@@ -1,23 +1,34 @@
 ﻿  GameScene0.cpp
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(440,78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(440,83): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(440,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(441,54): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(455,96): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(455,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(635,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(647,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(647,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(817,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(847,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(861,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(953,121): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(970,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(970,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(970,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Physics.cpp
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\Physics.cpp(8,18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\Physics.cpp(9,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\Physics.cpp(18,16): warning C4305: '=': truncation from 'double' to 'float'
-  Generating Code...
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(51,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(449,78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(449,83): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(449,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(450,54): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(464,96): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(464,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(465,62): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(540,106): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(541,106): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(558,106): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(559,106): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(575,46): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(607,46): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(642,75): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(659,54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(671,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(671,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(672,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(689,71): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(690,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(710,45): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(719,45): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(728,45): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(894,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(909,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(936,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(951,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(1065,121): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(1083,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(1083,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\DM2122 Prac\Source\GameScene0.cpp(1083,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   DM2122 Prac.vcxproj -> C:\Users\matth\OneDrive\Documents\NYP\Studio Projects\Y1S2\Source\Debug\DM2122 Prac.exe

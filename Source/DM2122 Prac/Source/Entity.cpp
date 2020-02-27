@@ -3,6 +3,7 @@
 Entity::Entity()
 {
 	scale.Set(1, 1, 1);
+	bbScale = 1;
 	mesh = nullptr;
 }
 

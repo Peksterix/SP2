@@ -22,6 +22,7 @@ public:
 	enum class SCENE_STATES
 	{
 		SS_TEST = 0,
+		SS_LOADING,
 		SS_MAINMENU,
 		SS_MAP0,
 

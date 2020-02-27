@@ -11,8 +11,7 @@ private:
 		type;
 
 	float	friction,
-			speed,
-			bbScale;
+			speed;
 
 	std::string name;
 	//Mesh* mesh;

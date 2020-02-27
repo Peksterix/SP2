@@ -12,6 +12,7 @@ public:
 	Position position;
 	Position rotate;
 	Position scale;
+	float bbScale;
 
 	Mesh* mesh;
 

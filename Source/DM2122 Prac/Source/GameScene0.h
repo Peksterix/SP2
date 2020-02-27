@@ -9,24 +9,11 @@
 #include "Entity.h"
 #include "Vehicle.h"
 #include "Animate.h"
+#include "Bullet.h"
 #include "soundManager.h"
 
 class GameScene0 : public Scene
 {
-	enum ANIMATION_VALUES
-	{
-		ANI_BUFFER = 0,
-		
-		ANI_TOTAL,
-	};
-
-	enum ANIMATION_STATES
-	{
-		ANIS_ANY = 0,
-
-		ANIS_TOTAL,
-	};
-
 	enum DEBUG_VALUES
 	{
 		DEBUG_LIGHT_NUM = 0,
@@ -59,7 +46,9 @@ class GameScene0 : public Scene
 		UI_BACK,
 		UI_ESCAPE,
 		UI_SELECTED,
-		UI_TEMP = UI_SELECTED + 4,
+		UI_TEMP = UI_SELECTED + 3,
+		UI_ARROW,
+		UI_BALL,
 		UI_TOTAL,
 	};
 	
@@ -86,6 +75,7 @@ class GameScene0 : public Scene
 
 		GEO_SKYSPHERE,
 		GEO_FLOOR,
+		GEO_MINIMAP,
 
 		GEO_TEXT,
 		GEO_UI,
@@ -219,13 +209,12 @@ private:
 
 	Light light[8];
 	Camera camera[4];
-	Animate animate;
 	soundManager sound;
 
 	Entity* buildings[16];
+	std::vector<Bullet*> bullets;
 
-	bool animation[ANIS_TOTAL],
-		 showDebugInfo,
+	bool showDebugInfo,
 		 showBoundingBox; // Debug
 
 	int	screenSizeX,
@@ -237,7 +226,7 @@ private:
 
 	std::string textWindow[5];
 
-	float	aniVal[ANI_TOTAL];
+	float	fireTimer[4];
 	
 	void renderScene(int PlayerScreen);
 	void renderSkysphere(int size);

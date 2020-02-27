@@ -128,10 +128,12 @@
   <ItemGroup>
     <ClInclude Include="Source\Animate.h" />
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Chassis.h" />
     <ClInclude Include="Source\Collision.h" />
     <ClInclude Include="Source\GameScene0.h" />
+    <ClInclude Include="Source\LoadingScene.h" />
     <ClInclude Include="Source\Physics.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\PlayerName.h" />
@@ -158,10 +160,12 @@
   <ItemGroup>
     <ClCompile Include="Source\Animate.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Chassis.cpp" />
     <ClCompile Include="Source\Collision.cpp" />
     <ClCompile Include="Source\GameScene0.cpp" />
+    <ClCompile Include="Source\LoadingScene.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerName.cpp" />

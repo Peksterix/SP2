@@ -57,7 +57,7 @@ Chassis::Chassis(int Type)
 	{
 		name = "Temp 2";
 		health = 100;
-		bbScale = 1;
+		bbScale = 0.9f;
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis2.obj");
 		mesh->textureID = LoadTGA("image//Vehicle2a.tga");
 
@@ -79,7 +79,7 @@ Chassis::Chassis(int Type)
 	{
 		name = "Temp 3";
 		health = 100;
-		bbScale = 1;
+		bbScale = 0.9;
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis3.obj");
 		mesh->textureID = LoadTGA("image//Vehicle3a.tga");
 

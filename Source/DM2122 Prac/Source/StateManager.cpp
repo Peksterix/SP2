@@ -2,6 +2,11 @@
 #include "TestScene.h"
 #include "VehicleScene.h"
 #include "GameScene0.h"
+#include "LoadingScene.h"
+
+#include "Application.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 StateManager* StateManager::instance = nullptr;
 
@@ -30,9 +35,18 @@ void StateManager::setScene(SCENE_STATES scene)
 		delete currentScene;
 	}
 	
+	currentScene = new LoadingScene;
+	currentScene->Init();
+	currentScene->Update(0.02);
+	currentScene->Render();
+	glfwSwapBuffers(Application::getWindow());
+	currentScene->Exit();
+	delete currentScene;
+
 	if (scene == SCENE_STATES::SS_TEST) { currentScene = new TestScene; currentSceneState = SCENE_STATES::SS_TEST; }
 	else if (scene == SCENE_STATES::SS_MAINMENU) { currentScene = new VehicleScene; currentSceneState = SCENE_STATES::SS_MAINMENU; }
 	else if (scene == SCENE_STATES::SS_MAP0) { currentScene = new GameScene0; currentSceneState = SCENE_STATES::SS_MAP0; }
+	else if (scene == SCENE_STATES::SS_LOADING) { currentScene = new LoadingScene; currentSceneState = SCENE_STATES::SS_LOADING; }
 
 	currentScene->Init();
 	currentScene->Update(0.02);
