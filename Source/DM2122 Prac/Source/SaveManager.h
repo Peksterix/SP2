@@ -28,7 +28,7 @@ public:
 
 	static void SaveVehicle(int num, int cha, int whe, int wea, std::string name); // save the data of vehicles
 	static void SavePlayer(std::string name,int num); // save the data of players
-	void AccessVehicle(int& num, int& cha, int& whe, int& wea, std::string& name); // access the data of vehicles
+	static void AccessVehicle(int num, int& cha, int& whe, int& wea, std::string& name); // access the data of vehicles
 
 };
 
