@@ -1,6 +1,6 @@
 #pragma once
-#include "../../irrklang/include/irrKlang.h"
-#pragma comment(lib, "../../irrklang/lib/irrKlang.lib")
+#include <irrKlang.h>
+#pragma comment (lib, "irrKlang.lib")
 #include <string>
 #include <vector>
 
