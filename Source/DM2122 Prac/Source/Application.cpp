@@ -130,7 +130,7 @@ void Application::Init()
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	for (int i = 0; i < 4; ++i) player[i] = new Player;
-	player[0]->setName("Player 1");
+//	player[0]->setName("Player 1");
 	player[0]->setColor(Color(0, 1, 0));
 	player[0]->setInput(player[0]->UP, 'W');
 	player[0]->setInput(player[0]->DOWN, 'S');
@@ -138,7 +138,7 @@ void Application::Init()
 	player[0]->setInput(player[0]->RIGHT, 'D');
 	player[0]->setInput(player[0]->ENTER, 'Z');
 
-	player[1]->setName("Player 2");
+//	player[1]->setName("Player 2");
 	player[1]->setColor(Color(0, 0, 1));
 	player[1]->setInput(player[1]->UP, 'T');
 	player[1]->setInput(player[1]->DOWN, 'G');
@@ -146,7 +146,7 @@ void Application::Init()
 	player[1]->setInput(player[1]->RIGHT, 'H');
 	player[1]->setInput(player[1]->ENTER, 'V');
 	
-	player[2]->setName("Player 3");
+//	player[2]->setName("Player 3");
 	player[2]->setColor(Color(1, 0, 1));
 	player[2]->setInput(player[2]->UP, 'I');
 	player[2]->setInput(player[2]->DOWN, 'K');
@@ -154,13 +154,21 @@ void Application::Init()
 	player[2]->setInput(player[2]->RIGHT, 'L');
 	player[2]->setInput(player[2]->ENTER, 'M');
 	
-	player[3]->setName("Player 4");
+//	player[3]->setName("Player 4");
 	player[3]->setColor(Color(1, 1, 0));
 	player[3]->setInput(player[3]->UP, VK_UP);
 	player[3]->setInput(player[3]->DOWN, VK_DOWN);
 	player[3]->setInput(player[3]->LEFT, VK_LEFT);
 	player[3]->setInput(player[3]->RIGHT, VK_RIGHT);
 	player[3]->setInput(player[3]->ENTER, VK_RETURN);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		std::string tempStr;
+		save.AccessPlayer(i, tempStr);
+
+		player[i]->setName(tempStr);
+	}
 }
 
 void Application::Run()

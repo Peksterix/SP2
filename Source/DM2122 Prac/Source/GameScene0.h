@@ -213,7 +213,8 @@ private:
 			*healthPack;
 	std::vector<Bullet*> bullets;
 
-	bool showDebugInfo,
+	bool coll[2],
+		 showDebugInfo,
 		 showBoundingBox; // Debug
 
 	int	screenSizeX,

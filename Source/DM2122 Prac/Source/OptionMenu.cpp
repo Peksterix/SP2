@@ -43,6 +43,7 @@ void OptionMenu::Update(double dt)
 {
 	if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && Application::getBounceTime() <= 0)
 	{
+		soundManager::getInstance()->play2DSound("Menu Blip", false);
 		Application::setBounceTime(0.2f);
 
 		if (menuSelected[MENU_OPTIONS_Y] != 0)
@@ -55,6 +56,7 @@ void OptionMenu::Update(double dt)
 	}
 	else if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
 	{
+		soundManager::getInstance()->play2DSound("Menu Blip", false);
 		Application::setBounceTime(0.2f);
 
 		if (menuSelected[MENU_OPTIONS_Y] < 4)
@@ -67,6 +69,7 @@ void OptionMenu::Update(double dt)
 	}
 	else if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && Application::getBounceTime() <= 0)
 	{
+		soundManager::getInstance()->play2DSound("Menu Blip", false);
 		Application::setBounceTime(0.2f);
 
 		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
@@ -88,6 +91,7 @@ void OptionMenu::Update(double dt)
 	}
 	else if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && Application::getBounceTime() <= 0)
 	{
+		soundManager::getInstance()->play2DSound("Menu Blip", false);
 		Application::setBounceTime(0.2f);
 
 		if (menuSelected[MENU_OPTIONS_Y] == 1 && StateManager::getInstance()->getSceneState() == StateManager::SCENE_STATES::SS_MAINMENU)
@@ -109,6 +113,7 @@ void OptionMenu::Update(double dt)
 	}
 	else if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
 	{
+		soundManager::getInstance()->play2DSound("Menu Blip", false);
 		if (menuSelected[MENU_OPTIONS_Y] == 0)
 		{
 			int screenSizeX, screenSizeY;

@@ -9,6 +9,7 @@
 #include "Entity.h"
 #include "Vehicle.h"
 #include "Animate.h"
+#include "SaveManager.h"
 
 class VehicleScene : public Scene
 {
@@ -252,6 +253,7 @@ private:
 	Light light[8];
 	Camera camera;
 	Animate animate;
+	SaveManager save;
 
 	Chassis* custChassis[5];
 	Wheel* custWheel[5];

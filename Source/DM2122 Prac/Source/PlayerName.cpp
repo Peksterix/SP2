@@ -40,6 +40,7 @@ void PlayerName::Update(double dt)
 {
 	if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && !isEditing && Application::getBounceTime() <= 0)
 	{
+		soundManager::getInstance()->play2DSound("Menu Blip", false);
 		Application::setBounceTime(0.2f);
 		
 		if (menuSelected[PLAYER_OPTIONS_Y] != 0)
@@ -49,6 +50,7 @@ void PlayerName::Update(double dt)
 	}
 	if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN))&& !isEditing && Application::getBounceTime() <= 0)
 	{
+		soundManager::getInstance()->play2DSound("Menu Blip", false);
 		Application::setBounceTime(0.2f);
 
 		if (menuSelected[PLAYER_OPTIONS_Y] < 4)
@@ -59,12 +61,15 @@ void PlayerName::Update(double dt)
 	
 	if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
 	{
+		soundManager::getInstance()->play2DSound("Menu Blip", false);
 		Application::setBounceTime(0.2f);
 
 		if (menuSelected[PLAYER_OPTIONS_Y] != 4)
 		{
 			if (!isEditing)	isEditing = 1;
 			else isEditing = 0;
+
+			save.SavePlayer(Application::getPlayer(menuSelected[PLAYER_OPTIONS_Y])->getName(), menuSelected[PLAYER_OPTIONS_Y]);
 		}
 		else
 		{

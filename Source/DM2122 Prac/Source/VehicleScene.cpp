@@ -446,15 +446,15 @@ void VehicleScene::Init()
 		for (int i = 0; i < 8; ++i)
 		{
 			vehicle[i] = new Vehicle;
-			// Read the Vehicle's Saved Loadouts
-		}
-		// Temp
-		for (int i = 0; i < 4; ++i)
-		{
-			vehicle[i]->setChassis(i);
-			vehicle[i]->setWheel(i);
-			vehicle[i]->setWeapon(i);
-			vehicle[i]->setName("PRESET " + std::to_string(i + 1));
+
+			int tempArr[3];
+			std::string tempStr;
+
+			save.AccessVehicle(i, tempArr[0], tempArr[1], tempArr[2], tempStr);
+			vehicle[i]->setChassis(tempArr[0]);
+			vehicle[i]->setWheel(tempArr[1]);
+			vehicle[i]->setWeapon(tempArr[2]);
+			vehicle[i]->setName(tempStr);
 		}
 
 		for (int i = 0; i < ANI_TOTAL; ++i) aniVal[i] = 0;
@@ -471,7 +471,7 @@ void VehicleScene::Init()
 
 	#pragma endregion
 
-	//soundManager::getInstance()->play2DSound("BFW-MechaPlanet1", true);
+	soundManager::getInstance()->play2DSound("main_menu", true);
 }
 
 void VehicleScene::Update(double dt)
@@ -498,7 +498,7 @@ void VehicleScene::Update(double dt)
 			if (showBoundingBox) showBoundingBox = 0;
 			else showBoundingBox = 1;
 		}
-		if (Application::IsKeyPressed('V') && Application::getBounceTime() <= 0)
+		/*if (Application::IsKeyPressed('V') && Application::getBounceTime() <= 0)
 		{
 			Application::setBounceTime(0.2f);
 			//soundManager::getInstance()->play2DSound("BFW-MechaPlanet2", true);
@@ -508,7 +508,7 @@ void VehicleScene::Update(double dt)
 		{
 			Application::setBounceTime(0.2f);
 			soundManager::getInstance()->StopSounds();
-		}
+		}*/
 	}
 	
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_MAINMENU)
@@ -522,6 +522,7 @@ void VehicleScene::Update(double dt)
 			else
 				menuSelected[MENU_MAIN] = 3;
 
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			Application::setBounceTime(0.2f);
 		}
 		else if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0)
@@ -534,11 +535,13 @@ void VehicleScene::Update(double dt)
 				menuSelected[MENU_MAIN] = 0;
 
 
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			Application::setBounceTime(0.2f);
 		}
 		else if (Application::IsKeyPressed(VK_RETURN) && Application::getBounceTime() <= 0)
 		{
 			Application::setBounceTime(0.2f);
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 
 			if (menuSelected[MENU_MAIN] == 0 || menuSelected[MENU_MAIN] == 1)
 			{
@@ -586,6 +589,7 @@ void VehicleScene::Update(double dt)
 	{
 		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0 && !inWindow)
 		{
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			Application::setBounceTime(0.2f);
 			--menuSelected[MENU_LOADOUT_Y];
 
@@ -594,6 +598,7 @@ void VehicleScene::Update(double dt)
 		}
 		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0 && !inWindow)
 		{
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			Application::setBounceTime(0.2f);
 			++menuSelected[MENU_LOADOUT_Y];
 
@@ -710,6 +715,7 @@ void VehicleScene::Update(double dt)
 
 						if (currentPlayer == Application::getPlayerNum())
 						{
+							soundManager::getInstance()->StopSounds();
 							StateManager::getInstance()->setScene(StateManager::SCENE_STATES::SS_MAP0);
 							StateManager::getInstance()->setGameState(StateManager::GAME_STATES::S_GAME);
 						}
@@ -785,6 +791,7 @@ void VehicleScene::Update(double dt)
 	{
 		if ((Application::IsKeyPressed('W') || Application::IsKeyPressed(VK_UP)) && Application::getBounceTime() <= 0 && !animation[ANIS_ANY] && !inWindow)
 		{
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			--menuSelected[MENU_CUSTOMISATION_Y];
 			Application::setBounceTime(0.2f);
 			if (menuSelected[MENU_CUSTOMISATION_Y] > 5) menuSelected[MENU_CUSTOMISATION_Y] = 0;
@@ -795,6 +802,7 @@ void VehicleScene::Update(double dt)
 		}
 		if ((Application::IsKeyPressed('S') || Application::IsKeyPressed(VK_DOWN)) && Application::getBounceTime() <= 0 && !animation[ANIS_ANY] && !inWindow)
 		{
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			++menuSelected[MENU_CUSTOMISATION_Y];
 			Application::setBounceTime(0.2f);
 			if (menuSelected[MENU_CUSTOMISATION_Y] > 5) menuSelected[MENU_CUSTOMISATION_Y] = 0;
@@ -805,6 +813,7 @@ void VehicleScene::Update(double dt)
 		}		
 		if ((Application::IsKeyPressed('A') || Application::IsKeyPressed(VK_LEFT)) && Application::getBounceTime() <= 0 && !animation[ANIS_ANY] && inWindow != WINDOW_NOTIFY)
 		{
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			Application::setBounceTime(0.2f);
 
 			if (inWindow == WINDOW_CONFIRM)
@@ -850,6 +859,7 @@ void VehicleScene::Update(double dt)
 		}
 		if ((Application::IsKeyPressed('D') || Application::IsKeyPressed(VK_RIGHT)) && Application::getBounceTime() <= 0 && !animation[ANIS_ANY] && inWindow != WINDOW_NOTIFY)
 		{
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			Application::setBounceTime(0.2f);
 
 			if (inWindow == WINDOW_CONFIRM)
@@ -858,7 +868,6 @@ void VehicleScene::Update(double dt)
 
 				if (menuSelected[MENU_CONIRMATION] > 1) menuSelected[MENU_CONIRMATION] = 0;
 				if (menuSelected[MENU_CONIRMATION] < 0) menuSelected[MENU_CONIRMATION] = 1;
-				// ??
 			}
 			else
 			{
@@ -896,6 +905,7 @@ void VehicleScene::Update(double dt)
 		}
 		if (Application::IsKeyPressed(VK_RETURN) && !animation[ANIS_ANY] && Application::getBounceTime() <= 0)
 		{
+			soundManager::getInstance()->play2DSound("Menu Blip", false);
 			Application::setBounceTime(0.2f);
 			if (menuSelected[MENU_CUSTOMISATION_Y] == 4)
 			{
@@ -1089,7 +1099,7 @@ void VehicleScene::Update(double dt)
 				
 				vehicle[menuSelected[MENU_LOADOUT_X]]->setName(textInput[TEXT_VEHICLE]);
 
-				// Save data
+				save.SaveVehicle(menuSelected[MENU_LOADOUT_X], vehiclePartSelect[0], vehiclePartSelect[1], vehiclePartSelect[2], textInput[TEXT_VEHICLE]);
 			}
 		}
 	}

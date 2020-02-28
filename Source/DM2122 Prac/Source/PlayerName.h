@@ -3,6 +3,7 @@
 
 #include "Mesh.h"
 #include <MatrixStack.h>
+#include "SaveManager.h"
 
 class PlayerName
 {
@@ -45,6 +46,8 @@ private:
 	bool isEditing;
 	MS modelStack, viewStack, projectionStack;
 	Mesh* meshText;
+
+	SaveManager save;
 
 public:
 	PlayerName();

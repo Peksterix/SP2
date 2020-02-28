@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "Player.h"
+#include "SaveManager.h"
 
 class Application
 {
@@ -37,6 +38,7 @@ private:
 	static bool isFullscreen;
 	static int playerNum;
 	static float bounceTime;
+	SaveManager save;
 
 };
 
