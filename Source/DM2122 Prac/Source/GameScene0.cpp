@@ -54,6 +54,7 @@ void GameScene0::Exit()
 		delete bullets[i - 1];
 		bullets.pop_back();
 	}
+	delete healthPack;
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
@@ -218,7 +219,7 @@ void GameScene0::Init()
 		const int point_power = 2;
 
 		light[0].type = Light::LIGHT_POINT;
-		light[0].position.Set(0, 0, 0);
+		light[0].position.Set(0, 20, 0); //changed position
 		light[0].color.Set(1, 1, 1);
 		light[0].power = point_power;
 		light[0].kC = 1.f;
@@ -240,7 +241,7 @@ void GameScene0::Init()
 		glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 		light[1].type = Light::LIGHT_POINT;
-		light[1].position.Set(0, 0, 0);
+		light[1].position.Set(0, 20, 150); //changed position 
 		light[1].color.Set(1, 1, 1);
 		light[1].power = point_power;
 		light[1].kC = 1.f;
@@ -262,7 +263,7 @@ void GameScene0::Init()
 		glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 
 		light[2].type = Light::LIGHT_POINT;
-		light[2].position.Set(0, 0, 0);
+		light[2].position.Set(0, 20, -150); //changed position
 		light[2].color.Set(1, 1, 1);
 		light[2].power = point_power;
 		light[2].kC = 1.f;
@@ -284,7 +285,7 @@ void GameScene0::Init()
 		glUniform1f(m_parameters[U_LIGHT2_EXPONENT], light[2].exponent);
 
 		light[3].type = Light::LIGHT_POINT;
-		light[3].position.Set(0, 0, 0);
+		light[3].position.Set(150, 20, 0); //changed position
 		light[3].color.Set(1, 1, 1);
 		light[3].power = point_power;
 		light[3].kC = 1.f;
@@ -306,7 +307,7 @@ void GameScene0::Init()
 		glUniform1f(m_parameters[U_LIGHT3_EXPONENT], light[3].exponent);
 
 		light[4].type = Light::LIGHT_POINT;
-		light[4].position.Set(0, 0, 0);
+		light[4].position.Set(-150, 20, 0); //changed position
 		light[4].color.Set(1, 1, 1);
 		light[4].power = point_power;
 		light[4].kC = 1.f;
@@ -328,7 +329,7 @@ void GameScene0::Init()
 		glUniform1f(m_parameters[U_LIGHT4_EXPONENT], light[4].exponent);
 
 		light[5].type = Light::LIGHT_POINT;
-		light[5].position.Set(0, 0, 0);
+		light[5].position.Set(150, 20, 0); //changed position
 		light[5].color.Set(1, 1, 1);
 		light[5].power = point_power;
 		light[5].kC = 1.f;
@@ -350,7 +351,7 @@ void GameScene0::Init()
 		glUniform1f(m_parameters[U_LIGHT5_EXPONENT], light[5].exponent);
 
 		light[6].type = Light::LIGHT_DIRECTIONAL;
-		light[6].position.Set(0, 10, 0);
+		light[6].position.Set(0, 20, 150); //changed position
 		light[6].color.Set(1, 1, 1);
 		light[6].power = 0.5f;
 		light[6].kC = 1.f;
@@ -372,7 +373,7 @@ void GameScene0::Init()
 		glUniform1f(m_parameters[U_LIGHT6_EXPONENT], light[6].exponent);
 
 		light[7].type = Light::LIGHT_SPOT;
-		light[7].position.Set(-5, 15, -5);
+		light[7].position.Set(0, 20, -150); //changed position
 		light[7].color.Set(1, 1, 1);
 		light[7].power = 3;
 		light[7].kC = 1.f;
@@ -422,7 +423,7 @@ void GameScene0::Init()
 		meshList[GEO_SKYSPHERE] = MeshBuilder::GenerateOBJ("Skysphere (Space)", "obj//Skysphere (Half).obj");
 		meshList[GEO_SKYSPHERE]->textureID = LoadTGA("image//Flat Space2.tga");
 		meshList[GEO_FLOOR] = MeshBuilder::GenerateOBJ("Floor", "obj//Floor.obj");
-		meshList[GEO_FLOOR]->textureID = LoadTGA("image//Vehicle2a.tga");
+		meshList[GEO_FLOOR]->textureID = LoadTGA("image//RainbowRoad.tga");
 		meshList[GEO_MINIMAP] = MeshBuilder::GenerateText("MINIMAP", 1, 1);
 		meshList[GEO_MINIMAP]->textureID = LoadTGA("image//MiniMap.tga");
 
@@ -462,6 +463,7 @@ void GameScene0::Init()
 			health[0][i] = Application::getPlayer(i)->getVehicle()->getChassis()->getHealth();
 			health[1][i] = Application::getPlayer(i)->getVehicle()->getWheel()->getHealth();
 			health[2][i] = Application::getPlayer(i)->getVehicle()->getWeapon()->getHealth();
+			currMag[i] = Application::getPlayer(i)->getVehicle()->getWeapon()->getMag();
 
 			Application::getPlayer(i)->getVehicle()->position.Set((i / 2) * 390 - 195, 0, (i % 2) * 390 - 195);
 			Application::getPlayer(i)->getVehicle()->rotate.Set(0, 0, 0);
@@ -470,6 +472,13 @@ void GameScene0::Init()
 
 		textWindow[0] = "Respawn...";
 		for (int k = 0; k < 4; ++k) textWindow[k + 1] = " ";
+		
+		healthPack = new Entity;
+		healthPack->mesh = MeshBuilder::GenerateOBJ("Health Cross", "obj//Health.obj");
+		healthPack->mesh->textureID = LoadTGA("image//Flat Space2.tga");
+		healthPack->bbScale = 2;
+		healthPack->position.Set(0, 6, 0);
+		healthPack->scale.Set(4, 4, 4);
 
 	#pragma endregion
 }
@@ -540,7 +549,6 @@ void GameScene0::Update(double dt)
 					//tempVehicle->position.x -= dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)) * 10.00;
 					//tempVehicle->position.z += dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)) * 10.00;
 
-
 					Vector3 force = tempVehicle->getRB()->getForce().Length();
 
                     if (force.Length() < tempVehicle->maxSpeed)
@@ -549,8 +557,7 @@ void GameScene0::Update(double dt)
                         tempVehicle->RB.addForce(newForce);
                     }
 
-
-					tempVehicle->getWheel()->rotate.x += dt * 50;
+					//tempVehicle->getWheel()->rotate.x += dt * 50;
 					debugValues[DEBUG_PLAYER0_UP + i * 5] = 1;
 				}
 				if (Application::IsKeyPressed(tempPlayer->getInput(Player::DOWN)) && health[1][i] > 0)
@@ -559,7 +566,6 @@ void GameScene0::Update(double dt)
 					//tempVehicle->position.x += dt * 20 * cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)) * 10.00;
 					//tempVehicle->position.z -= dt * 20 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)) * 10.00;
 
-					
 					Vector3 force = tempVehicle->getRB()->getForce().Length();
 
 					if (force.Length() < tempVehicle->maxSpeed)
@@ -567,9 +573,8 @@ void GameScene0::Update(double dt)
 						Vector3 newForce = -(tempVehicle->RB.getAccel().x * tempVehicle->RB.getFront()) * (1.f / (tempVehicle->RB.getMass()));
 						tempVehicle->RB.addForce(newForce);
 					}
-					
 
-					tempVehicle->getWheel()->rotate.x -= dt * 50;
+					//tempVehicle->getWheel()->rotate.x -= dt * 50;
 					debugValues[DEBUG_PLAYER0_DOWN + i * 5] = 1;
 				}
 				if (Application::IsKeyPressed(tempPlayer->getInput(Player::LEFT)) && health[1][i] > 0)
@@ -587,19 +592,15 @@ void GameScene0::Update(double dt)
 					}
 
 					Mtx44 rotate;
-					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * 1) * tempVehicle->RB.getForce().Length();
-					//TODO: Add rotation for reversing(DONE)
+					//tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * 1) * tempVehicle->RB.getForce().Length();
+					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * 1) * cos(Math::DegreeToRadian(tempVehicle->RB.getForce().Length() * 9.f));
 
 					rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
-					//front rotation
 					Vector3 rotFront = rotate * tempVehicle->RB.getFront();
 					rotFront.Normalize();
 					tempVehicle->RB.setFront(rotFront);
-
 					tempVehicle->RB.setForce(rotate * tempVehicle->RB.getForce());
-					//tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
 
-					//rotate mesh
 					tempVehicle->rotate.y += tempVehicle->turningAngle;
 					
 
@@ -622,19 +623,15 @@ void GameScene0::Update(double dt)
 					}
 
 					Mtx44 rotate;
-					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * -1) * tempVehicle->RB.getForce().Length();
-					//TODO: Add rotation for reversing(DONE)
+					//tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * -1) * tempVehicle->RB.getForce().Length();
+					tempVehicle->turningAngle = (tempVehicle->vehTurningSpeed * -1) * cos(Math::DegreeToRadian(tempVehicle->RB.getForce().Length() * 9.f));
 
 					rotate.SetToRotation(tempVehicle->turningAngle, 0, 1, 0);
-					//front rotation
 					Vector3 rotFront = rotate * tempVehicle->RB.getFront();
 					rotFront.Normalize();
 					tempVehicle->RB.setFront(rotFront);
-
 					tempVehicle->RB.setForce(rotate * tempVehicle->RB.getForce());
-					//tempVehicle->RB.setVelo(rotate * tempVehicle->RB.getVelo());
 
-					//rotate mesh
 					tempVehicle->rotate.y += tempVehicle->turningAngle;
 					
 
@@ -644,26 +641,26 @@ void GameScene0::Update(double dt)
 
 				if (Application::IsKeyPressed(tempPlayer->getInput(tempPlayer->ENTER)) && health[2][i] > 0 && fireTimer[i] <= 0)
 				{
-					if (tempVehicle->getWeapon()->getMag() > 0)
+					if (currMag[i] > 0)
 					{
 						fireTimer[i] = tempVehicle->getWeapon()->getFire();
-						tempVehicle->getWeapon()->setMag(tempVehicle->getWeapon()->getMag() - 1);
+						--currMag[i];
 
 						Position dir = Position(-cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)), 0, sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)));
 						Position start = Position(tempVehicle->position.x + dir.x * 10, tempVehicle->position.y, tempVehicle->position.z + dir.z * 10);
 						bullets.push_back(new Bullet(start, dir, 10, tempVehicle->getWeapon()->getDamage(), i));
-
-						//tempVehicle->getWeapon()->mesh = MeshBuilder::GenerateOBJ("Bullet", "obj//scifi building.obj");
-						//tempVehicle->getWeapon()->mesh->textureID = LoadTGA("image//scifi texture.tga");
 					}
 					else
 					{
 						fireTimer[i] = 2.f;
-						tempVehicle->getWeapon()->setMag(10);
+						currMag[i] = tempVehicle->getWeapon()->getMag();
 					}
 				}
 
+				// Updates
 				tempVehicle->updatePos();
+				if (!Application::IsKeyPressed(tempPlayer->getInput(Player::UP)) && !Application::IsKeyPressed(tempPlayer->getInput(Player::DOWN))) tempVehicle->getRB()->MUpdate();
+				tempVehicle->getWheel()->rotate.x += tempVehicle->getRB()->getForce().Length();
 				if (tempVehicle->getWheel()->rotate.y != 0 && !Application::IsKeyPressed(tempPlayer->getInput(Player::RIGHT)) && !Application::IsKeyPressed(tempPlayer->getInput(Player::LEFT)))
 				{
 					if (tempVehicle->getWheel()->rotate.y > 0) tempVehicle->getWheel()->rotate.y -= dt * 80;
@@ -684,7 +681,6 @@ void GameScene0::Update(double dt)
 					inWindow[i] = WINDOW_NONE;
 					
 					tempVehicle->position.Set((i / 2) * 390 - 195, 0, (i % 2) * 390 - 195);
-					tempVehicle->rotate.Set(0, 0, 0);
 
 					health[0][i] = Application::getPlayer(i)->getVehicle()->getChassis()->getHealth();
 					health[1][i] = Application::getPlayer(i)->getVehicle()->getWheel()->getHealth();
@@ -701,8 +697,15 @@ void GameScene0::Update(double dt)
 		}
 
 		// Update
+		if (healthTimer > 0) healthTimer -= dt;
+		else healthPack->position.y = 6;
+		healthPack->rotate.y += dt * 20.f;
+
 		for (int i = 0; i < 4; ++i) if (fireTimer[i] > 0) fireTimer[i] -= dt;
+		
 		for (int i = 0; i < 4; ++i) if (respawnTimer[i] > 0) respawnTimer[i] -= dt;
+		
+		// Collision
 		for (int i = 0; i < bullets.size(); ++i)
 		{
 			bool tempBreak = 0;
@@ -762,6 +765,26 @@ void GameScene0::Update(double dt)
 				bullets.erase(bullets.begin() + i);
 				//bullets.pop_back();
 			}
+		}
+		for (int i = 0; i < Application::getPlayerNum(); ++i)
+		{
+			Vehicle* tempVehicle = Application::getPlayer(i)->getVehicle();
+			if (Collision::CheckCollision(tempVehicle->getChassis(), healthPack))
+			{
+				health[0][i] = Application::getPlayer(i)->getVehicle()->getChassis()->getHealth();
+				health[1][i] = Application::getPlayer(i)->getVehicle()->getWheel()->getHealth();
+				health[2][i] = Application::getPlayer(i)->getVehicle()->getWeapon()->getHealth();
+
+				healthTimer = 10.f;
+				healthPack->position.y = -10;
+			}
+			
+			for (int j = 0; j < 16; ++j)
+				if (Collision::CheckCollision(tempVehicle->getChassis(), buildings[j], Position(4 * -cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)), 0, 4 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)))))
+				{
+					tempVehicle->getRB()->setForce(tempVehicle->getRB()->getForce() * -0.5);
+				}
+
 		}
 	}
 	else if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAMEOVER)
@@ -925,16 +948,21 @@ void GameScene0::renderScene(int PlayerScreen)
 		modelStack.PopMatrix();
 	}
 
-	// Bullets
+	// Render Entities
 	for (int i = 0; i < bullets.size(); ++i)
 	{
 		modelStack.PushMatrix();
-		bullets[i]->scale.Set(2, 2, 2);
 		modelStack.Translate(bullets[i]->position.x, bullets[i]->position.y, bullets[i]->position.z);
 		modelStack.Scale(bullets[i]->scale.x, bullets[i]->scale.y, bullets[i]->scale.z);
 		RenderMesh(bullets[i]->mesh, 0);
 		modelStack.PopMatrix();
 	}
+	modelStack.PushMatrix();
+	modelStack.Translate(healthPack->position.x, healthPack->position.y, healthPack->position.z);
+	modelStack.Rotate(healthPack->rotate.y, 0, 1, 0);
+	modelStack.Scale(healthPack->scale.x, healthPack->scale.y, healthPack->scale.z);
+	RenderMesh(healthPack->mesh, 0);
+	modelStack.PopMatrix();
 
 	// Render Vehicles && Player Names
 	for (int j = 0; j < Application::getPlayerNum(); ++j)
@@ -1012,12 +1040,13 @@ void GameScene0::renderScene(int PlayerScreen)
 	if (StateManager::getInstance()->getGameState() == StateManager::GAME_STATES::S_GAME)
 	{
 		RenderSpriteOnScreen(meshList[GEO_MINIMAP], 0, 60, 0, 20, 20, Color(1, 1, 1));
+		if (healthTimer <= 0) RenderSpriteOnScreen(meshList[GEO_MINIMAP], 0, 70, 10, 1, 1, Color(1, 0, 0));
 
 		for (int i = 0; i < Application::getPlayerNum(); ++i)
 		{
 			Position tempPos = Application::getPlayer(i)->getVehicle()->position;
-			RenderSpriteOnScreen(meshList[GEO_UI], UI_BALL, 70 - (tempPos.x / 50.f), (tempPos.z / 50.f) + 10, 1, 1, Application::getPlayer(i)->getColor());
-
+			//RenderSpriteOnScreen(meshList[GEO_UI], UI_BALL, 70 - (tempPos.x / 50.f), (tempPos.z / 50.f) + 10, 1, 1, Application::getPlayer(i)->getColor());
+			RenderSpriteOnScreen(meshList[GEO_MINIMAP], 0, 70 - (tempPos.x / 50.f), (tempPos.z / 50.f) + 10, 1, 1, Application::getPlayer(i)->getColor());
 		}
 		Vehicle* tempVeh = Application::getPlayer(PlayerScreen)->getVehicle();
 
@@ -1025,8 +1054,8 @@ void GameScene0::renderScene(int PlayerScreen)
 		RenderTextOnScreen(meshList[GEO_TEXT], "WH HP: " + std::to_string(health[1][PlayerScreen]), Color(1, 0, 0), 2, 0, 54, 1);
 		RenderTextOnScreen(meshList[GEO_TEXT], "WE HP: " + std::to_string(health[2][PlayerScreen]), Color(1, 0, 0), 2, 0, 52, 1);
 
-		RenderTextOnScreen(meshList[GEO_TEXT], "Ammo: " + std::to_string(tempVeh->getWeapon()->getMag()), Color(1, 0, 0), 2, 0, 4, 1);
-		//RenderTextOnScreen(meshList[GEO_TEXT], "Bullets: " + std::to_string(bullets.size()), Color(1, 0, 0), 2, 0, 8, 1);
+		if (fireTimer[PlayerScreen] > tempVeh->getWeapon()->getFire()) RenderTextOnScreen(meshList[GEO_TEXT], "Reloading: " + std::to_string(fireTimer[PlayerScreen]), Color(1, 0, 0), 2, 0, 4, 1);
+		else RenderTextOnScreen(meshList[GEO_TEXT], "Ammo: " + std::to_string(currMag[PlayerScreen]), Color(1, 0, 0), 2, 0, 4, 1);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Kills: " + std::to_string(Application::getPlayer(PlayerScreen)->getKills()), Color(1, 0, 0), 2, 0, 8, 1);
 	}
 
@@ -1082,15 +1111,14 @@ void GameScene0::renderScene(int PlayerScreen)
 			", " + std::to_string(camera[0].position.z), Color(0, 1, 0), 1, 0, 54, 1);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Camera Target:   " + std::to_string(camera[PlayerScreen].target.x) + ", " + std::to_string(camera[PlayerScreen].target.y) +
 			", " + std::to_string(camera[0].target.z), Color(0, 1, 0), 1, 0, 53, 1);
-		RenderTextOnScreen(meshList[GEO_TEXT], " Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER0_UP + PlayerScreen * 5]) +
+		RenderTextOnScreen(meshList[GEO_TEXT], "Input: UP: " + std::to_string(debugValues[DEBUG_PLAYER0_UP + PlayerScreen * 5]) +
 												", Down: " + std::to_string(debugValues[DEBUG_PLAYER0_DOWN + PlayerScreen * 5]) +
 												", Left: " + std::to_string(debugValues[DEBUG_PLAYER0_LEFT + PlayerScreen * 5]) +
 												", Right: " + std::to_string(debugValues[DEBUG_PLAYER0_RIGHT + PlayerScreen * 5]) +
-												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER0_ENTER + PlayerScreen * 5]), Color(0, 1, 0), 1, 0, 51 - PlayerScreen, 1);
-
-	//	RenderTextOnScreen(meshList[GEO_TEXT], "Ax:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().x), Color(0, 1, 0), 3, 0, 40, 1);
-	//	RenderTextOnScreen(meshList[GEO_TEXT], "Ay:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().y), Color(0, 1, 0), 3, 0, 36, 1);
-	//	RenderTextOnScreen(meshList[GEO_TEXT], "Az:" + std::to_string(Application::getPlayer(0)->getVehicle()->getRB()->getAccel().z), Color(0, 1, 0), 3, 0, 32, 1);
+												", Enter: " + std::to_string(debugValues[DEBUG_PLAYER0_ENTER + PlayerScreen * 5]), Color(0, 1, 0), 1, 0, 51, 1);
+		
+		RenderTextOnScreen(meshList[GEO_TEXT], "Force: " + std::to_string(Application::getPlayer(PlayerScreen)->getVehicle()->getRB()->getForce().Length()), Color(0, 1, 0), 1, 0, 49, 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Acceleration: " + std::to_string(Application::getPlayer(PlayerScreen)->getVehicle()->getRB()->getAccel().Length()), Color(0, 1, 0), 1, 0, 48, 1);
 		
 		if (Application::IsKeyPressed('X'))
 		{

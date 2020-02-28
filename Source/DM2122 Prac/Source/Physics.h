@@ -29,6 +29,7 @@ public:
 	float getSize();
 
 	void Update(float dt);
+	void MUpdate();
 	//void rigidBody(physics* collidingRB, Vector3 penetrationDepth, Vector3 currentPos, Vector3 collidingPos, Directions dir);
 
 	Vector3 getUp();

@@ -2,7 +2,8 @@
 
 physics::physics()
 {
-	mass = 200.f;
+	//mass = 50.f;
+	mass = 0.f;
 	size = 1.f; // Tie to the Bounding Box scale, which is tied to the Mesh
 
 	velocity = (0, 0, 0);
@@ -49,6 +50,11 @@ float calcTforce(float a, float b)
 	return a + b;
 }
 
+void physics::MUpdate()
+{
+	force += force * 0.001f * -1;
+}
+
 void physics::Update(float dt)
 {
 	Vector3 traction;
@@ -85,7 +91,6 @@ void physics::Update(float dt)
 	momentum += force * dt;
 	acceleration += force * (1.f / mass);
 	velocity += momentum * (1.f / mass);
-	//velocity.y += acceleration.y;
 
 	// Mtx44 Inverse ERROR
 	/*if (velocity.x > 0)
@@ -125,6 +130,8 @@ void physics::Update(float dt)
 	}*/
 
 	preCollVelo = velocity;
+
+
 
 	//TODO: add force decay
 	if (force.x > 0)

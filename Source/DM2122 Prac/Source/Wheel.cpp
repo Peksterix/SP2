@@ -6,6 +6,7 @@
 Wheel::Wheel(int Type)
 {
 	health = 0;
+	mass = 0;
 	bbScale = 0;
 	friction = 0;
 	speed = 0;
@@ -18,7 +19,8 @@ Wheel::Wheel(int Type)
 	if (type == 0) 
 	{ 
 		name = "Temp 0";
-		health = 100; 
+		mass = 12;
+		health = 100;
 		bbScale = 1.1;
 		friction = 1;
 		speed = 1;
@@ -28,7 +30,8 @@ Wheel::Wheel(int Type)
 	if (type == 1)
 	{
 		name = "Temp 1";
-		health = 100;
+		mass = 9;
+		health = 90;
 		bbScale = 1.3;
 		friction = 1;
 		speed = 1;
@@ -38,7 +41,8 @@ Wheel::Wheel(int Type)
 	if (type == 2)
 	{
 		name = "Temp 2";
-		health = 100;
+		mass = 9;
+		health = 90;
 		bbScale = 1;
 		friction = 1;
 		speed = 1;
@@ -48,7 +52,8 @@ Wheel::Wheel(int Type)
 	if (type == 3)
 	{
 		name = "Temp 3";
-		health = 100;
+		mass = 10;
+		health = 95;
 		bbScale = 1;
 		friction = 1;
 		speed = 1;
@@ -64,6 +69,7 @@ Wheel::~Wheel()
 
 int Wheel::getHealth() { return health; }
 int Wheel::getType() { return type; }
+float Wheel::getMass() { return mass; }
 float Wheel::getBBScale() { return bbScale; }
 std::string Wheel::getName() { return name; }
 Mesh* Wheel::getMesh() { return mesh; }

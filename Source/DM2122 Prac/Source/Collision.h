@@ -14,7 +14,7 @@ public:
 	Collision();
 	~Collision();
 
-	static bool CheckCollision(Entity* one, Entity* two);
+	static bool CheckCollision(Entity* one, Entity* two, Position offset1 = 0);
 
 };
 

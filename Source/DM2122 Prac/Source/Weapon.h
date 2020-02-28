@@ -12,7 +12,8 @@ private:
 		magSize,
 		type;
 
-	float	fireRate,
+	float	mass,
+			fireRate,
 			damage;
 
 	std::string name;
@@ -23,6 +24,7 @@ public:
 
 	int getHealth();
 	int getType();
+	float getMass();
 	float getBBScale();
 	std::string getName();
 	Mesh* getMesh();

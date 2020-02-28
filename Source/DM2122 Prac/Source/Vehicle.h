@@ -37,8 +37,6 @@ public:
 
 	physics* getRB();
 	void updatePos();
-	Vehicle getFront();
-	void setFront();
 	void setTurningSpeed(float speed);
 	void setMaxTurnSpeed(float speed);
 	float getTurnRate();
@@ -56,7 +54,6 @@ public:
 	void setWeapon(int Type);
 	void setName(std::string string);
 
-	void Update();
 };
 
 #endif

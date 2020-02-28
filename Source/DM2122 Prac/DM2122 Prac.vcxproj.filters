@@ -129,6 +129,9 @@
     <ClInclude Include="Source\LoadingScene.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\SaveManager.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\VehicleScene.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="Source\LoadingScene.cpp">
       <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SaveManager.cpp">
+      <Filter>Source Files\Other</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

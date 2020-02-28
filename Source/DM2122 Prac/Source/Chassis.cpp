@@ -6,6 +6,7 @@
 Chassis::Chassis(int Type)
 {
 	health = 0;
+	mass = 0;
 	bbScale = 0;
 	name = "None";
 
@@ -15,8 +16,9 @@ Chassis::Chassis(int Type)
 	if (type == 0)
 	{
 		name = "Temp 0";
-		health = 100;
+		health = 110;
 		bbScale = 0.6;
+		mass = 35;
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis0.obj");
 		mesh->textureID = LoadTGA("image//Vehicle0a.tga");
 		
@@ -37,8 +39,9 @@ Chassis::Chassis(int Type)
 	if (type == 1)
 	{
 		name = "Temp 1";
-		health = 100;
+		health = 80;
 		bbScale = 1.1;
+		mass = 30;
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis1.obj");
 		mesh->textureID = LoadTGA("image//Vehicle1a.tga");
 
@@ -56,8 +59,9 @@ Chassis::Chassis(int Type)
 	if (type == 2)
 	{
 		name = "Temp 2";
-		health = 100;
+		health = 140;
 		bbScale = 0.9f;
+		mass = 40;
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis2.obj");
 		mesh->textureID = LoadTGA("image//Vehicle2a.tga");
 
@@ -80,6 +84,7 @@ Chassis::Chassis(int Type)
 		name = "Temp 3";
 		health = 100;
 		bbScale = 0.9;
+		mass = 32.5;
 		mesh = MeshBuilder::GenerateOBJ("Chassis' Mesh", "obj//Chassis3.obj");
 		mesh->textureID = LoadTGA("image//Vehicle3a.tga");
 
@@ -110,6 +115,7 @@ Chassis::~Chassis()
 
 int Chassis::getHealth() { return health; }
 int Chassis::getType() { return type; }
+float Chassis::getMass() { return mass; }
 float Chassis::getBBScale() { return bbScale; }
 std::string Chassis::getName() { return name; }
 Mesh* Chassis::getMesh() { return mesh; }

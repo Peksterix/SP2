@@ -11,8 +11,9 @@ private:
 	int health,
 		type;
 
+	float mass;
+
 	std::string name;
-	//Mesh* mesh;
 
 public:
 	std::vector<Position> wheelPos, weaponPos, wheelScale, weaponScale;
@@ -22,6 +23,7 @@ public:
 
 	int getHealth();
 	int getType();
+	float getMass();
 	float getBBScale();
 	std::string getName();
 	Mesh* getMesh();

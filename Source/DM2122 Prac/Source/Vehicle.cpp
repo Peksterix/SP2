@@ -8,8 +8,8 @@ Vehicle::Vehicle()
 	wheel = nullptr;
 	weapon = nullptr;
 
-	maxSpeed = 150.f;
-	//accel = 0.6f;
+	//maxSpeed = 150.f;
+	maxSpeed = 5.f;
 
 	vehTurningSpeed = 0.f;
 	cMaxTurningSpeed = 2.f;
@@ -48,7 +48,11 @@ std::string Vehicle::getName() { return name; }
 
 void Vehicle::setChassis(int Type)
 {
-	if (chassis != nullptr) delete chassis;
+	if (chassis != nullptr)
+	{
+		RB.setMass(RB.getMass() - chassis->getMass());
+		delete chassis;
+	}
 	if (Type != -1)
 	{
 		chassis = new Chassis(Type);
@@ -58,28 +62,42 @@ void Vehicle::setChassis(int Type)
 		weaponPos = chassis->weaponPos;
 		wheelScale = chassis->wheelScale;
 		weaponScale = chassis->weaponScale;
+
+		RB.setMass(RB.getMass() + chassis->getMass());
 	}
 	else chassis = nullptr;
 }
 
 void Vehicle::setWheel(int Type)
 {
-	if (wheel != nullptr) delete wheel;
+	if (wheel != nullptr)
+	{
+		RB.setMass(RB.getMass() - wheel->getMass());
+		delete wheel;
+	}
 	if (Type != -1)
 	{
 		wheel = new Wheel(Type);
 		wheel->position = position;
+
+		RB.setMass(RB.getMass() + wheel->getMass());
 	}
 	else wheel = nullptr;
 }
 
 void Vehicle::setWeapon(int Type)
 {
-	if (weapon != nullptr) delete weapon;
+	if (weapon != nullptr)
+	{
+		RB.setMass(RB.getMass() - weapon->getMass());
+		delete weapon;
+	}
 	if (Type != -1) 
 	{
 		weapon = new Weapon(Type);
 		weapon->position = position;
+	
+		RB.setMass(RB.getMass() + weapon->getMass());
 	}
 	else weapon = nullptr;
 }
@@ -88,25 +106,6 @@ void Vehicle::setName(std::string string)
 {
 	name = string;
 }
-
-//void Vehicle::Update()
-//{
-//	if (chassis != nullptr)
-//	{
-//		if (chassis->getHealth() <= 0) delete chassis;
-//	}
-//
-//	if (wheel != nullptr)
-//	{
-//		if (wheel->getHealth() <= 0) delete wheel;
-//	}
-//
-//	if (weapon != nullptr)
-//	{
-//		if (weapon ->getHealth() <= 0) delete weapon;
-//	}
-//
-//}
 
 physics* Vehicle::getRB()
 {
@@ -122,8 +121,6 @@ void Vehicle::updatePos()
 	chassis->position = position;
 	wheel->position = position;
 	weapon->position = position;
-
-	//RB.Update();
 }
 
 void Vehicle::setTurningSpeed(float speed)

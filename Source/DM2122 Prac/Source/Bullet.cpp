@@ -10,6 +10,7 @@ Bullet::Bullet()
 	zDir = 0;
 	speed = 0;
 	damage = 0;
+	scale.Set(2, 2, 2);
 
 	mesh = MeshBuilder::GenerateOBJ("Bullet", "obj//bullet.obj");
 	mesh->textureID = LoadTGA("image//scifi texture.tga");
@@ -25,6 +26,7 @@ Bullet::Bullet(Position start, Position dir, float vel, float dam, int ID)
 	damage = dam;
 
 	playerID = ID;
+	scale.Set(2, 2, 2);
 
 	mesh = MeshBuilder::GenerateOBJ("Bullet", "obj//bullet.obj");
 	mesh->textureID = LoadTGA("image//scifi texture.tga");

@@ -137,6 +137,7 @@
     <ClInclude Include="Source\Physics.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\PlayerName.h" />
+    <ClInclude Include="Source\SaveManager.h" />
     <ClInclude Include="Source\soundManager.h" />
     <ClInclude Include="Source\StateManager.h" />
     <ClInclude Include="Source\Light.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerName.cpp" />
+    <ClCompile Include="Source\SaveManager.cpp" />
     <ClCompile Include="Source\soundManager.cpp" />
     <ClCompile Include="Source\StateManager.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />

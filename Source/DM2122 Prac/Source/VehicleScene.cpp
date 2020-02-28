@@ -471,7 +471,7 @@ void VehicleScene::Init()
 
 	#pragma endregion
 
-	//soundManager::getInstance()->play2DSound("Vivaldi - Four Seasons - Winter", true);
+	//soundManager::getInstance()->play2DSound("BFW-MechaPlanet1", true);
 }
 
 void VehicleScene::Update(double dt)
@@ -501,6 +501,7 @@ void VehicleScene::Update(double dt)
 		if (Application::IsKeyPressed('V') && Application::getBounceTime() <= 0)
 		{
 			Application::setBounceTime(0.2f);
+			//soundManager::getInstance()->play2DSound("BFW-MechaPlanet2", true);
 			soundManager::getInstance()->play2DSound("Vivaldi - Four Seasons - Winter", true);
 		}
 		if (Application::IsKeyPressed('B') && Application::getBounceTime() <= 0)
@@ -1403,6 +1404,27 @@ void VehicleScene::renderScene()
 		modelStack.Translate(20, 0, 0);		
 		modelStack.Scale(Size[6], Size[6], Size[6]);
 		RenderText(meshList[GEO_TEXT], "Escape", tempCol[6]);
+
+		modelStack.Translate(0, 14, 0);
+		RenderText(meshList[GEO_TEXT], "Chassis HP: " + std::to_string(custChassis[vehiclePartSelect[0] + 1]->getHealth()), Color(1, 1, 1));
+
+		modelStack.Translate(0, -1.5, 0);
+		RenderText(meshList[GEO_TEXT], "Wheel HP: " + std::to_string(custWheel[vehiclePartSelect[0] + 1]->getHealth()), Color(1, 1, 1));
+
+		modelStack.Translate(0, -1.5, 0);
+		RenderText(meshList[GEO_TEXT], "Weapon HP: " + std::to_string(custWheel[vehiclePartSelect[0] + 1]->getHealth()), Color(1, 1, 1));
+
+		modelStack.Translate(0, -1.5, 0);
+		RenderText(meshList[GEO_TEXT], "Ammo: " + std::to_string(custWeapon[vehiclePartSelect[0] + 1]->getMag()), Color(1, 1, 1));
+
+		modelStack.Translate(0, -1.5, 0);
+		RenderText(meshList[GEO_TEXT], "Damage: " + std::to_string(custWeapon[vehiclePartSelect[0] + 1]->getDamage()), Color(1, 1, 1));
+		
+		modelStack.Translate(0, -1.5, 0);
+		RenderText(meshList[GEO_TEXT], "FireRate: " + std::to_string(custWeapon[vehiclePartSelect[0] + 1]->getFire()), Color(1, 1, 1));
+
+		modelStack.Translate(0, -1.5, 0);
+		RenderText(meshList[GEO_TEXT], "Total Mass: " + std::to_string(custChassis[vehiclePartSelect[0] + 1]->getMass() + custWheel[vehiclePartSelect[0] + 1]->getMass() + custWeapon[vehiclePartSelect[0] + 1]->getMass()), Color(1, 1, 1));
 
 		modelStack.PopMatrix();
 

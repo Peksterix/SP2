@@ -11,6 +11,7 @@ private:
 		type;
 
 	float	friction,
+			mass,
 			speed;
 
 	std::string name;
@@ -22,6 +23,7 @@ public:
 
 	int getHealth();
 	int getType();
+	float getMass();
 	float getBBScale();
 	std::string getName();
 	Mesh* getMesh();
