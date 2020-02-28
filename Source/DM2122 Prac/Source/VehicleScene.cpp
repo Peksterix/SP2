@@ -1411,30 +1411,30 @@ void VehicleScene::renderScene()
 		modelStack.Scale(Size[5], Size[5], Size[5]);
 		RenderText(meshList[GEO_TEXT], "Confirm", tempCol[5]);
 		
-		modelStack.Translate(20, 0, 0);		
+		modelStack.Translate(18, 0, 0);		
 		modelStack.Scale(Size[6], Size[6], Size[6]);
 		RenderText(meshList[GEO_TEXT], "Escape", tempCol[6]);
 
 		modelStack.Translate(0, 14, 0);
-		RenderText(meshList[GEO_TEXT], "Chassis HP: " + std::to_string(custChassis[vehiclePartSelect[0] + 1]->getHealth()), Color(1, 1, 1));
+		RenderText(meshList[GEO_TEXT], "Chassis HP: " + std::to_string(int(custChassis[vehiclePartSelect[0] + 1]->getHealth())), Color(1, 1, 1));
 
 		modelStack.Translate(0, -1.5, 0);
-		RenderText(meshList[GEO_TEXT], "Wheel HP: " + std::to_string(custWheel[vehiclePartSelect[0] + 1]->getHealth()), Color(1, 1, 1));
+		RenderText(meshList[GEO_TEXT], "Wheel HP: " + std::to_string(int(custWheel[vehiclePartSelect[1] + 1]->getHealth())), Color(1, 1, 1));
 
 		modelStack.Translate(0, -1.5, 0);
-		RenderText(meshList[GEO_TEXT], "Weapon HP: " + std::to_string(custWheel[vehiclePartSelect[0] + 1]->getHealth()), Color(1, 1, 1));
+		RenderText(meshList[GEO_TEXT], "Weapon HP: " + std::to_string(int(custWheel[vehiclePartSelect[2] + 1]->getHealth())), Color(1, 1, 1));
 
 		modelStack.Translate(0, -1.5, 0);
-		RenderText(meshList[GEO_TEXT], "Ammo: " + std::to_string(custWeapon[vehiclePartSelect[0] + 1]->getMag()), Color(1, 1, 1));
+		RenderText(meshList[GEO_TEXT], "Ammo: " + std::to_string(int(custWeapon[vehiclePartSelect[2] + 1]->getMag())), Color(1, 1, 1));
 
 		modelStack.Translate(0, -1.5, 0);
-		RenderText(meshList[GEO_TEXT], "Damage: " + std::to_string(custWeapon[vehiclePartSelect[0] + 1]->getDamage()), Color(1, 1, 1));
+		RenderText(meshList[GEO_TEXT], "Damage: " + std::to_string(int(custWeapon[vehiclePartSelect[2] + 1]->getDamage())), Color(1, 1, 1));
 		
 		modelStack.Translate(0, -1.5, 0);
-		RenderText(meshList[GEO_TEXT], "FireRate: " + std::to_string(custWeapon[vehiclePartSelect[0] + 1]->getFire()), Color(1, 1, 1));
+		RenderText(meshList[GEO_TEXT], "FireRate: " + std::to_string(double(custWeapon[vehiclePartSelect[2] + 1]->getFire())), Color(1, 1, 1));
 
 		modelStack.Translate(0, -1.5, 0);
-		RenderText(meshList[GEO_TEXT], "Total Mass: " + std::to_string(custChassis[vehiclePartSelect[0] + 1]->getMass() + custWheel[vehiclePartSelect[0] + 1]->getMass() + custWeapon[vehiclePartSelect[0] + 1]->getMass()), Color(1, 1, 1));
+		RenderText(meshList[GEO_TEXT], "Total Mass: " + std::to_string(int(custChassis[vehiclePartSelect[0] + 1]->getMass() + custWheel[vehiclePartSelect[1] + 1]->getMass() + custWeapon[vehiclePartSelect[2] + 1]->getMass())), Color(1, 1, 1));
 
 		modelStack.PopMatrix();
 

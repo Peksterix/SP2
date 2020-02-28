@@ -19,7 +19,7 @@ Weapon::Weapon(int Type)
 	{
 		name = "Temp 0";
 		mass = 2;
-		health = 50;
+		health = 70;
 		bbScale = 1;
 		magSize = 10;
 		damage = 5;

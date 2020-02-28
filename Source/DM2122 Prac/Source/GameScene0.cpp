@@ -468,7 +468,7 @@ void GameScene0::Init()
 			currMag[i] = Application::getPlayer(i)->getVehicle()->getWeapon()->getMag();
 
 			Application::getPlayer(i)->getVehicle()->position.Set((i / 2) * 390 - 195, 0, (i % 2) * 390 - 195);
-			Application::getPlayer(i)->getVehicle()->rotate.Set(0, 0, 0);
+			Application::getPlayer(i)->getVehicle()->getRB()->setForce(0);
 			Application::getPlayer(i)->setKills(0);
 		}
 
@@ -753,14 +753,15 @@ void GameScene0::Update(double dt)
 				else if (Collision::CheckCollision(bullets[i], Application::getPlayer(j)->getVehicle()->getChassis()))
 				{
 					health[0][j] -= bullets[i]->getDamage();
-					if (health[0][j] == 0)
+					if (health[0][j] <= 0)
 					{
 						Application::getPlayer(bullets[i]->getID())->setKills(Application::getPlayer(bullets[i]->getID())->getKills() + 1);
+						Application::getPlayer(j)->getVehicle()->getRB()->setForce(0);
+						Application::getPlayer(j)->getVehicle()->position.y = 100;
 						respawnTimer[j] = 2.f;
 					}
 					delete bullets[i];
 					bullets.erase(bullets.begin() + i);
-					//bullets.pop_back();
 					tempBreak = 1;
 					break;
 				}
@@ -778,20 +779,20 @@ void GameScene0::Update(double dt)
 		{
 			Vehicle* tempVehicle = Application::getPlayer(i)->getVehicle();
 			
+			if (Collision::CheckCollision(tempVehicle->getChassis(), healthPack))
+			{
+				health[0][i] = tempVehicle->getChassis()->getHealth();
+				health[1][i] = tempVehicle->getWheel()->getHealth();
+				health[2][i] = tempVehicle->getWeapon()->getHealth();
+
+				healthTimer = 10.f;
+				healthPack->position.y = -10;
+			}
+			
 			if (tempVehicle->position.x > 500 || tempVehicle->position.x < -500 || tempVehicle->position.z > 500 || tempVehicle->position.z < -500)
 			{
 				tempVehicle->position.Set(0, 0, 0);
 				tempVehicle->getRB()->setForce(0);
-			}
-
-			if (Collision::CheckCollision(tempVehicle->getChassis(), healthPack))
-			{
-				health[0][i] = Application::getPlayer(i)->getVehicle()->getChassis()->getHealth();
-				health[1][i] = Application::getPlayer(i)->getVehicle()->getWheel()->getHealth();
-				health[2][i] = Application::getPlayer(i)->getVehicle()->getWeapon()->getHealth();
-
-				healthTimer = 10.f;
-				healthPack->position.y = -10;
 			}
 			
 			for (int j = 0; j < 16; ++j)
@@ -819,14 +820,28 @@ void GameScene0::Update(double dt)
 				Vehicle* tempVehicle2 = Application::getPlayer(j)->getVehicle();
 				if (Collision::CheckCollision(tempVehicle->getChassis(), tempVehicle2->getChassis(), Position(4 * -cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)), 0, 4 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)))))
 				{
-					tempVehicle->getRB()->setForce(tempVehicle->getRB()->getForce() * -1.f);
-					tempVehicle2->getRB()->setForce(tempVehicle2->getRB()->getForce() * -1.f);
+					tempVehicle->getRB()->setForce(tempVehicle->getRB()->getForce() * -.5f);
+					tempVehicle2->getRB()->setForce(tempVehicle2->getRB()->getForce() * -.5f);
+					/*if (health[0][j] > 0) health[0][j] -= tempVehicle->getRB()->getForce().Length() * 5;
+					else 
+					{
+						Application::getPlayer(i)->setKills(Application::getPlayer(i)->getKills() + 1);
+						tempVehicle2->getRB()->setForce(0);
+						tempVehicle2->position.y = 100;
+					}*/
 					coll[0] = 1;
 				}
 				else if (Collision::CheckCollision(tempVehicle->getChassis(), tempVehicle2->getChassis(), Position(-4 * -cos(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)), 0, -4 * sin(Math::DegreeToRadian(tempVehicle->rotate.y + 90.f)))))
 				{
-					tempVehicle->getRB()->setForce(tempVehicle->getRB()->getForce() * -1.f);
-					tempVehicle2->getRB()->setForce(tempVehicle2->getRB()->getForce() * -1.f);
+					tempVehicle->getRB()->setForce(tempVehicle->getRB()->getForce() * -.5f);
+					tempVehicle2->getRB()->setForce(tempVehicle2->getRB()->getForce() * -.5f);
+					/*if (health[0][j] > 0) health[0][j] -= tempVehicle->getRB()->getForce().Length() * 5;
+					else
+					{
+						Application::getPlayer(i)->setKills(Application::getPlayer(i)->getKills() + 1);
+						tempVehicle2->getRB()->setForce(0);
+						tempVehicle2->position.y = 100;
+					}*/
 					coll[1] = 1;
 				}
 				else
